@@ -10,6 +10,7 @@
         data: { data: jsonArray },
       });
       return response;
+      console.log(response);
     } catch (error) {
       throw new Error('Error AJAX: ' + error);
     }

@@ -120,7 +120,21 @@
                   <td>{{ $machineOnRepair->kedatangan_prl }}</td>
                   <td>{{ $machineOnRepair->tgl_kerusakan }}</td>
                   <td>{{ $machineOnRepair->status_mesin }}</td>
-                  <td id='downtime{{ $machineOnRepair->id }}'>{{ $machineOnRepair->total_downtime }}</td>
+                  <td id='downtime{{ $machineOnRepair->id }}'>
+                    <?php
+                      $currentDowntime = $machineOnRepair->current_downtime;
+                      $prodDowntime = $machineOnRepair->prod_downtime;
+                      $totalDowntime = $machineOnRepair->total_downtime;
+                      $arrayCurrentDowntime = explode(":", $currentDowntime);
+                      $arrayProdDowntime = explode(":", $prodDowntime);
+                      $arrayTotalDowntime = explode(":", $totalDowntime);
+                      $days = intval($arrayCurrentDowntime[0]) + intval($arrayProdDowntime[0]) + intval($arrayTotalDowntime[0]);
+                      $hours = intval($arrayCurrentDowntime[1]) + intval($arrayProdDowntime[1]) + intval($arrayTotalDowntime[1]);
+                      $minutes = intval($arrayCurrentDowntime[2]) + intval($arrayProdDowntime[2]) + intval($arrayTotalDowntime[2]);
+                      $seconds = intval($arrayCurrentDowntime[3]) + intval($arrayProdDowntime[3]) + intval($arrayTotalDowntime[3]);
+                      echo $days . ' Hari</br>' . $hours . ' Jam</br>' . $minutes . ' Menit</br>' . $seconds . ' Detik</br>';
+                    ?>
+                  </td>
                   <td>
                     {{ $machineOnRepair->status_aktifitas }}
 

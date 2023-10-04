@@ -34,8 +34,10 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->dateTime('start_downtime');
             $table->string('current_downtime');
+            $table->string('prod_downtime');
             $table->string('total_downtime');
-            $table->date('month_downtime');
+            $table->string('monthly_downtime');
+            $table->date('downtime_month');
             $table->timestamps();
         });
     }

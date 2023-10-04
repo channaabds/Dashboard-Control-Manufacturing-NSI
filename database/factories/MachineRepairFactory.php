@@ -39,8 +39,10 @@ class MachineRepairFactory extends Factory
             'deskripsi' => fake()->sentence(),
             'start_downtime' => fake()->date('y-m-d') . ' ' . fake()->time(),
             'current_downtime' => '0:0:0:0',
+            'prod_downtime' => '0:0:0:0',
             'total_downtime' => '0:0:0:0',
-            'month_downtime' => fake()->date('y-m-d')
+            'monthly_downtime' => '0:0:0:0',
+            'downtime_month' => fake()->date('y-m-d')
         ];
     }
 }
