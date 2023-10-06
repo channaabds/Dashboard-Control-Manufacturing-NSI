@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/dashboard', MachineRepairController::class);
 Route::post('/run-downtime', [MachineRepairController::class, 'downtime']);
+
+Route::get('/cek', [MachineRepairController::class, 'cek']);

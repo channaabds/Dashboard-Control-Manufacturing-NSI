@@ -11,7 +11,12 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
+    // protected $except = [
+    //     '/run-downtime',
+    //     '/dashboard',
+    //     'dashboard/*'
+    // ];
     protected $except = [
-        '/run-downtime',
+        '*',
     ];
 }

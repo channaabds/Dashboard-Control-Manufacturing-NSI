@@ -16,8 +16,7 @@ class MachineRepairFactory extends Factory
      */
     public function definition(): array
     {
-        $status = ['OK Repair (Finish)', 'Waiting Repair', 'Waiting Sparepart', 'On Repair'];
-        $aktifitas = ['Running', 'Stop'];
+        $startDowntime = fake()->date('y-m-d') . ' ' . fake()->time();
         return [
             'mesin_id' => mt_rand(1, 20),
             'pic' => fake()->name(),
@@ -37,11 +36,13 @@ class MachineRepairFactory extends Factory
             'status_mesin' => 'On Repair',
             'status_aktifitas' => 'Stop',
             'deskripsi' => fake()->sentence(),
-            'start_downtime' => fake()->date('y-m-d') . ' ' . fake()->time(),
+            'start_downtime' => $startDowntime,
+            'start_monthly_downtime' => $startDowntime,
             'current_downtime' => '0:0:0:0',
             'prod_downtime' => '0:0:0:0',
             'total_downtime' => '0:0:0:0',
-            'monthly_downtime' => '0:0:0:0',
+            'current_monthly_downtime' => '0:0:0:0',
+            'total_monthly_downtime' => '0:0:0:0',
             'downtime_month' => fake()->date('y-m-d')
         ];
     }

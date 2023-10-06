@@ -33,10 +33,12 @@ return new class extends Migration
             $table->enum('status_aktifitas', ['Running', 'Stop']);
             $table->text('deskripsi')->nullable();
             $table->dateTime('start_downtime');
+            $table->dateTime('start_monthly_downtime');
             $table->string('current_downtime');
             $table->string('prod_downtime');
             $table->string('total_downtime');
-            $table->string('monthly_downtime');
+            $table->string('current_monthly_downtime');
+            $table->string('total_monthly_downtime');
             $table->date('downtime_month');
             $table->timestamps();
         });

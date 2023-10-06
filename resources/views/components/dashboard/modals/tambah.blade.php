@@ -8,13 +8,13 @@
             </div>
             <div class="modal-body">
                 <form class="row g-3" method="POST" action="/dashboard">
-                    @csrf
+                    {{-- @csrf --}}
                     <div class="col-6">
                         <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" required/>
                         <datalist id="dataMesin">
                             @foreach ($machines as $machine)
-                            <option>{{ $machine->no_mesin }}</option>
+                                <option>{{ $machine->no_mesin }}</option>
                             @endforeach
                         </datalist>
                     </div>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-6">
                         <label for="pic" class="form-label">Enter PIC <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="pic" name="pic" list="penanggungJawab" required/>
+                        <input type="text" class="form-control" id="pic" name="pic" required/>
                     </div>
                     <div class="col-6">
                         <label for="prl" class="form-label">Enter PRL</label>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-6">
                         <label for="kedatanganPo" class="form-label">Enter Kedatangan PO</label>
-                        <input type="text" class="form-control" id="kedatanganPo" name="kedatanganPo">
+                        <input type="text" class="form-control" id="kedatanganPo" name="kedatangan_po">
                     </div>
                     <div class="col-6">
                         <label for="sparepart" class="form-label">Sparepart</label>
@@ -48,15 +48,16 @@
                     </div>
                     <div class="col-6">
                         <label for="kedatanganPrl" class="form-label">Enter Kedatangan Request PRL</label>
-                        <input type="date" class="form-control" name="kedatanganPrl" id="kedatanganPrl">
+                        <input type="date" class="form-control" name="kedatangan_prl" id="kedatanganPrl">
                     </div>
                     <div class="col-6">
                         <label for="tanggalKerusakan" class="form-label">Tanggal Kerusakan</label>
-                        <input type="datetime-local" class="form-control" name="tanggalKerusakan" id="tanggalKerusakan" value="{{ $carbon::now() }}" step="any">
+                        {{-- <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan" value="{{ $carbon::now() }}" step="any"> --}}
+                        <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan" step="any">
                     </div>
                     <div class="col-6">
                         <label for="inputStatusMesin" class="form-label">Pilih Status <span class="text-danger">*</span></label>
-                        <select class="form-select" aria-label="Default select example" name="status" id="inputStatusMesin" required>
+                        <select class="form-select" aria-label="Default select example" name="status_mesin" id="inputStatusMesin" required>
                             <option value="" selected>Status</option>
                             <option value="OK Repair (Finish)">OK Repair (Finish)</option>
                             <option value="Waiting Repair">Waiting Repair</option>
@@ -67,7 +68,7 @@
                     </div>
                     <div class="col-6">
                         <label for="aktivitas" class="form-label">Pilih Status Aktivitas <span class="text-danger">*</span></label>
-                        <select class="form-select" aria-label="Default select example" name="aktivitas" id="aktivitas" required>
+                        <select class="form-select" aria-label="Default select example" name="status_aktifitas" id="aktivitas" required>
                             <option value="" selected>Status Aktivitas</option>
                             <option value="Running">Running</option>
                             <option value="Stop">Stop</option>
@@ -79,7 +80,7 @@
                     </div>
                     <div class="col-6">
                         <label for="bagianRusak" class="form-label">Bagian yang Rusak</label>
-                        <input type="text" class="form-control" id="bagianRusak" name="bagianRusak">
+                        <input type="text" class="form-control" id="bagianRusak" name="bagian_rusak">
                     </div>
                     <div class="col-6">
                         <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -90,7 +91,8 @@
                         <textarea name="sebab" id="sebab" class="form-control" style="height: 100px"></textarea>
                     </div>
                     <div class="col-12 text-center" id="isFinish" style="display: none">
-                        <label for="finish" class="form-label">Finish <span class="text-danger">*</span></label>
+                        {{-- <label for="finish" class="form-label">Finish <span class="text-danger">*</span></label> --}}
+                        <label for="finish" class="form-label">Finish</label>
                         <input type="datetime-local" class="form-control" name="finish" id="finish" value="" step="any">
                     </div>
                     <div class="text-center">
@@ -109,10 +111,10 @@
                         console.log(statusSelect.value);
                         if (statusSelect.value === "OK Repair (Finish)") {
                             additionalInfoDiv.style.display = "block";
-                            input.required = true;
+                            // input.required = true;
                         } else {
                             additionalInfoDiv.style.display = "none";
-                            input.required = false;
+                            // input.required = false;
                         }
                     });
                 </script>
@@ -121,3 +123,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    // setInterval(() => {
+    //     let date = new Date();
+
+    //     let day = date.getDate();
+    //     let month = date.getMonth() + 1;
+    //     let year = date.getFullYear();
+    //     let hours = date.getHours();
+    //     let minutes = date.getMinutes();
+    //     let seconds = date.getSeconds();
+
+    //     if (day < 10) {
+    //         day = '0' + day;
+    //     }
+    //     if (month < 10) {
+    //         month = '0' + month;
+    //     }
+    //     if (hours < 10) {
+    //         hours = '0' + hours;
+    //     }
+    //     if (minutes < 10) {
+    //         minutes = '0' + minutes;
+    //     }
+    //     if (seconds < 10) {
+    //         seconds = '0' + seconds;
+    //     }
+
+    //     let formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+    //     let tglRusak = document.querySelector('#tanggalKerusakan');
+    //     let isFinish = document.querySelector('#isFinish');
+    //     let finish = document.querySelector('#finish');
+    //     if (isFinish.style.display == 'block') {
+    //         finish.value = formattedDate;
+    //     }
+    //     tglRusak.value = formattedDate;
+    // }, 1000);
+</script>

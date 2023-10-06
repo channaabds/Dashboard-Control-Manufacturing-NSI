@@ -9,7 +9,7 @@
       <div class="modal-body">
         <!-- Vertical Form Tambah Data -->
         <form class="row g-3" method="POST" action="/dashboard/{{ $machineOnRepair->id }}">
-          @csrf
+          {{-- @csrf --}}
           @method('put')
           <input type="hidden" name="id" value="{{ $machineOnRepair->id }}">
           <div class="col-6">

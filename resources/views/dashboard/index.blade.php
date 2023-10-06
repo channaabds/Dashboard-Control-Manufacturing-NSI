@@ -120,7 +120,7 @@
                   <td>{{ $machineOnRepair->kedatangan_prl }}</td>
                   <td>{{ $machineOnRepair->tgl_kerusakan }}</td>
                   <td>{{ $machineOnRepair->status_mesin }}</td>
-                  <td id='downtime{{ $machineOnRepair->id }}'>
+                  <td id='downtime{{ $machineOnRepair->id }}' class='bg-success text-light'>
                     <?php
                       $currentDowntime = $machineOnRepair->current_downtime;
                       $prodDowntime = $machineOnRepair->prod_downtime;
