@@ -223,11 +223,12 @@ class MachineRepairController extends Controller
         if ($machineStatusInDB == 'Stop by Prod' && $machineStatusInput != 'Stop by Prod') {
             if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Stop') {
                 // harus update nilai downtime prod dan mulai jalan downtime di current
-            } else if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Running') {
+            }
+            if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Running') {
                 // downtime stop(pause) dari yang awalnya jalan
-                // return dd('hello world');
                 $this->saveCurrentAndProdToTotalDowntime($machineRepair->id);
-            } else if ($machineActivityInDB == 'Running' && $machineActivityInput == 'Stop') {
+            }
+            if ($machineActivityInDB == 'Running' && $machineActivityInput == 'Stop') {
                 // downtime lanjut dari yang awalnya stop
                 $this->updateStartDowntime($machineRepair->id);
             }
@@ -235,10 +236,10 @@ class MachineRepairController extends Controller
                 // downtime stop(pause) yang awalnya stop(pause)
                 // tidak terjadi apa apa
             }
-            $currentProdDowntime = $this->getInterval($machineRepair->start_downtime, $now);
-            $this->saveCurrentAndProdToTotalDowntime($machineRepair->id);
-            $this->saveCurrentDowntimeToMonthly($data['id'], $currentProdDowntime);
-            $this->updateStartDowntime($machineRepair->id);
+            // $currentProdDowntime = $this->getInterval($machineRepair->start_downtime, $now);
+            // $this->saveCurrentAndProdToTotalDowntime($machineRepair->id);
+            // $this->saveCurrentDowntimeToMonthly($data['id'], $currentProdDowntime);
+            // $this->updateStartDowntime($machineRepair->id);
         } else {
             if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Stop') {
                 // downtime jalan dari yang awalnya jalan dan save current downtime
