@@ -38,43 +38,18 @@ class Kernel extends ConsoleKernel
         return $result;
     }
 
-    public function subDowntimeByDowntime($firstDowntime, $secDowntime) {
-        $firstDowntimeParts = explode(':', $firstDowntime);
-        $secDowntimeParts = explode(':', $secDowntime);
-
-        $firstDowntimeDays = intval($firstDowntimeParts[0]);
-        $firstDowntimeHours = intval($firstDowntimeParts[1]);
-        $firstDowntimeMinutes = intval($firstDowntimeParts[2]);
-        $firstDowntimeSeconds = intval($firstDowntimeParts[3]);
-
-        $secDowntimeDays = intval($secDowntimeParts[0]);
-        $secDowntimeHours = intval($secDowntimeParts[1]);
-        $secDowntimeMinutes = intval($secDowntimeParts[2]);
-        $secDowntimeSeconds = intval($secDowntimeParts[3]);
-
-        $totalSeconds = (($firstDowntimeDays * 86400) + ($firstDowntimeHours * 3600) + ($firstDowntimeMinutes * 60) + $firstDowntimeSeconds) - (($secDowntimeDays * 86400) + ($secDowntimeHours * 3600) + ($secDowntimeMinutes * 60) + $secDowntimeSeconds);
-
-        $days = floor($totalSeconds / 86400);
-        $totalSeconds %= 86400;
-        $hours = floor($totalSeconds / 3600);
-        $totalSeconds %= 3600;
-        $minutes = floor($totalSeconds / 60);
-        $seconds = $totalSeconds %  60;
-
-        $result = "$days:$hours:$minutes:$seconds";
-        return $result;
-    }
-
     public function getAllTotalMonthlyDowntime() {
         $now = Carbon::now()->subDay();
         $monthNow = $now->format('m');
         $yearNow = $now->format('Y');
-        $totalSeconds = 0;
-        $machinesRepair = MachineRepair::whereMonth('downtime_month', "$monthNow")->whereYear('downtime_month', "$yearNow")->get(['prod_downtime', 'monthly_downtime']);
+        $totalSeconds = '0:0:0:0';
+        $machinesRepair = MachineRepair::whereMonth('downtime_month', "$monthNow")
+                            ->whereYear('downtime_month', "$yearNow")
+                            ->get();
         foreach ($machinesRepair as $machineRepair) {
-            $monthlyDowntime = $machineRepair->monthly_downtime;
-            $prodDowntime = $machineRepair->prod_downtime;
-            $totalSeconds = $this->subDowntimeByDowntime($monthlyDowntime, $prodDowntime);
+            $monthlyDowntime = $machineRepair->total_monthly_downtime;
+            // $totalSeconds = $monthlyDowntime;
+            $totalSeconds = $this->addDowntimeByDowntime($totalSeconds, $monthlyDowntime);
         }
         return $totalSeconds;
     }
@@ -87,7 +62,6 @@ class Kernel extends ConsoleKernel
     }
 
     // function save current downtime atau prod downtime ke database
-    // function ini akan dijalankan selama 1 menit sekali, sehingga menjadi fitur auto update downtime
     public function saveCurrentOrProdDowntime($id, $currentDowntime) {
         $machineRepair = MachineRepair::find($id);
         if ($machineRepair->status_mesin == 'Stop by Prod') {
@@ -100,12 +74,53 @@ class Kernel extends ConsoleKernel
     }
 
     // function save current downtime atau prod downtime ke database
-    // function ini akan dijalankan selama 1 menit sekali, sehingga menjadi fitur auto update downtime
     public function saveCurrentMonthly($id, $currentMonthlyDowntime) {
         $machineRepair = MachineRepair::find($id);
         if ($machineRepair->status_mesin != 'Stop by Prod') {
             $machineRepair->current_monthly_downtime = $currentMonthlyDowntime;
             $machineRepair->save();
+        }
+    }
+
+    public function saveCurrentToTotalMonthlyDowntime($id) {
+        $machineRepair = MachineRepair::find($id);
+        $now = Carbon::now();
+        $currentMonthly = $this->getInterval($machineRepair->start_monthly_downtime, $now);
+        $totalMonthly = $machineRepair->total_monthly_downtime;
+        $machineRepair->total_monthly_downtime = $this->addDowntimeByDowntime($currentMonthly, $totalMonthly);
+
+        $machineRepair->current_monthly_downtime = '0:0:0:0';
+        $machineRepair->save();
+    }
+
+    public function updateMonthly() {
+        $now = Carbon::now()->subDay();
+        $monthNow = $now->format('m');
+        $yearNow = $now->format('Y');
+        $data = MachineRepair::whereMonth('downtime_month', "$monthNow")->whereYear('downtime_month', "$yearNow")
+        ->whereNotIn('status_mesin', ['OK Repair (Finish)', 'Stop by Prod'])
+        ->where('status_aktifitas', 'Stop')
+                ->get(['id']);
+        foreach ($data as $d) {
+            $this->saveCurrentToTotalMonthlyDowntime($d['id']);
+        }
+    }
+
+    public function resetMonthly() {
+        $now = Carbon::now();
+        $nowMonth = $now->subDay();
+        $monthNow = $nowMonth->format('m');
+        $yearNow = $nowMonth->format('Y');
+        $data = MachineRepair::whereMonth('downtime_month', "$monthNow")->whereYear('downtime_month', "$yearNow")
+                ->whereNotIn('status_mesin', ['OK Repair (Finish)', 'Stop by Prod'])
+                ->where('status_aktifitas', 'Stop')
+                ->get();
+        foreach ($data as $d) {
+            $d->current_monthly_downtime = '0:0:0:0';
+            $d->total_monthly_downtime = '0:0:0:0';
+            $d->start_monthly_downtime = $now->startOfMonth();
+            $d->downtime_month = $now->startOfMonth()->format('Y-m-d');
+            $d->save();
         }
     }
 
@@ -134,10 +149,12 @@ class Kernel extends ConsoleKernel
     {
         // melakukan create or update ke tabel total_downtime tiap sebulan sekali di awal bulan
         $schedule->call(function () {
+            $this->updateMonthly();
             TotalDowntime::updateOrCreate(
                 ['bulan_downtime' => Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d')],
                 ['total_downtime' => $this->getAllTotalMonthlyDowntime()]
             );
+            $this->resetMonthly();
         })->monthlyOn(1, '00:01');
 
         // melakukan update downtime downtime setiap satu menit sekali
