@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
           <!-- Vertical Form Tambah Data -->
-          <form class="row g-3" method="POST" action="/machines/{{ $machineOnRepair->id }}">
+          <form class="row g-3" method="POST" action="/dashboard/finish/{{ $machineOnRepair->id }}">
             @csrf
             <input type="hidden" name="id" value="{{ $machineOnRepair->id }}">
             <h5 class="fw-bold text-center">Apakah Mesin {{ $machineOnRepair->dataMesin->no_mesin }} Sudah Selesai Diperbaiki ?</h5>

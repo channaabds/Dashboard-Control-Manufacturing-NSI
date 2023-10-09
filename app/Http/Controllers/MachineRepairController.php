@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\DB;
 
 class MachineRepairController extends Controller
 {
+    // fungsi ini akan merubah downtime ke bentuk yang mudah dibaca
+    // 0:0:0:0 -> 0 Hari 0 Jam 0 Menit 0 Detik
+    public function downtimeTranslator($downtime) {
+        $downtimeParts = explode(':', $downtime);
+        $days = $downtimeParts[0];
+        $hours = $downtimeParts[1];
+        $minutes = $downtimeParts[2];
+        $seconds = $downtimeParts[3];
+
+        return $days . ' Hari </br>' . $hours . ' Jam </br>' . $minutes .  ' Menit </br>' . $seconds . ' Detik';
+    }
     // function untuk menambahkan antara 2 downtime yang memiliki format '0:0:0:0'
     public function addDowntimeByDowntime($firstDowntime, $secDowntime) {
         $firstDowntimeParts = explode(':', $firstDowntime);
@@ -108,12 +119,13 @@ class MachineRepairController extends Controller
 
     public function index()
     {
-        $machinesRepair = MachineRepair::all();
+        $machinesRepair = MachineRepair::latest()->whereNotIn('status_mesin', ['OK Repair (Finish)'])->get();;
         $jsMachinesRepair = MachineRepair::get(['id', 'start_downtime', 'current_downtime', 'prod_downtime', 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas'])->toArray();
         $machines = Machine:: all();
         foreach ($machinesRepair as $machineRepair) {
             $addValue = $machinesRepair->find($machineRepair->id);
-            $addValue->search = Carbon::parse($machineRepair->tgl_kerusakan)->addDay()->toDateString();
+            $addValue->search = Carbon::parse($machineRepair->tgl_kerusakan)->toDateString();
+            $addValue->downtime = $this->downtimeTranslator($this->addDowntimeByDowntime($machineRepair->prod_downtime, $machineRepair->total_downtime));
         }
         return view('dashboard.index', [
             'machines' => $machines,
@@ -255,5 +267,16 @@ class MachineRepairController extends Controller
         $machine = $machineRepair->find($id);
         $machine->delete();
         return redirect('/dashboard')->with('success', 'Data Mesin Sudah Dihapus!');
+    }
+
+    public function finish($id) {
+        return dd($id);
+        // $now = Carbon::now()->toDateTime();
+        // $rusak = $machine->tgl_kerusakan;
+        // $start = Carbon::parse($rusak)->toDateTime();
+        // $downtime = $start->diff($now)->format("%a Hari %H Jam %I Menit %S Detik");
+        // // $machine->update(['status_mesin' => 'OK Repair (Finish)', 'downtime' => $downtime]);
+        // $machine->update(['status_mesin' => 'OK Repair (Finish)', 'tgl_ok_repair' => Carbon::now()->format('Y-m-d')]);
+        // return redirect('mesin-ok')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
     }
 }

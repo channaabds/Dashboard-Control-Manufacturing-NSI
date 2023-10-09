@@ -76,7 +76,7 @@
               </form>
             </table>
 
-            <table class="table table-responsive table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
+            <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
             id="tableMesinRusak">
               <thead class="mt-4">
                 <tr>
@@ -106,7 +106,7 @@
                 <tr>
                   <td hidden style="width: 10; ">{{ $machineOnRepair->search }}</td>
                   <th scope="row">{{ $loop->iteration }}</th>
-                  <td>{{ $machineOnRepair->dataMesin->no_mesin }}</td>
+                  <td style="width: 1000px">{{ $machineOnRepair->dataMesin->no_mesin }}</td>
                   <td>{{ $machineOnRepair->dataMesin->tipe_mesin }}</td>
                   <td>{{ $machineOnRepair->dataMesin->tipe_bartop }}</td>
                   <td>{{ $machineOnRepair->pic }}</td>
@@ -121,19 +121,7 @@
                   <td>{{ $machineOnRepair->tgl_kerusakan }}</td>
                   <td>{{ $machineOnRepair->status_mesin }}</td>
                   <td id='downtime{{ $machineOnRepair->id }}' class='bg-success text-light'>
-                    <?php
-                      $currentDowntime = $machineOnRepair->current_downtime;
-                      $prodDowntime = $machineOnRepair->prod_downtime;
-                      $totalDowntime = $machineOnRepair->total_downtime;
-                      $arrayCurrentDowntime = explode(":", $currentDowntime);
-                      $arrayProdDowntime = explode(":", $prodDowntime);
-                      $arrayTotalDowntime = explode(":", $totalDowntime);
-                      $days = intval($arrayCurrentDowntime[0]) + intval($arrayProdDowntime[0]) + intval($arrayTotalDowntime[0]);
-                      $hours = intval($arrayCurrentDowntime[1]) + intval($arrayProdDowntime[1]) + intval($arrayTotalDowntime[1]);
-                      $minutes = intval($arrayCurrentDowntime[2]) + intval($arrayProdDowntime[2]) + intval($arrayTotalDowntime[2]);
-                      $seconds = intval($arrayCurrentDowntime[3]) + intval($arrayProdDowntime[3]) + intval($arrayTotalDowntime[3]);
-                      echo $days . ' Hari</br>' . $hours . ' Jam</br>' . $minutes . ' Menit</br>' . $seconds . ' Detik</br>';
-                    ?>
+                    {!! $machineOnRepair->downtime !!}
                   </td>
                   <td>
                     {{ $machineOnRepair->status_aktifitas }}

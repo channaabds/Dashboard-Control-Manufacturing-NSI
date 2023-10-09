@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MachineFinishController;
 use App\Http\Controllers\MachineRepairController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,5 +16,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('/dashboard', MachineRepairController::class);
-Route::post('/run-downtime', [MachineRepairController::class, 'downtime']);
+// auto redirect route
+Route::get('/', function () {
+  return redirect('/dashboard');
+})->middleware('auth');
+
+// main dashboard maintenance routes
+// repair machines
+Route::resource('/dashboard', MachineRepairController::class)->middleware('auth');
+Route::post('/dashboard/finish/{id}', [MachineRepairController::class, 'finish'])->middleware('auth');
+Route::post('/run-downtime', [MachineRepairController::class, 'downtime'])->middleware('auth');
+
+// finish machine
+Route::get('/mesin-finish', [MachineFinishController::class, 'index'])->middleware('auth');
+Route::delete('/mesin-finish/{id}', [MachineFinishController::class, 'destroy'])->middleware('auth');
+
+
+// login routes
+Route::get('/login', [LoginController::class, 'indexLogin'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest');
+Route::delete('/login', [LoginController::class, 'logout'])->middleware('auth');
+
+// register routes
+Route::get('/register', [LoginController::class, 'indexRegister']);
+Route::post('/register', [LoginController::class, 'store']);

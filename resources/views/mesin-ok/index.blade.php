@@ -67,44 +67,34 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($machinesOnFinish as $machineOnFinish)
+                @foreach ($machinesFinish as $machineFinish)
                 <tr>
-                  <td hidden style="width: 10; ">{{ $machineOnFinish->search }}</td>
+                  <td hidden style="width: 10; ">{{ $machineFinish->search }}</td>
                   <th scope="row">{{ $loop->iteration }}</th>
-                  <td>{{ $machineOnFinish->dataMesin->no_mesin }}</td>
-                  <td>{{ $machineOnFinish->dataMesin->tipe_mesin }}</td>
-                  <td>{{ $machineOnFinish->dataMesin->tipe_bartop }}</td>
-                  <td>{{ $machineOnFinish->pic }}</td>
-                  <td>{{ $machineOnFinish->request }}</td>
-                  <td>{{ $machineOnFinish->analisa }}</td>
-                  <td>{{ $machineOnFinish->action }}</td>
-                  <td>{{ $machineOnFinish->sparepart }}</td>
-                  <td>{{ $machineOnFinish->prl }}</td>
-                  <td>{{ $machineOnFinish->po }}</td>
-                  <td>{{ $machineOnFinish->kedatangan_po }}</td>
-                  <td>{{ $machineOnFinish->kedatangan_prl }}</td>
-                  <td>{{ $machineOnFinish->tgl_kerusakan }}</td>
-                  <td>{{ $machineOnFinish->status_mesin }}</td>
-                  <td>
-                    <?php
-                      $totalDowntime = $machineOnFinish->dataDowntime->total_downtime;
-                      $array = explode(":", $totalDowntime);
-                      echo $array[0] . ' Hari</br>' . $array[1] . ' Jam</br>' . $array[2] . ' Menit</br>' . $array[3] . ' Detik</br>';
-                    ?>
-                  </td>
-                  <td>
-                    {{ $machineOnFinish->status_aktifitas }}
-
-                  </td>
+                  <td>{{ $machineFinish->dataMesin->no_mesin }}</td>
+                  <td>{{ $machineFinish->dataMesin->tipe_mesin }}</td>
+                  <td>{{ $machineFinish->dataMesin->tipe_bartop }}</td>
+                  <td>{{ $machineFinish->pic }}</td>
+                  <td>{{ $machineFinish->request }}</td>
+                  <td>{{ $machineFinish->analisa }}</td>
+                  <td>{{ $machineFinish->action }}</td>
+                  <td>{{ $machineFinish->sparepart }}</td>
+                  <td>{{ $machineFinish->prl }}</td>
+                  <td>{{ $machineFinish->po }}</td>
+                  <td>{{ $machineFinish->kedatangan_po }}</td>
+                  <td>{{ $machineFinish->kedatangan_prl }}</td>
+                  <td>{{ $machineFinish->tgl_kerusakan }}</td>
+                  <td>{{ $machineFinish->status_mesin }}</td>
+                  <td>{!! $machineFinish->downtime !!}</td>
+                  <td>{{ $machineFinish->status_aktifitas }}</td>
                   <td class="text-center">
-                    <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $machineOnFinish->id }}">Hapus</button>
+                    <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $machineFinish->id }}">Hapus</button>
                     @include('components.mesin-ok.modals.hapus')
                   </td>
                 </tr>
                 @endforeach
               </tbody>
             </table>
-            <!-- End Table with stripped rows -->
 
           </div>
         </div>
@@ -113,38 +103,11 @@
     </div>
   </section>
 
-  {{-- @include('components.dashboard.modals.tambah') --}}
-
 </main>
 {{-- JQuery dan datatables --}}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
 
-{{-- komponen datatable --}}
-{{-- @include('components.mesin-ok.dataTable') --}}
 @include('components.mesin-ok.dataTable')
-
-{{-- <script>
-  function refreshDowntime() {
-    $.ajax({
-      url: '/refresh-downtime',
-      method: 'GET',
-      dataType: 'json',
-      success: function(response1) {
-        cek = response;
-        // console.log(response);
-        // $('#downtime').html(response);
-        $.ajax({
-          url: '/'
-        })
-      },
-      error: function(xhr, status, error) {
-        console.error('Error: ' + error);
-      }
-    });
-  }
-
-  setInterval(refreshDowntime, 1000);
-</script> --}}
 
 @endsection

@@ -11,7 +11,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link {{ !Request::is('mesin-ok') ? 'collapsed' : ' ' }}" href="/mesin-ok">
+            <a class="nav-link {{ !Request::is('mesin-ok') ? 'collapsed' : ' ' }}" href="/mesin-finish">
                 <i class="bi bi-menu-button-wide"></i><span>Data Mesin OK (Finish)</span>
             </a>
         </li>
