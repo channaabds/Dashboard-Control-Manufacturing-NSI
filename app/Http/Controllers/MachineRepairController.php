@@ -27,6 +27,7 @@ class MachineRepairController extends Controller
 
         return $days . ' Hari </br>' . $hours . ' Jam </br>' . $minutes .  ' Menit </br>' . $seconds . ' Detik';
     }
+
     // function untuk menambahkan antara 2 downtime yang memiliki format '0:0:0:0'
     public function addDowntimeByDowntime($firstDowntime, $secDowntime) {
         $firstDowntimeParts = explode(':', $firstDowntime);
@@ -89,10 +90,10 @@ class MachineRepairController extends Controller
     // function ini berfungsi untuk mengupdate kolom start_downtime menjadi waktu sekarang ini
     public function updateStartDowntime($id) {
         $now = Carbon::now();
-        $machine = MachineRepair::find($id);
-        $machine->start_downtime = $now;
-        $machine->start_monthly_downtime = $now;
-        $machine->save();
+        $machineRepair = MachineRepair::find($id);
+        $machineRepair->start_downtime = $now;
+        $machineRepair->start_monthly_downtime = $now;
+        $machineRepair->save();
     }
 
     // function ini yang menangani ajax request dari halaman dashboard, dan berfungsi sebagai fitur realtime downtime counter dan auto update downtime ke database
@@ -117,24 +118,23 @@ class MachineRepairController extends Controller
 
     public function index()
     {
-        $machinesRepair = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
-        $jsMachinesRepair = MachineRepair::get(['id', 'start_downtime', 'current_downtime', 'prod_downtime', 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas'])->toArray();
+        $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
+        $jsMachineRepairs = MachineRepair::get(['id', 'start_downtime', 'current_downtime', 'prod_downtime', 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas'])->toArray();
         $machines = Machine:: all();
-        foreach ($machinesRepair as $machineRepair) {
-            $addValue = $machinesRepair->find($machineRepair->id);
+        foreach ($machineRepairs as $machineRepair) {
+            $addValue = $machineRepairs->find($machineRepair->id);
             $addValue->search = Carbon::parse($machineRepair->tgl_kerusakan)->toDateString();
             $addValue->downtime = $this->downtimeTranslator($this->addDowntimeByDowntime($machineRepair->prod_downtime, $machineRepair->total_downtime));
         }
-        return view('dashboard.index', [
+        return view('dashboard-repair.index', [
             'machines' => $machines,
-            'machinesOnRepair' => $machinesRepair,
-            'jsMachinesOnRepair' => $jsMachinesRepair,
+            'machineRepairs' => $machineRepairs,
+            'jsMachineRepairs' => $jsMachineRepairs,
         ]);
     }
 
     public function store(StoreMachineRepairRequest $request)
     {
-        // return dd($request->all());
         $request->validate([
             'noMesin' => 'required|exists:machines,no_mesin',
             'request' => 'required',
@@ -143,7 +143,7 @@ class MachineRepairController extends Controller
         ]);
 
         $now = Carbon::now();
-        $dataPayload = $request->all();
+        $dataPayload = $request->except(['_token']);
         $machine = Machine::where('no_mesin', $dataPayload['noMesin'])->get('id')->first();
 
         if ($dataPayload['tgl_kerusakan'] === null) {
@@ -210,12 +210,12 @@ class MachineRepairController extends Controller
         $data = Arr::except($dataPayload, ['noMesin', 'finish']);
         $insertData = Arr::collapse([$extraData, $data, $addExtraData]);
         DB::table('machine_repairs')->insert($insertData);
-        return redirect('/dashboard')->with('success', 'Data Baru Berhasil Ditambahkan!');;
+        return redirect('/dashboard-repair')->with('success', 'Data Baru Berhasil Ditambahkan!');;
     }
 
     public function update(UpdateMachineRepairRequest $request, MachineRepair $machineRepair)
     {
-        $data = $request->except(['_method']);
+        $data = $request->except(['_method', '_token']);
         $machineRepair = $machineRepair->find($data['id']);
         $machineStatusInDB = $machineRepair->status_mesin;
         $machineStatusInput = $data['status'];
@@ -258,14 +258,14 @@ class MachineRepairController extends Controller
         $machineRepair->status_mesin = $data['status'];
         $machineRepair->update($data);
         $machineRepair->save();
-        return redirect('/dashboard')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
+        return redirect('/dashboard-repair')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
     }
 
     public function destroy(MachineRepair $machineRepair, $id)
     {
-        $machine = $machineRepair->find($id);
-        $machine->delete();
-        return redirect('/dashboard')->with('success', 'Data Mesin Sudah Dihapus!');
+        $machineRepair = $machineRepair->find($id);
+        $machineRepair->delete();
+        return redirect('/dashboard-repair')->with('success', 'Data Mesin Sudah Dihapus!');
     }
 
     public function finish($id) {
@@ -276,7 +276,7 @@ class MachineRepairController extends Controller
         $machineRepair->tgl_finish = Carbon::now();
         $machineRepair->status_mesin = 'OK Repair (Finish)';
         $machineRepair->save();
-        return redirect('/mesin-finish')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
+        return redirect('/dashboard-finish')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
     }
 
     public function export(Request $request) {

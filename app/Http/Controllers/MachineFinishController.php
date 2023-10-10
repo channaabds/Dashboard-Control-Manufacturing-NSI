@@ -11,24 +11,24 @@ class MachineFinishController extends Controller
 {
     public function index()
     {
-        $machinesFinish = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
+        $machineFinishes = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         $MachineRepair = (new MachineRepairController());
 
-        foreach ($machinesFinish as $machineFinish) {
-            $addValue = $machinesFinish->find($machineFinish->id);
+        foreach ($machineFinishes as $machineFinish) {
+            $addValue = $machineFinishes->find($machineFinish->id);
             $addValue->search = Carbon::parse($machineFinish->tgl_kerusakan)->toDateString();
             $addValue->downtime = $MachineRepair->downtimeTranslator($MachineRepair->addDowntimeByDowntime($machineFinish->prod_downtime, $machineFinish->total_downtime));
         }
 
-        return view('mesin-ok.index', [
-            'machinesFinish' => $machinesFinish,
+        return view('dashboard-finish.index', [
+            'machineFinishes' => $machineFinishes,
         ]);
     }
 
     public function destroy($id)
     {
         MachineRepair::find($id)->delete();
-        return redirect('mesin-finish')->with('success', 'Data Mesin Berhasil Dihapus!');
+        return redirect('dashboard-finish')->with('success', 'Data Mesin Berhasil Dihapus!');
     }
 
     public function export(Request $request) {

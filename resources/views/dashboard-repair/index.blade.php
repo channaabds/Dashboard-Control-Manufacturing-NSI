@@ -47,7 +47,7 @@
           </div>
 
         {{-- javascript untuk filtering bulan total downtime --}}
-        @include('components.monthFiltering')
+        @include('components.dashboard-repair.monthFiltering')
 
         <div class="card">
           <div class="card-body">
@@ -56,7 +56,7 @@
               <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
                 Tambah Data
               </button>
-              @include('components.dashboard.modals.tambah')
+              @include('components.dashboard-repair.modals.tambah')
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
@@ -102,41 +102,41 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($machinesOnRepair as $machineOnRepair)
+                @foreach ($machineRepairs as $machineRepair)
                 <tr>
-                  <td hidden style="width: 10; ">{{ $machineOnRepair->search }}</td>
+                  <td hidden style="width: 10; ">{{ $machineRepair->search }}</td>
                   <th scope="row">{{ $loop->iteration }}</th>
-                  <td style="width: 1000px">{{ $machineOnRepair->dataMesin->no_mesin }}</td>
-                  <td>{{ $machineOnRepair->dataMesin->tipe_mesin }}</td>
-                  <td>{{ $machineOnRepair->dataMesin->tipe_bartop }}</td>
-                  <td>{{ $machineOnRepair->pic }}</td>
-                  <td>{{ $machineOnRepair->request }}</td>
-                  <td>{{ $machineOnRepair->analisa }}</td>
-                  <td>{{ $machineOnRepair->action }}</td>
-                  <td>{{ $machineOnRepair->sparepart }}</td>
-                  <td>{{ $machineOnRepair->prl }}</td>
-                  <td>{{ $machineOnRepair->po }}</td>
-                  <td>{{ $machineOnRepair->kedatangan_po }}</td>
-                  <td>{{ $machineOnRepair->kedatangan_prl }}</td>
-                  <td>{{ $machineOnRepair->tgl_kerusakan }}</td>
-                  <td>{{ $machineOnRepair->status_mesin }}</td>
-                  <td id='downtime{{ $machineOnRepair->id }}' class='bg-success text-light'>
-                    {!! $machineOnRepair->downtime !!}
+                  <td style="width: 1000px">{{ $machineRepair->dataMesin->no_mesin }}</td>
+                  <td>{{ $machineRepair->dataMesin->tipe_mesin }}</td>
+                  <td>{{ $machineRepair->dataMesin->tipe_bartop }}</td>
+                  <td>{{ $machineRepair->pic }}</td>
+                  <td>{{ $machineRepair->request }}</td>
+                  <td>{{ $machineRepair->analisa }}</td>
+                  <td>{{ $machineRepair->action }}</td>
+                  <td>{{ $machineRepair->sparepart }}</td>
+                  <td>{{ $machineRepair->prl }}</td>
+                  <td>{{ $machineRepair->po }}</td>
+                  <td>{{ $machineRepair->kedatangan_po }}</td>
+                  <td>{{ $machineRepair->kedatangan_prl }}</td>
+                  <td>{{ $machineRepair->tgl_kerusakan }}</td>
+                  <td>{{ $machineRepair->status_mesin }}</td>
+                  <td id='downtime{{ $machineRepair->id }}' class='bg-success text-light'>
+                    {!! $machineRepair->downtime !!}
                   </td>
                   <td>
-                    {{ $machineOnRepair->status_aktifitas }}
+                    {{ $machineRepair->status_aktifitas }}
 
                   </td>
                   <td class="text-center">
                     <button class="btn btn-primary mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#selesaiModal{{ $machineOnRepair->id }}">Selesai</button>
-                    @include('components.dashboard.modals.selesai')
+                    data-bs-target="#selesaiModal{{ $machineRepair->id }}">Selesai</button>
+                    @include('components.dashboard-repair.modals.selesai')
                     <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#editModal{{ $machineOnRepair->id }}">Edit</button>
-                    @include('components.dashboard.modals.edit')
+                    data-bs-target="#editModal{{ $machineRepair->id }}">Edit</button>
+                    @include('components.dashboard-repair.modals.edit')
                     <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal{{ $machineOnRepair->id }}">Hapus</button>
-                    @include('components.dashboard.modals.hapus')
+                    data-bs-target="#deleteModal{{ $machineRepair->id }}">Hapus</button>
+                    @include('components.dashboard-repair.modals.hapus')
                   </td>
                 </tr>
                 @endforeach
@@ -150,19 +150,13 @@
     </div>
   </section>
 
-  <script>
-    const jsonString = `<?= json_encode($jsMachinesOnRepair) ?>`;
-    const jsonArray = JSON.parse(jsonString);
-    console.log(jsonArray);
-  </script>
-
 </main>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
 
-@include('components.dashboard.dataTable')
+@include('components.dashboard-repair.dataTable')
 
-@include('components.timerDowntime')
+@include('components.dashboard-repair.timerDowntime')
 
 @endsection

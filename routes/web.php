@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MachineFinishController;
 use App\Http\Controllers\MachineRepairController;
 use Illuminate\Support\Facades\Route;
@@ -23,16 +24,18 @@ Route::get('/', function () {
 
 // main dashboard maintenance routes
 // repair machines
-Route::resource('/dashboard', MachineRepairController::class)->middleware('auth');
-Route::post('/dashboard/finish/{id}', [MachineRepairController::class, 'finish'])->middleware('auth');
+Route::resource('/dashboard-repair', MachineRepairController::class)->middleware('auth');
+Route::post('/dashboard-repair/finish/{id}', [MachineRepairController::class, 'finish'])->middleware('auth');
 Route::post('/run-downtime', [MachineRepairController::class, 'downtime'])->middleware('auth');
 Route::post('/export-machine-repairs', [MachineRepairController::class, 'export'])->middleware('auth');
 
 // finish machine
-Route::get('/mesin-finish', [MachineFinishController::class, 'index'])->middleware('auth');
-Route::delete('/mesin-finish/{id}', [MachineFinishController::class, 'destroy'])->middleware('auth');
+Route::get('/dashboard-finish', [MachineFinishController::class, 'index'])->middleware('auth');
+Route::delete('/dashboard-finish/{id}', [MachineFinishController::class, 'destroy'])->middleware('auth');
 Route::post('/export-machine-finish', [MachineFinishController::class, 'export'])->middleware('auth');
 
+// machines routes
+Route::resource('/machines', MachineController::class)->middleware('auth');
 
 // login routes
 Route::get('/login', [LoginController::class, 'indexLogin'])->middleware('guest')->name('login');

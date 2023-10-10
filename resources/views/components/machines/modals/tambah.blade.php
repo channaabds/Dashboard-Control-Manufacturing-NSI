@@ -1,4 +1,3 @@
-{{-- Modal Tambah Data --}}
 <div class="modal fade" id="tambahData" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -7,8 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Vertical Form Tambah Data -->
-                <form class="row g-3" method="POST" action="/data-mesin">
+                <form class="row g-3" method="POST" action="/machines">
                     @csrf
                     <div class="col-6">
                         <label for="no_mesin" class="form-label">No Mesin</label>
@@ -31,7 +29,6 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
-                <!-- Vertical Form -->
             </div>
         </div>
     </div>

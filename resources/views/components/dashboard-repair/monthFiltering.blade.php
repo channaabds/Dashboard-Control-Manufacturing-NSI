@@ -1,6 +1,5 @@
 <script>
     function monthFilter(request) {
-
         $.ajax({
             url: '/get-total-downtime-by-month',
             method: 'POST',
@@ -16,6 +15,5 @@
                 console.error('Error: ' + error);
             }
         })
-        // console.log(request);
     }
 </script>

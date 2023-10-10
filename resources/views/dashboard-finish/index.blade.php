@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-@inject('carbon', 'Carbon\Carbon')
 <main id="main" class="main">
   @if (session()->has('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -40,7 +39,6 @@
               </form>
             </table>
 
-            <!-- Table with stripped rows -->
             <table class="table table-bordered table-striped"
               style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;" id="tableMesinFinish">
               <thead>
@@ -67,7 +65,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($machinesFinish as $machineFinish)
+                @foreach ($machineFinishes as $machineFinish)
                 <tr>
                   <td hidden style="width: 10; ">{{ $machineFinish->search }}</td>
                   <th scope="row">{{ $loop->iteration }}</th>
@@ -89,7 +87,7 @@
                   <td>{{ $machineFinish->status_aktifitas }}</td>
                   <td class="text-center">
                     <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $machineFinish->id }}">Hapus</button>
-                    @include('components.mesin-ok.modals.hapus')
+                    @include('components.dashboard-finish.modals.hapus')
                   </td>
                 </tr>
                 @endforeach
@@ -108,6 +106,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
 
-@include('components.mesin-ok.dataTable')
+@include('components.dashboard-finish.dataTable')
 
 @endsection

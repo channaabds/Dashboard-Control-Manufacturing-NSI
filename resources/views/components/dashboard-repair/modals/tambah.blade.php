@@ -7,8 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3" method="POST" action="/dashboard">
-                    {{-- @csrf --}}
+                <form class="row g-3" method="POST" action="/dashboard-repair">
+                    @csrf
                     <div class="col-6">
                         <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" required/>
@@ -52,7 +52,6 @@
                     </div>
                     <div class="col-6">
                         <label for="tanggalKerusakan" class="form-label">Tanggal Kerusakan</label>
-                        {{-- <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan" value="{{ $carbon::now() }}" step="any"> --}}
                         <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan" step="any">
                     </div>
                     <div class="col-6">
@@ -91,7 +90,6 @@
                         <textarea name="sebab" id="sebab" class="form-control" style="height: 100px"></textarea>
                     </div>
                     <div class="col-12 text-center" id="isFinish" style="display: none">
-                        {{-- <label for="finish" class="form-label">Finish <span class="text-danger">*</span></label> --}}
                         <label for="finish" class="form-label">Finish</label>
                         <input type="datetime-local" class="form-control" name="finish" id="finish" value="" step="any">
                     </div>
@@ -123,42 +121,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    // setInterval(() => {
-    //     let date = new Date();
-
-    //     let day = date.getDate();
-    //     let month = date.getMonth() + 1;
-    //     let year = date.getFullYear();
-    //     let hours = date.getHours();
-    //     let minutes = date.getMinutes();
-    //     let seconds = date.getSeconds();
-
-    //     if (day < 10) {
-    //         day = '0' + day;
-    //     }
-    //     if (month < 10) {
-    //         month = '0' + month;
-    //     }
-    //     if (hours < 10) {
-    //         hours = '0' + hours;
-    //     }
-    //     if (minutes < 10) {
-    //         minutes = '0' + minutes;
-    //     }
-    //     if (seconds < 10) {
-    //         seconds = '0' + seconds;
-    //     }
-
-    //     let formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
-
-    //     let tglRusak = document.querySelector('#tanggalKerusakan');
-    //     let isFinish = document.querySelector('#isFinish');
-    //     let finish = document.querySelector('#finish');
-    //     if (isFinish.style.display == 'block') {
-    //         finish.value = formattedDate;
-    //     }
-    //     tglRusak.value = formattedDate;
-    // }, 1000);
-</script>

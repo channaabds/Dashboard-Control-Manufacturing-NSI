@@ -1,7 +1,7 @@
 <script>
 
   async function getJsonDowntime() {
-    const jsonString = `<?= json_encode($jsMachinesOnRepair) ?>`;
+    const jsonString = `<?= json_encode($jsMachineRepairs) ?>`;
     const jsonArray = JSON.parse(jsonString);
     try {
       const response = await $.ajax({

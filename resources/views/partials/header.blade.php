@@ -1,6 +1,6 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-        <a href="/dashboard" class="logo d-flex align-items-center">
+        <a href="/dashboard-repair" class="logo d-flex align-items-center">
             <img src="{{ asset('./img/logo/logo-nsi.jpg') }}" alt="">
             <span class="d-none d-lg-block">Dashboard Control Manufacturing</span>
         </a>
@@ -31,11 +31,8 @@
                             </button>
                         </form>
                     </li>
-
                 </ul>
             </li>
-
         </ul>
     </nav>
-
 </header>

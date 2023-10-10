@@ -26,7 +26,6 @@
               </button>
             </div>
 
-            <!-- Table with stripped rows -->
             <table class="table table-bordered table-striped"
               style="" id="tableMesin">
               <thead class="mt-4">
@@ -49,51 +48,25 @@
                   <td>{{ $machine->seri_mesin }}</td>
                   <td class="text-center">
                     <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal" data-bs-target="#editModal{{ $machine->id }}">Edit</button>
-                    @include('components.mesin.modals.edit')
+                    @include('components.machines.modals.edit')
                     <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $machine->id }}">Hapus</button>
-                    @include('components.mesin.modals.hapus')
+                    @include('components.machines.modals.hapus')
                   </td>
                 </tr>
                 @endforeach
               </tbody>
             </table>
-            <!-- End Table with stripped rows -->
-
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-@include('components.mesin.modals.tambah')
+@include('components.machines.modals.tambah')
 
 </main>
 
 {{-- komponen datatable --}}
-@include('components.mesin.dataTable')
-
-{{-- <script>
-  function refreshDowntime() {
-    $.ajax({
-      url: '/refresh-downtime',
-      method: 'GET',
-      dataType: 'json',
-      success: function(response1) {
-        cek = response;
-        // console.log(response);
-        // $('#downtime').html(response);
-        $.ajax({
-          url: '/'
-        })
-      },
-      error: function(xhr, status, error) {
-        console.error('Error: ' + error);
-      }
-    });
-  }
-
-  setInterval(refreshDowntime, 1000);
-</script> --}}
+@include('components.machines.dataTable')
 
 @endsection

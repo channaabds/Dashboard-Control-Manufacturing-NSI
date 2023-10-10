@@ -5,62 +5,52 @@ namespace App\Http\Controllers;
 use App\Models\Machine;
 use App\Http\Requests\StoreMachineRequest;
 use App\Http\Requests\UpdateMachineRequest;
+use App\Models\MachineRepair;
+use Illuminate\Http\Request;
 
 class MachineController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $machines = Machine::all();
+
+        return view('machines.index', [
+            'machines' => $machines,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreMachineRequest $request)
     {
-        //
+        Machine::create($request->all());
+        return redirect('/machines')->with('success', 'Data Mesin Baru Berhasil Ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Machine $machine)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Machine $machine)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateMachineRequest $request, Machine $machine)
     {
-        //
+        $data = $request->except(['_token', '_method', 'id']);
+        $machine->find($request->id)->update($data);
+        return redirect('/machines')->with('success', 'Data Mesin Berhasil Diubah!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Machine $machine)
+    public function destroy($id)
     {
-        //
+        MachineRepair::where('mesin_id', $id)->delete();
+        Machine::find($id)->delete();
+        return redirect('/machines')->with('success', 'Data Mesin Berhasil Dihapus!');
     }
 }
