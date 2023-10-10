@@ -26,10 +26,12 @@ Route::get('/', function () {
 Route::resource('/dashboard', MachineRepairController::class)->middleware('auth');
 Route::post('/dashboard/finish/{id}', [MachineRepairController::class, 'finish'])->middleware('auth');
 Route::post('/run-downtime', [MachineRepairController::class, 'downtime'])->middleware('auth');
+Route::post('/export-machine-repairs', [MachineRepairController::class, 'export'])->middleware('auth');
 
 // finish machine
 Route::get('/mesin-finish', [MachineFinishController::class, 'index'])->middleware('auth');
 Route::delete('/mesin-finish/{id}', [MachineFinishController::class, 'destroy'])->middleware('auth');
+Route::post('/export-machine-finish', [MachineFinishController::class, 'export'])->middleware('auth');
 
 
 // login routes

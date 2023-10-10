@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MachineFinishExport;
 use App\Models\MachineRepair;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,5 +29,11 @@ class MachineFinishController extends Controller
     {
         MachineRepair::find($id)->delete();
         return redirect('mesin-finish')->with('success', 'Data Mesin Berhasil Dihapus!');
+    }
+
+    public function export(Request $request) {
+        $minDate = $request->min;
+        $maxDate = $request->max;
+        return (new MachineFinishExport($minDate, $maxDate))->download('Mesin-finish.xlsx');
     }
 }

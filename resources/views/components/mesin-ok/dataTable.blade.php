@@ -32,7 +32,6 @@
     const table = new DataTable('#tableMesinFinish', {
       order: false,
       // order: [[1, 'asc']],
-      searching: false,
       initComplete: function () {
         this.api()
           .columns()
@@ -51,7 +50,6 @@
 
               let input = document.createElement('input');
               input.placeholder = 'cari...';
-              // input.placeholder = titleElement;
               column.header().appendChild(input);
 
               // Event listener for user input

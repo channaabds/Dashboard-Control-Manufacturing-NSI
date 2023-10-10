@@ -24,7 +24,7 @@
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/export-mesin-ok" method="post">
+              <form action="/export-machine-finish" method="post">
                 @csrf
                 <tbody>
                   <tr>

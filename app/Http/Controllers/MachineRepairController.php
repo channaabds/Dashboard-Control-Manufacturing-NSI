@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MachineRepairsExport;
 use App\Models\MachineRepair;
 use App\Http\Requests\StoreMachineRepairRequest;
 use App\Http\Requests\UpdateMachineRepairRequest;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MachineRepairController extends Controller
 {
@@ -275,5 +277,11 @@ class MachineRepairController extends Controller
         $machineRepair->status_mesin = 'OK Repair (Finish)';
         $machineRepair->save();
         return redirect('/mesin-finish')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
+    }
+
+    public function export(Request $request) {
+        $minDate = $request->min;
+        $maxDate = $request->max;
+        return (new MachineRepairsExport($minDate, $maxDate))->download('Mesin-rusak.xlsx');
     }
 }

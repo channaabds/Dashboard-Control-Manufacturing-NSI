@@ -60,7 +60,7 @@
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/export-mesin-rusak" method="post">
+              <form action="/export-machine-repairs" method="post">
                 @csrf
                 <tbody>
                   <tr>
