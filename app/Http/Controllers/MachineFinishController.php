@@ -10,7 +10,7 @@ class MachineFinishController extends Controller
 {
     public function index()
     {
-        $machinesFinish = MachineRepair::latest()->where('status_mesin', 'OK Repair (Finish)')->get();
+        $machinesFinish = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         $MachineRepair = (new MachineRepairController());
 
         foreach ($machinesFinish as $machineFinish) {

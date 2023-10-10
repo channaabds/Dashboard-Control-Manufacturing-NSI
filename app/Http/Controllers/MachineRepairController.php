@@ -72,13 +72,9 @@ class MachineRepairController extends Controller
             $currentDowntime = $this->getInterval($machineRepair->start_downtime, $now);
             $currentMonthly = $this->getInterval($machineRepair->start_monthly_downtime, $now);
 
-            // $prod = $machineRepair->prod_downtime;
             $totalDowntime = $machineRepair->total_downtime;
             $totalMonthly = $machineRepair->total_monthly_downtime;
 
-            // $currentAndProd = $this->addDowntimeByDowntime($currentDowntime, $prod);
-
-            // $machineRepair->total_downtime = $this->addDowntimeByDowntime($currentAndProd, $totalDowntime);
             $machineRepair->total_downtime = $this->addDowntimeByDowntime($currentDowntime, $totalDowntime);
             $machineRepair->total_monthly_downtime = $this->addDowntimeByDowntime($currentMonthly, $totalMonthly);
 
@@ -119,7 +115,7 @@ class MachineRepairController extends Controller
 
     public function index()
     {
-        $machinesRepair = MachineRepair::latest()->whereNotIn('status_mesin', ['OK Repair (Finish)'])->get();;
+        $machinesRepair = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         $jsMachinesRepair = MachineRepair::get(['id', 'start_downtime', 'current_downtime', 'prod_downtime', 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas'])->toArray();
         $machines = Machine:: all();
         foreach ($machinesRepair as $machineRepair) {
@@ -229,6 +225,7 @@ class MachineRepairController extends Controller
             // ketika mengupdate dari status stop by prod ke status lain
             if ($machineStatusInDB == 'Stop by Prod' && $machineStatusInput != 'Stop by Prod') {
                 $this->saveCurrentOrProdToTotalDowntime($machineRepair->id);
+                $this->updateStartDowntime($machineRepair->id);
             }
         }
         if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Running') {
@@ -256,7 +253,7 @@ class MachineRepairController extends Controller
         $machineRepair->tgl_kerusakan = $data['tanggalKerusakan'];
         $machineRepair->bagian_rusak = $data['bagianRusak'];
         $machineRepair->status_aktifitas = $data['aktivitas'];
-        $machineRepair->status_mesin= $data['status'];
+        $machineRepair->status_mesin = $data['status'];
         $machineRepair->update($data);
         $machineRepair->save();
         return redirect('/dashboard')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
@@ -270,13 +267,13 @@ class MachineRepairController extends Controller
     }
 
     public function finish($id) {
-        return dd($id);
-        // $now = Carbon::now()->toDateTime();
-        // $rusak = $machine->tgl_kerusakan;
-        // $start = Carbon::parse($rusak)->toDateTime();
-        // $downtime = $start->diff($now)->format("%a Hari %H Jam %I Menit %S Detik");
-        // // $machine->update(['status_mesin' => 'OK Repair (Finish)', 'downtime' => $downtime]);
-        // $machine->update(['status_mesin' => 'OK Repair (Finish)', 'tgl_ok_repair' => Carbon::now()->format('Y-m-d')]);
-        // return redirect('mesin-ok')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
+        $machineRepair = MachineRepair::find($id);
+        if ($machineRepair->status_aktifitas == 'Stop') {
+            $this->saveCurrentOrProdToTotalDowntime($id);
+        }
+        $machineRepair->tgl_finish = Carbon::now();
+        $machineRepair->status_mesin = 'OK Repair (Finish)';
+        $machineRepair->save();
+        return redirect('/mesin-finish')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
     }
 }

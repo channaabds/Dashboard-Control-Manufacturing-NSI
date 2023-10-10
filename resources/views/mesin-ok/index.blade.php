@@ -43,7 +43,7 @@
             <!-- Table with stripped rows -->
             <table class="table table-bordered table-striped"
               style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;" id="tableMesinFinish">
-              <thead class="mt-4">
+              <thead>
                 <tr>
                   <th hidden style="width: 10; ">search</th>
                   <th scope="col">No</th>
