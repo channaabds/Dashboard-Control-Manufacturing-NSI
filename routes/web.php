@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 // auto redirect route
 Route::get('/', function () {
-  return redirect('/dashboard');
+  return redirect('/dashboard-repair');
 })->middleware('auth');
 
 // main dashboard maintenance routes
