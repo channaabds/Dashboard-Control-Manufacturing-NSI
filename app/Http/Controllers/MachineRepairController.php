@@ -98,32 +98,17 @@ class MachineRepairController extends Controller
 
     // function ini yang menangani ajax request dari halaman dashboard, dan berfungsi sebagai fitur realtime downtime counter dan auto update downtime ke database
     public function downtime(Request $request) {
-        // $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
-        //                     ->where('status_aktifitas', 'Stop')
-        //                     ->get(['id', 'start_downtime', 'current_downtime', 'prod_downtime', 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas']);
-        $data = $request->data;
+        $machineRepairs = $request->data;
         $now = Carbon::now();
         $result = [];
-        // foreach ($machineRepairs as $machineRepair) {
-        //     if ($machineRepair->status_mesin == 'Stop by Prod') {
-        //         $interval = $this->getInterval($machineRepair->start_downtime, $now);
-        //         $result[$machineRepair->id] = $interval;
-        //     } else {
-        //         $interval = $this->getInterval($machineRepair->start_downtime, $now);
-        //         $total = $this->addDowntimeByDowntime($machineRepair->prod_downtime, $machineRepair->total_downtime);
-        //         $result[$machineRepair->id] = $this->addDowntimeByDowntime($interval, $total);
-        //     }
-        // }
-        foreach ($data as $d) {
-            if ($d['status_mesin'] !== 'OK Repair (Finish)' && $d['status_aktifitas'] !== 'Running') {
-                if ($d['status_mesin'] == 'Stop by Prod') {
-                    $interval = $this->getInterval($d['start_downtime'], $now);
-                    $result[$d['id']] = $interval;
-                } else {
-                    $interval = $this->getInterval($d['start_downtime'], $now);
-                    $total = $this->addDowntimeByDowntime($d['prod_downtime'], $d['total_downtime']);
-                    $result[$d['id']] = $this->addDowntimeByDowntime($interval, $total);
-                }
+        foreach ($machineRepairs as $machineRepair) {
+            if ($machineRepair['status_mesin'] == 'Stop by Prod') {
+                $interval = $this->getInterval($machineRepair['start_downtime'], $now);
+                $result[$machineRepair['id']] = $interval;
+            } else {
+                $interval = $this->getInterval($machineRepair['start_downtime'], $now);
+                $total = $this->addDowntimeByDowntime($machineRepair['prod_downtime'], $machineRepair['total_downtime']);
+                $result[$machineRepair['id']] = $this->addDowntimeByDowntime($interval, $total);
             }
         }
         return $result;
@@ -132,7 +117,13 @@ class MachineRepairController extends Controller
     public function index()
     {
         $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
-        $jsMachineRepairs = MachineRepair::get(['id', 'start_downtime', 'current_downtime', 'prod_downtime', 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas'])->toArray();
+        $jsMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
+                            ->where('status_aktifitas', 'Stop')
+                            ->get([
+                                'id', 'start_downtime', 'current_downtime', 'prod_downtime',
+                                'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime',
+                                'downtime_month', 'status_mesin', 'status_aktifitas'
+                            ]);
         $machines = Machine:: all();
         foreach ($machineRepairs as $machineRepair) {
             $addValue = $machineRepairs->find($machineRepair->id);
