@@ -12,6 +12,8 @@ class MachineRepair extends Model
 
     protected $guarded = ['id'];
 
+    protected $with = ['dataMesin'];
+
     public function dataMesin(): BelongsTo
     {
         return $this->belongsTo(Machine::class, 'mesin_id');
