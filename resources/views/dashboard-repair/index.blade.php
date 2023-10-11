@@ -37,8 +37,8 @@
                     <i class="bi bi-clock"></i>
                   </div>
                   <div class="ps-3">
-                    <h6 class="fs-4" id="totalDowntime">20</h6>
-                    <span class="text-success small pt-1 fw-bold">20</span> <span
+                    <h6 class="fs-4" id="totalDowntime">{!! $monthlyDowntime !!}</h6>
+                    <span class="text-success small pt-1 fw-bold">{{ $totalMachineRepairs }}</span> <span
                       class="text-muted small pt-2 ps-1">Mesin down bulan ini</span>
                   </div>
                 </div>

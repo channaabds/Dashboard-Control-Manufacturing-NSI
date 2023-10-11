@@ -28,6 +28,7 @@ Route::resource('/dashboard-repair', MachineRepairController::class)->middleware
 Route::post('/dashboard-repair/finish/{id}', [MachineRepairController::class, 'finish'])->middleware('auth');
 Route::post('/run-downtime', [MachineRepairController::class, 'downtime'])->middleware('auth');
 Route::post('/export-machine-repairs', [MachineRepairController::class, 'export'])->middleware('auth');
+Route::post('/get-total-downtime-by-month', [MachineRepairController::class, 'getTotalDowntime'])->middleware('auth');
 
 // finish machine
 Route::get('/dashboard-finish', [MachineFinishController::class, 'index'])->middleware('auth');

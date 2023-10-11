@@ -155,7 +155,7 @@ class Kernel extends ConsoleKernel
                 ['total_downtime' => $this->getAllTotalMonthlyDowntime()]
             );
             $this->resetMonthly();
-        })->monthlyOn(11, '00:00');
+        })->monthlyOn(12, '00:01');
 
         // melakukan update downtime downtime setiap satu menit sekali
         $schedule->call(function () {

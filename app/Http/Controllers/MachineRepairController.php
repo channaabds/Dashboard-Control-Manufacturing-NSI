@@ -7,6 +7,7 @@ use App\Models\MachineRepair;
 use App\Http\Requests\StoreMachineRepairRequest;
 use App\Http\Requests\UpdateMachineRepairRequest;
 use App\Models\Machine;
+use App\Models\TotalDowntime;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
@@ -96,7 +97,60 @@ class MachineRepairController extends Controller
         $machineRepair->save();
     }
 
+    public function totalMonthlyDowntime() {
+        $now = Carbon::now();
+        $monthNow = $now->format('m');
+        $yearNow = $now->format('Y');
+        $machineRepairs = MachineRepair::whereMonth('downtime_month', "$monthNow")->whereYear('downtime_month', "$yearNow")
+                        ->get(['start_monthly_downtime', 'status_mesin', 'status_aktifitas', 'current_monthly_downtime', 'total_monthly_downtime']);
+
+        $totalDowntime = '0:0:0:0';
+        $downtime = '0:0:0:0';
+        foreach ($machineRepairs as $machineRepair) {
+            if ($machineRepair->status_mesin == "OK Repair (Finish)") {
+                $downtime = $machineRepair->total_monthly_downtime;
+            }
+
+            if ($machineRepair->status_mesin != "Ok Repair (Finish)") {
+                if ($machineRepair->status_aktifitas == "Stop") {
+                    $downtime = $this->addDowntimeByDowntime($machineRepair->current_monthly_downtime, $machineRepair->total_monthly_downtime);
+                } else {
+                    $downtime = $machineRepair->total_monthly_downtime;
+                }
+            }
+
+            if ($machineRepair->status_mesin == "Stop by Prod") {
+                $downtime = '0:0:0:0';
+            }
+
+            $totalDowntime = $this->addDowntimeByDowntime($totalDowntime, $downtime);
+        }
+
+        $result = $this->downtimeTranslator($totalDowntime);
+
+        return $result;
+    }
+
+    public function getTotalDowntime(Request $request) {
+        $monthNow = Carbon::now()->format('F Y');
+
+        if ($request->filter == $monthNow) {
+            $totalDowntime = $this->totalMonthlyDowntime();
+            return $totalDowntime;
+        } else {
+            $parseRequest = Carbon::parse($request->filter)->format('m Y');
+            $monthParts = explode(" ", $parseRequest);
+            $month = $monthParts[0];
+            $year = $monthParts[1];
+            $totalDowntimeDB = TotalDowntime::whereMonth('bulan_downtime', "$month")->whereYear('bulan_downtime', "$year")->get('total_downtime');
+            $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
+            return $totalDowntime;
+        }
+        return ["filter" => $request->filter, "bulanSekarang" => $monthNow];
+    }
+
     // function ini yang menangani ajax request dari halaman dashboard, dan berfungsi sebagai fitur realtime downtime counter dan auto update downtime ke database
+    // fungsi realtime menerima data dari view dan tidak melakukan query di fungsinya dengan tujuan mengurangi query ke database supaya lebih efisien
     public function downtime(Request $request) {
         $machineRepairs = $request->data;
         $now = Carbon::now();
@@ -124,7 +178,9 @@ class MachineRepairController extends Controller
                                 'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime',
                                 'downtime_month', 'status_mesin', 'status_aktifitas'
                             ]);
+        $totalMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->where('status_aktifitas', 'Stop')->count();
         $machines = Machine:: all();
+        $monthlyDowntime = $this->totalMonthlyDowntime();
         foreach ($machineRepairs as $machineRepair) {
             $addValue = $machineRepairs->find($machineRepair->id);
             $addValue->search = Carbon::parse($machineRepair->tgl_kerusakan)->toDateString();
@@ -134,6 +190,8 @@ class MachineRepairController extends Controller
             'machines' => $machines,
             'machineRepairs' => $machineRepairs,
             'jsMachineRepairs' => $jsMachineRepairs,
+            'monthlyDowntime' => $monthlyDowntime,
+            'totalMachineRepairs' => $totalMachineRepairs,
         ]);
     }
 
