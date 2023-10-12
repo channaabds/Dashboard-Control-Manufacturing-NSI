@@ -9,6 +9,14 @@
         <form class="row g-3" method="POST" action="/dashboard-repair/{{ $machineRepair->id }}">
           @csrf
           @method('put')
+          <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="stopByProd" name="stopByProd" value="1" {{ $machineRepair->stop_by_production ? 'checked' : '' }}>
+                <label class="form-check-label" for="stopByProd">
+                    Stop by Production?
+                </label>
+            </div>
+          </div>
           <input type="hidden" name="id" value="{{ $machineRepair->id }}">
           <div class="col-6">
             <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
@@ -40,20 +48,20 @@
             <input type="text" class="form-control" id="po" name="po" value="{{ $machineRepair->po }}">
           </div>
           <div class="col-6">
-            <label for="kedatanganPo" class="form-label">Enter Kedatangan PO</label>
-            <input type="text" class="form-control" id="kedatanganPo" name="kedatanganPo" value="{{ $machineRepair->kedatangan_po }}">
+            <label for="kedatangan_po" class="form-label">Enter Kedatangan PO</label>
+            <input type="text" class="form-control" id="kedatangan_po" name="kedatangan_po" value="{{ $machineRepair->kedatangan_po }}">
           </div>
           <div class="col-6">
             <label for="sparepart" class="form-label">Sparepart</label>
             <input type="text" class="form-control" id="sparepart" name="sparepart" value="{{ $machineRepair->sparepart }}">
           </div>
           <div class="col-6">
-            <label for="kedatanganPrl" class="form-label">Enter Kedatangan Request PRL</label>
-            <input type="date" class="form-control" name="kedatanganPrl" id="kedatanganPrl" value="{{ $machineRepair->kedatangan_prl }}">
+            <label for="kedatangan_prl" class="form-label">Enter Kedatangan Request PRL</label>
+            <input type="date" class="form-control" name="kedatangan_prl" id="kedatangan_prl" value="{{ $machineRepair->kedatangan_prl }}">
           </div>
           <div class="col-6">
-            <label for="tanggalKerusakan" class="form-label">Tanggal Kerusakan</label>
-            <input type="datetime-local" class="form-control" name="tanggalKerusakan" id="tanggalKerusakan" value="{{ $machineRepair->tgl_kerusakan }}">
+            <label for="tgl_kerusakan" class="form-label">Tanggal Kerusakan</label>
+            <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan" value="{{ $machineRepair->tgl_kerusakan }}">
           </div>
           <div class="col-6">
             <label for="status" class="form-label">Pilih Status</label>
@@ -77,8 +85,8 @@
             <input type="text" class="form-control" id="aksi" name="aksi" value="{{ $machineRepair->aksi }}">
           </div>
           <div class="col-6">
-            <label for="bagianRusak" class="form-label">Bagian yang Rusak</label>
-            <input type="text" class="form-control" id="bagianRusak" name="bagianRusak" value="{{ $machineRepair->bagian_rusak }}">
+            <label for="bagian_rusak" class="form-label">Bagian yang Rusak</label>
+            <input type="text" class="form-control" id="bagian_rusak" name="bagian_rusak" value="{{ $machineRepair->bagian_rusak }}">
           </div>
           <div class="col-6">
             <label for="deskripsi" class="form-label">Deskripsi</label>

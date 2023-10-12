@@ -65,27 +65,44 @@ class MachineRepairController extends Controller
     }
 
     // function yang akan menyimpan downtime dari kolom current_downtime atau prod_downtime yang sudah dijumlahkan dengan nilai pada kolom total_downtime sebelumnya ke kolom total_downtime dan mereset current_downtime ke '0:0:0:0'
-    public function saveCurrentOrProdToTotalDowntime($id) {
+    public function saveCurrentToCatDowntime($id) {
         $machineRepair = MachineRepair::find($id);
         $now = Carbon::now();
-        if ($machineRepair->status_mesin == 'Stop by Prod') {
-            $currentProd = $this->getInterval($machineRepair->start_downtime, $now);
-            $machineRepair->prod_downtime = $currentProd;
-            $machineRepair->save();
+        $interval = $this->getInterval($machineRepair->start_downtime, $now);
+        $intervalMonthly = $this->getInterval($machineRepair->start_monthly_downtime, $now);
+        $totalMonthly = $machineRepair->total_monthly_downtime;
+
+        $prodWaitingRepairDt = $machineRepair->prod_waiting_repair_dt;
+        $prodWaitingSparepartDt = $machineRepair->prod_waiting_sparepart_dt;
+        $prodOnRepairDt = $machineRepair->prod_on_repair_dt;
+
+        $mtcWaitingRepairDt = $machineRepair->mtc_waiting_repair_dt;
+        $mtcWaitingSparepartDt = $machineRepair->mtc_waiting_sparepart_dt;
+        $mtcOnRepairDt = $machineRepair->mtc_on_repair_dt;
+
+        if ($machineRepair->stop_by_production) {
+            if ($machineRepair->status_mesin == 'Waiting Repair') {
+                $machineRepair->prod_waiting_repair_dt = $this->addDowntimeByDowntime($interval, $prodWaitingRepairDt);
+            } elseif ($machineRepair->status_mesin == 'Waiting Sparepart') {
+                $machineRepair->prod_waiting_sparepart_dt = $this->addDowntimeByDowntime($interval, $prodWaitingSparepartDt);
+            } else {
+                $machineRepair->prod_on_repair_dt = $this->addDowntimeByDowntime($interval, $prodOnRepairDt);
+            }
         } else {
-            $currentDowntime = $this->getInterval($machineRepair->start_downtime, $now);
-            $currentMonthly = $this->getInterval($machineRepair->start_monthly_downtime, $now);
-
-            $totalDowntime = $machineRepair->total_downtime;
-            $totalMonthly = $machineRepair->total_monthly_downtime;
-
-            $machineRepair->total_downtime = $this->addDowntimeByDowntime($currentDowntime, $totalDowntime);
-            $machineRepair->total_monthly_downtime = $this->addDowntimeByDowntime($currentMonthly, $totalMonthly);
-
-            $machineRepair->current_downtime = '0:0:0:0';
+            $machineRepair->total_monthly_downtime = $this->addDowntimeByDowntime($intervalMonthly, $totalMonthly);
+            if ($machineRepair->status_mesin == 'Waiting Repair') {
+                $machineRepair->mtc_waiting_repair_dt = $this->addDowntimeByDowntime($interval, $mtcWaitingRepairDt);
+            } elseif ($machineRepair->status_mesin == 'Waiting Sparepart') {
+                $machineRepair->mtc_waiting_sparepart_dt = $this->addDowntimeByDowntime($interval, $mtcWaitingSparepartDt);
+            } else {
+                $machineRepair->mtc_on_repair_dt = $this->addDowntimeByDowntime($interval, $mtcOnRepairDt);
+            }
             $machineRepair->current_monthly_downtime = '0:0:0:0';
-            $machineRepair->save();
         }
+
+        $machineRepair->current_downtime = '0:0:0:0';
+
+        $machineRepair->save();
     }
 
     // function ini berfungsi untuk mengupdate kolom start_downtime menjadi waktu sekarang ini
@@ -117,10 +134,6 @@ class MachineRepairController extends Controller
                 } else {
                     $downtime = $machineRepair->total_monthly_downtime;
                 }
-            }
-
-            if ($machineRepair->status_mesin == "Stop by Prod") {
-                $downtime = '0:0:0:0';
             }
 
             $totalDowntime = $this->addDowntimeByDowntime($totalDowntime, $downtime);
@@ -156,14 +169,14 @@ class MachineRepairController extends Controller
         $now = Carbon::now();
         $result = [];
         foreach ($machineRepairs as $machineRepair) {
-            if ($machineRepair['status_mesin'] == 'Stop by Prod') {
-                $interval = $this->getInterval($machineRepair['start_downtime'], $now);
-                $result[$machineRepair['id']] = $interval;
-            } else {
-                $interval = $this->getInterval($machineRepair['start_downtime'], $now);
-                $total = $this->addDowntimeByDowntime($machineRepair['prod_downtime'], $machineRepair['total_downtime']);
-                $result[$machineRepair['id']] = $this->addDowntimeByDowntime($interval, $total);
-            }
+            $interval = $this->getInterval($machineRepair['start_downtime'], $now);
+            $waitingRepairDt = $this->addDowntimeByDowntime($machineRepair['prod_waiting_repair_dt'], $machineRepair['mtc_waiting_repair_dt']);
+            $waitingSparepartDt = $this->addDowntimeByDowntime($machineRepair['prod_waiting_sparepart_dt'], $machineRepair['mtc_waiting_sparepart_dt']);
+            $onRepairtDt = $this->addDowntimeByDowntime($machineRepair['prod_on_repair_dt'], $machineRepair['mtc_on_repair_dt']);
+            $totalIntervalAndWr = $this->addDowntimeByDowntime($interval, $waitingRepairDt);
+            $totalWsAndOr = $this->addDowntimeByDowntime($waitingSparepartDt, $onRepairtDt);
+            $total = $this->addDowntimeByDowntime($totalIntervalAndWr, $totalWsAndOr);
+            $result[$machineRepair['id']] = $total;
         }
         return $result;
     }
@@ -174,8 +187,10 @@ class MachineRepairController extends Controller
         $jsMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
                             ->where('status_aktifitas', 'Stop')
                             ->get([
-                                'id', 'start_downtime', 'current_downtime', 'prod_downtime',
-                                'total_downtime', 'current_monthly_downtime', 'total_monthly_downtime',
+                                'id', 'start_downtime', 'current_downtime',
+                                'prod_waiting_repair_dt', 'prod_waiting_sparepart_dt', 'prod_on_repair_dt',
+                                'mtc_waiting_repair_dt', 'mtc_waiting_sparepart_dt', 'mtc_on_repair_dt',
+                                'current_monthly_downtime', 'total_monthly_downtime',
                                 'downtime_month', 'status_mesin', 'status_aktifitas'
                             ]);
         $totalMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->where('status_aktifitas', 'Stop')->count();
@@ -184,7 +199,12 @@ class MachineRepairController extends Controller
         foreach ($machineRepairs as $machineRepair) {
             $addValue = $machineRepairs->find($machineRepair->id);
             $addValue->search = Carbon::parse($machineRepair->tgl_kerusakan)->toDateString();
-            $addValue->downtime = $this->downtimeTranslator($this->addDowntimeByDowntime($machineRepair->prod_downtime, $machineRepair->total_downtime));
+            $prodWrAndMtcWr = $this->addDowntimeByDowntime($machineRepair->prod_waiting_repair_dt, $machineRepair->mtc_waiting_repair_dt);
+            $prodWsAndMtcWs = $this->addDowntimeByDowntime($machineRepair->prod_waiting_sparepart_dt, $machineRepair->mtc_waiting_sparepart_dt);
+            $prodOrAndMtcOr = $this->addDowntimeByDowntime($machineRepair->prod_on_repair_dt, $machineRepair->mtc_on_repair_dt);
+            $resultWrAndWs = $this->addDowntimeByDowntime($prodWrAndMtcWr, $prodWsAndMtcWs);
+            $total = $this->addDowntimeByDowntime($resultWrAndWs, $prodOrAndMtcOr);
+            $addValue->downtime = $this->downtimeTranslator($total);
         }
         return view('dashboard-repair.index', [
             'machines' => $machines,
@@ -205,7 +225,7 @@ class MachineRepairController extends Controller
         ]);
 
         $now = Carbon::now();
-        $dataPayload = $request->except(['_token']);
+        $dataPayload = $request->except(['_token', 'stopByProd']);
         $machine = Machine::where('no_mesin', $dataPayload['noMesin'])->get('id')->first();
 
         if ($dataPayload['tgl_kerusakan'] === null) {
@@ -215,7 +235,6 @@ class MachineRepairController extends Controller
         $startDowntime = $dataPayload['tgl_kerusakan'];
 
         $downtime = '0:0:0:0';
-        $defaultDowntime = $downtime;
         $start = Carbon::parse($startDowntime);
 
         $addExtraData = [];
@@ -223,78 +242,76 @@ class MachineRepairController extends Controller
             'mesin_id' => $machine->id,
             'start_downtime' => $startDowntime,
             'start_monthly_downtime' => $startDowntime,
-            'downtime_month' => $now->format('Y-m-d'),
         ];
 
-        if ($dataPayload['status_mesin'] == 'OK Repair (Finish)') {
-            if ($dataPayload['finish'] !== null) {
-                $end = Carbon::parse($dataPayload['finish']);
-                $downtime = $start->diff($end)->format('%a:%h:%i:%s');
-                $addExtraData = [
-                    'current_downtime' => $defaultDowntime,
-                    'prod_downtime' => $defaultDowntime,
-                    'total_downtime' => $downtime,
-                    'current_monthly_downtime' => $defaultDowntime,
-                    'total_monthly_downtime' => $downtime,
-                ];
-            } else {
-                $end = $now;
-                $downtime = $start->diff($end)->format('%a:%h:%i:%s');
-                $addExtraData = [
-                    'current_downtime' => $defaultDowntime,
-                    'prod_downtime' => $defaultDowntime,
-                    'total_downtime' => $downtime,
-                    'current_monthly_downtime' => $defaultDowntime,
-                    'total_monthly_downtime' => $downtime,
-                ];
-            }
-        } else if ($dataPayload['status_mesin'] == 'Stop by Prod') {
-            $downtime = $start->diff($now)->format('%a:%h:%i:%s');
-            $addExtraData = [
-                'current_downtime' => $defaultDowntime,
-                'prod_downtime' => $downtime,
-                'total_downtime' => $defaultDowntime,
-                'current_monthly_downtime' => $defaultDowntime,
-                'total_monthly_downtime' => $defaultDowntime,
-            ];
+        if (isset($request->stopByProd)) {
+            $stopByProd= 1;
         } else {
-            $downtime = $start->diff($now)->format('%a:%h:%i:%s');
-            $addExtraData = [
-                'current_downtime' => $downtime,
-                'prod_downtime' => $defaultDowntime,
-                'total_downtime' => $defaultDowntime,
-                'current_monthly_downtime' => $downtime,
-                'total_monthly_downtime' => $defaultDowntime,
-            ];
+            $stopByProd= 0;
         }
 
+        if ($stopByProd) {
+            if ($dataPayload['status_mesin'] == 'OK Repair (Finish)') {
+                if ($dataPayload['finish'] !== null) {
+                    $end = Carbon::parse($dataPayload['finish']);
+                    $downtime = $start->diff($end)->format('%a:%h:%i:%s');
+                    $addExtraData = [
+                        'prod_on_repair_dt' => $downtime,
+                    ];
+                }
+            } else {
+                $downtime = $start->diff($now)->format('%a:%h:%i:%s');
+                $addExtraData = [
+                    'current_downtime' => $downtime,
+                ];
+            }
+        } else {
+            if ($dataPayload['status_mesin'] == 'OK Repair (Finish)') {
+                if ($dataPayload['finish'] !== null) {
+                    $end = Carbon::parse($dataPayload['finish']);
+                    $downtime = $start->diff($end)->format('%a:%h:%i:%s');
+                    $addExtraData = [
+                        'prod_on_repair_dt' => $downtime,
+                        'total_monthly_downtime' => $downtime,
+                    ];
+                }
+            } else {
+                $downtime = $start->diff($now)->format('%a:%h:%i:%s');
+                $addExtraData = [
+                    'current_downtime' => $downtime,
+                    'current_monthly_downtime' => $downtime,
+                ];
+            }
+        }
 
         $data = Arr::except($dataPayload, ['noMesin', 'finish']);
-        $insertData = Arr::collapse([$extraData, $data, $addExtraData]);
+        $insertData = Arr::collapse([$extraData, $data, ['stop_by_production' => $stopByProd], $addExtraData]);
         DB::table('machine_repairs')->insert($insertData);
         return redirect('/dashboard-repair')->with('success', 'Data Baru Berhasil Ditambahkan!');;
     }
 
     public function update(UpdateMachineRepairRequest $request, MachineRepair $machineRepair)
     {
-        $data = $request->except(['_method', '_token']);
+        $data = $request->except(['_method', '_token', 'stopByProd']);
         $machineRepair = $machineRepair->find($data['id']);
-        $machineStatusInDB = $machineRepair->status_mesin;
-        $machineStatusInput = $data['status'];
 
+        if (isset($request->stopByProd)) {
+            $stopByProd= 1;
+        } else {
+            $stopByProd= 0;
+        }
+
+        $machineStatusInput = $data['status'];
         $machineActivityInDB = $machineRepair->status_aktifitas;
         $machineActivityInput = $data['aktivitas'];
 
         if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Stop') {
-            // ketika mengupdate dari status stop by prod ke status lain
-            if ($machineStatusInDB == 'Stop by Prod' && $machineStatusInput != 'Stop by Prod') {
-                $this->saveCurrentOrProdToTotalDowntime($machineRepair->id);
-                $this->updateStartDowntime($machineRepair->id);
-            }
+            $this->saveCurrentToCatDowntime($machineRepair->id);
+            $this->updateStartDowntime($machineRepair->id);
         }
         if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Running') {
             // downtime stop(pause) dari yang awalnya jalan
-            $this->saveCurrentOrProdToTotalDowntime($machineRepair->id);
+            $this->saveCurrentToCatDowntime($machineRepair->id);
         }
         if ($machineActivityInDB == 'Running' && $machineActivityInput == 'Stop') {
             // downtime lanjut dari yang awalnya stop
@@ -307,15 +324,12 @@ class MachineRepairController extends Controller
 
         if ($machineStatusInput == 'OK Repair (Finish)') {
             if ($machineActivityInDB == 'Stop') {
-                $this->saveCurrentOrProdToTotalDowntime($machineRepair->id);
+                $this->saveCurrentToCatDowntime($machineRepair->id);
             }
             $machineRepair->tgl_finish = Carbon::now();
         }
 
-        $machineRepair->kedatangan_prl = $data['kedatanganPrl'];
-        $machineRepair->kedatangan_po = $data['kedatanganPo'];
-        $machineRepair->tgl_kerusakan = $data['tanggalKerusakan'];
-        $machineRepair->bagian_rusak = $data['bagianRusak'];
+        $machineRepair->stop_by_production = $stopByProd;
         $machineRepair->status_aktifitas = $data['aktivitas'];
         $machineRepair->status_mesin = $data['status'];
         $machineRepair->update($data);
@@ -328,17 +342,6 @@ class MachineRepairController extends Controller
         $machineRepair = $machineRepair->find($id);
         $machineRepair->delete();
         return redirect('/dashboard-repair')->with('success', 'Data Mesin Sudah Dihapus!');
-    }
-
-    public function finish($id) {
-        $machineRepair = MachineRepair::find($id);
-        if ($machineRepair->status_aktifitas == 'Stop') {
-            $this->saveCurrentOrProdToTotalDowntime($id);
-        }
-        $machineRepair->tgl_finish = Carbon::now();
-        $machineRepair->status_mesin = 'OK Repair (Finish)';
-        $machineRepair->save();
-        return redirect('/dashboard-finish')->with('success', 'Kerja Bagus, Mesin Sudah Selesai Diperbaiki!');
     }
 
     public function export(Request $request) {

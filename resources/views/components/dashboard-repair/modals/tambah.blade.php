@@ -9,6 +9,14 @@
             <div class="modal-body">
                 <form class="row g-3" method="POST" action="/dashboard-repair">
                     @csrf
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="stopByProd" name="stopByProd" value="1">
+                            <label class="form-check-label" for="stopByProd">
+                                Stop by Production?
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-6">
                         <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" required/>
@@ -62,7 +70,6 @@
                             <option value="Waiting Repair">Waiting Repair</option>
                             <option value="Waiting Sparepart">Waiting Sparepart</option>
                             <option value="On Repair">On Repair</option>
-                            <option value="Stop by Prod">Stop by Prod</option>
                         </select>
                     </div>
                     <div class="col-6">

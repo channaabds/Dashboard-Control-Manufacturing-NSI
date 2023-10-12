@@ -61,22 +61,17 @@ class Kernel extends ConsoleKernel
         return $result;
     }
 
-    // function save current downtime atau prod downtime ke database
-    public function saveCurrentOrProdDowntime($id, $currentDowntime) {
+    // function save current downtime ke database
+    public function saveCurrentDowntime($id, $currentDowntime) {
         $machineRepair = MachineRepair::find($id);
-        if ($machineRepair->status_mesin == 'Stop by Prod') {
-            $machineRepair->prod_downtime = $currentDowntime;
-            $machineRepair->save();
-        } else {
-            $machineRepair->current_downtime = $currentDowntime;
-            $machineRepair->save();
-        }
+        $machineRepair->current_downtime = $currentDowntime;
+        $machineRepair->save();
     }
 
     // function save current downtime atau prod downtime ke database
     public function saveCurrentMonthly($id, $currentMonthlyDowntime) {
         $machineRepair = MachineRepair::find($id);
-        if ($machineRepair->status_mesin != 'Stop by Prod') {
+        if (!$machineRepair->stop_by_production) {
             $machineRepair->current_monthly_downtime = $currentMonthlyDowntime;
             $machineRepair->save();
         }
@@ -128,17 +123,15 @@ class Kernel extends ConsoleKernel
     public function downtime() {
         $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
                 ->where('status_aktifitas', 'Stop')
-                ->get([
-                    'id', 'start_downtime', 'start_monthly_downtime', 'current_downtime',
-                    'prod_downtime', 'total_downtime', 'current_monthly_downtime',
-                    'total_monthly_downtime', 'downtime_month', 'status_mesin', 'status_aktifitas'
-                ]);
+                ->get(['id', 'start_downtime', 'start_monthly_downtime', 'stop_by_production']);
         $now = Carbon::now();
         foreach ($machineRepairs as $machineRepair) {
             $intervalDowntime = $this->getInterval($machineRepair->start_downtime, $now);
-            $intervalMonthlyDowntime = $this->getInterval($machineRepair->start_monthly_downtime, $now);
-            $this->saveCurrentOrProdDowntime($machineRepair->id, $intervalDowntime);
-            $this->saveCurrentMonthly($machineRepair->id, $intervalMonthlyDowntime);
+            $this->saveCurrentDowntime($machineRepair->id, $intervalDowntime);
+            if (!$machineRepair->stop_by_production) {
+                $intervalMonthlyDowntime = $this->getInterval($machineRepair->start_monthly_downtime, $now);
+                $this->saveCurrentMonthly($machineRepair->id, $intervalMonthlyDowntime);
+            }
         }
     }
 

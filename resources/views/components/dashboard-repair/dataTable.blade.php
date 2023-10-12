@@ -21,7 +21,7 @@
   maxDate = new DateTime('#maxRusak', { format: 'MMMM Do YYYY' });
 
 
-  const searchableColumns = [1, 16, 18];
+  const searchableColumns = [1, 16, 19];
   const table = new DataTable('#tableMesinRusak', {
     paging: false,
     // order: [[1, 'asc']],

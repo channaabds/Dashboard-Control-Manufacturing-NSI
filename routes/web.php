@@ -25,7 +25,6 @@ Route::get('/', function () {
 // main dashboard maintenance routes
 // repair machines
 Route::resource('/dashboard-repair', MachineRepairController::class)->middleware('auth');
-Route::post('/dashboard-repair/finish/{id}', [MachineRepairController::class, 'finish'])->middleware('auth');
 Route::post('/run-downtime', [MachineRepairController::class, 'downtime'])->middleware('auth');
 Route::post('/export-machine-repairs', [MachineRepairController::class, 'export'])->middleware('auth');
 Route::post('/get-total-downtime-by-month', [MachineRepairController::class, 'getTotalDowntime'])->middleware('auth');

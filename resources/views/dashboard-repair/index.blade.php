@@ -83,7 +83,7 @@
                   <th hidden style="width: 10; ">search</th>
                   <th scope="col">No</th>
                   <th scope="col">No Mesin</th>
-                  <th scope="col">Tipe Mesin</th>
+                  {{-- <th scope="col">Tipe Mesin</th>
                   <th scope="col">Tipe Bartop</th>
                   <th scope="col">PIC</th>
                   <th scope="col">Request</th>
@@ -93,11 +93,12 @@
                   <th scope="col">PRL</th>
                   <th scope="col">PO</th>
                   <th scope="col">Kedatangan PO</th>
-                  <th scope="col">Kedatangan Request PRL</th>
+                  <th scope="col">Kedatangan Request PRL</th> --}}
                   <th scope="col">Tgl Kerusakan</th>
                   <th scope="col">Status Mesin</th>
                   <th scope="col">Downtime</th>
                   <th scope="col">Status Aktivitas</th>
+                  <th scope="col">Stop by Production</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -107,7 +108,7 @@
                   <td hidden style="width: 10; ">{{ $machineRepair->search }}</td>
                   <th scope="row">{{ $loop->iteration }}</th>
                   <td style="width: 1000px">{{ $machineRepair->dataMesin->no_mesin }}</td>
-                  <td>{{ $machineRepair->dataMesin->tipe_mesin }}</td>
+                  {{-- <td>{{ $machineRepair->dataMesin->tipe_mesin }}</td>
                   <td>{{ $machineRepair->dataMesin->tipe_bartop }}</td>
                   <td>{{ $machineRepair->pic }}</td>
                   <td>{{ $machineRepair->request }}</td>
@@ -117,20 +118,15 @@
                   <td>{{ $machineRepair->prl }}</td>
                   <td>{{ $machineRepair->po }}</td>
                   <td>{{ $machineRepair->kedatangan_po }}</td>
-                  <td>{{ $machineRepair->kedatangan_prl }}</td>
+                  <td>{{ $machineRepair->kedatangan_prl }}</td> --}}
                   <td>{{ $machineRepair->tgl_kerusakan }}</td>
                   <td>{{ $machineRepair->status_mesin }}</td>
                   <td id='downtime{{ $machineRepair->id }}' class='bg-success text-light'>
                     {!! $machineRepair->downtime !!}
                   </td>
-                  <td>
-                    {{ $machineRepair->status_aktifitas }}
-
-                  </td>
+                  <td>{{ $machineRepair->status_aktifitas }}</td>
+                  <td>{{ $machineRepair->stop_by_production }}</td>
                   <td class="text-center">
-                    <button class="btn btn-primary mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#selesaiModal{{ $machineRepair->id }}">Selesai</button>
-                    @include('components.dashboard-repair.modals.selesai')
                     <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
                     data-bs-target="#editModal{{ $machineRepair->id }}">Edit</button>
                     @include('components.dashboard-repair.modals.edit')
