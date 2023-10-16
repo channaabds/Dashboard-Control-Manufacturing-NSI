@@ -42,6 +42,8 @@
   @if (!Request::is(['login', 'register']))
     @include('partials.header')
     @include('partials.sidebar')
+    {{-- @if (Request::is('quality/*'))
+    @endif --}}
   @endif
 
     @yield('content')

@@ -14,7 +14,7 @@ class MachineController extends Controller
     {
         $machines = Machine::all();
 
-        return view('machines.index', [
+        return view('maintenance.machines.index', [
             'machines' => $machines,
         ]);
     }
@@ -27,7 +27,7 @@ class MachineController extends Controller
     public function store(StoreMachineRequest $request)
     {
         Machine::create($request->all());
-        return redirect('/machines')->with('success', 'Data Mesin Baru Berhasil Ditambahkan!');
+        return redirect('/maintenance/machines')->with('success', 'Data Mesin Baru Berhasil Ditambahkan!');
     }
 
     public function show(Machine $machine)
@@ -44,13 +44,13 @@ class MachineController extends Controller
     {
         $data = $request->except(['_token', '_method', 'id']);
         $machine->find($request->id)->update($data);
-        return redirect('/machines')->with('success', 'Data Mesin Berhasil Diubah!');
+        return redirect('/maintenance/machines')->with('success', 'Data Mesin Berhasil Diubah!');
     }
 
     public function destroy($id)
     {
         MachineRepair::where('mesin_id', $id)->delete();
         Machine::find($id)->delete();
-        return redirect('/machines')->with('success', 'Data Mesin Berhasil Dihapus!');
+        return redirect('/maintenance/machines')->with('success', 'Data Mesin Berhasil Dihapus!');
     }
 }

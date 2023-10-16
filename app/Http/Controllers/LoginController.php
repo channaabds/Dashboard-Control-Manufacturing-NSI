@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     // login
     public function indexLogin() {
-        return view('login.index');
+        return view('authentications.login.index');
     }
 
     public function authenticate (Request $request) {
@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     // register
     public function indexRegister() {
-        return view('register.index');
+        return view('authentications.register.index');
     }
 
     public function store(Request $request) {

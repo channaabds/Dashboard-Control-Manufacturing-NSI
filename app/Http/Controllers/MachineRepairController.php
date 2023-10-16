@@ -206,7 +206,7 @@ class MachineRepairController extends Controller
             $total = $this->addDowntimeByDowntime($resultWrAndWs, $prodOrAndMtcOr);
             $addValue->downtime = $this->downtimeTranslator($total);
         }
-        return view('dashboard-repair.index', [
+        return view('maintenance.dashboard-repair.index', [
             'machines' => $machines,
             'machineRepairs' => $machineRepairs,
             'jsMachineRepairs' => $jsMachineRepairs,
@@ -287,7 +287,7 @@ class MachineRepairController extends Controller
         $data = Arr::except($dataPayload, ['noMesin', 'finish']);
         $insertData = Arr::collapse([$extraData, $data, ['stop_by_production' => $stopByProd], $addExtraData]);
         DB::table('machine_repairs')->insert($insertData);
-        return redirect('/dashboard-repair')->with('success', 'Data Baru Berhasil Ditambahkan!');;
+        return redirect('/maintenance/dashboard-repair')->with('success', 'Data Baru Berhasil Ditambahkan!');;
     }
 
     public function update(UpdateMachineRepairRequest $request, MachineRepair $machineRepair)
@@ -334,14 +334,14 @@ class MachineRepairController extends Controller
         $machineRepair->status_mesin = $data['status'];
         $machineRepair->update($data);
         $machineRepair->save();
-        return redirect('/dashboard-repair')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
+        return redirect('/maintenance/dashboard-repair')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
     }
 
     public function destroy(MachineRepair $machineRepair, $id)
     {
         $machineRepair = $machineRepair->find($id);
         $machineRepair->delete();
-        return redirect('/dashboard-repair')->with('success', 'Data Mesin Sudah Dihapus!');
+        return redirect('/maintenance/dashboard-repair')->with('success', 'Data Mesin Sudah Dihapus!');
     }
 
     public function export(Request $request) {
