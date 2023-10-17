@@ -9,14 +9,6 @@
         <form class="row g-3" method="POST" action="/maintenance/dashboard-repair/{{ $machineRepair->id }}">
           @csrf
           @method('put')
-          <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="stopByProd" name="stopByProd" value="1" {{ $machineRepair->stop_by_production ? 'checked' : '' }}>
-                <label class="form-check-label" for="stopByProd">
-                    Stop by Production?
-                </label>
-            </div>
-          </div>
           <input type="hidden" name="id" value="{{ $machineRepair->id }}">
           <div class="col-6">
             <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>

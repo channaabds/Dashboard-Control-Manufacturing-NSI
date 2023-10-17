@@ -32,17 +32,11 @@ return new class extends Migration
             $table->dateTime('tgl_finish')->nullable();
             $table->enum('status_mesin', ['OK Repair (Finish)', 'Waiting Repair', 'Waiting Sparepart', 'On Repair']);
             $table->enum('status_aktifitas', ['Running', 'Stop']);
-            $table->boolean('stop_by_production')->default(false);
             $table->dateTime('start_downtime');
             $table->dateTime('start_monthly_downtime');
             $table->string('current_downtime')->default('0:0:0:0');
-            $table->string('prod_waiting_repair_dt')->default('0:0:0:0');
-            $table->string('prod_waiting_sparepart_dt')->default('0:0:0:0');
-            $table->string('prod_on_repair_dt')->default('0:0:0:0');
-            $table->string('mtc_waiting_repair_dt')->default('0:0:0:0');
-            $table->string('mtc_waiting_sparepart_dt')->default('0:0:0:0');
-            $table->string('mtc_on_repair_dt')->default('0:0:0:0');
             $table->string('current_monthly_downtime')->default('0:0:0:0');
+            $table->string('total_downtime')->default('0:0:0:0');
             $table->string('total_monthly_downtime')->default('0:0:0:0');
             $table->date('downtime_month')->default(Carbon::now()->format('Y-m-d'));
             $table->timestamps();
