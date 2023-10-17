@@ -27,6 +27,10 @@ Route::get('/', function () {
 
 // maintenance routes
 Route::prefix('maintenance')->middleware('auth')->group(function () {
+  Route::get('/', function () {
+    return redirect('/maintenance/dashboard-repair');
+  })->middleware('auth');
+
   // main dashboard maintenance routes
   // repair machines
   Route::resource('/dashboard-repair', MachineRepairController::class)->middleware('auth');
@@ -45,6 +49,10 @@ Route::prefix('maintenance')->middleware('auth')->group(function () {
 
 // quality routes
 Route::prefix('quality')->middleware('auth')->group(function () {
+  Route::get('/', function () {
+    return redirect('/quality/home');
+  })->middleware('auth');
+
   Route::resource('/home', QualityController::class)->middleware('auth');
   Route::resource('/dashboard-ipqc', IpqcController::class)->middleware('auth');
   Route::resource('/dashboard-oqc', OqcController::class)->middleware('auth');

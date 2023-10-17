@@ -19,17 +19,22 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
 {
     use Exportable;
 
-    public $month, $year;
+    public $minDate, $maxDate;
 
-    public function __construct($filter)
+    public function __construct($min, $max)
     {
-        if ($filter !== null) {
-            $carbon = Carbon::create($filter);
-            $this->month = $carbon->format('m');
-            $this->year = $carbon->format('Y');
+        if ($min !== null && $max !== null) {
+            $this->minDate = Carbon::create($min);
+            $this->maxDate = Carbon::create($max);
+        } elseif ($min !== null && $max === null) {
+            $this->minDate = Carbon::create($min);
+            $this->maxDate = null;
+        } elseif ($min === null && $max !== null) {
+            $this->minDate = null;
+            $this->maxDate = Carbon::create($max);
         } else {
-            $this->month = null;
-            $this->year = null;
+            $this->minDate = null;
+            $this->maxDate = null;
         }
     }
 
@@ -38,11 +43,21 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
         $dataExport = [];
         $i = 1;
         $dataExportDB = [];
-        if ($this->month === null && $this->year === null) {
-            $dataExportDB = Quality::where('departement', 'OQC')->get();
+        if ($this->minDate === null && $this->maxDate === null) {
+            $dataExportDB = Quality::where('departement', 'OQC')
+                            ->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
+        } elseif ($this->minDate !== null && $this->maxDate === null) {
+            $dataExportDB = Quality::where('departement', 'OQC')->whereDate('date', '>=', $this->minDate)
+                            ->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
+        } elseif ($this->minDate === null && $this->maxDate !== null) {
+            $dataExportDB = Quality::where('departement', 'OQC')->whereDate('date', '<=', $this->maxDate)
+                            ->orderBy('date', 'desc')->orderBy('id', 'desc')->get();
         } else {
-            $dataExportDB = Quality::whereMonth('date', $this->month)->whereYear('date', $this->year)->where('departement', 'OQC')->get();
+            $dataExportDB = Quality::where('departement', 'OQC')->whereDate('date', '>=', $this->minDate)
+                            ->whereDate('date', '<=', $this->maxDate)->orderBy('date', 'desc')
+                            ->orderBy('id', 'desc')->get();
         }
+
         foreach ($dataExportDB as $dataDB) {
             $dataExport[$i] = [
                                 $i,
@@ -118,11 +133,18 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
 
         return [
             AfterSheet::class => function(AfterSheet $event) {
-                if ($this->month === null && $this->year === null) {
+                if ($this->minDate === null && $this->maxDate === null) {
                     $i = Quality::where('departement', 'OQC')->count();
                     $cellRange = "A1:W" . $i+1;
+                }  elseif ($this->minDate !== null && $this->maxDate === null) {
+                    $i = Quality::where('departement', 'OQC')->whereDate('date', '>=', $this->minDate)->count();
+                    $cellRange = "A1:W" . $i+1;
+                }  elseif ($this->minDate === null && $this->maxDate !== null) {
+                    $i = Quality::where('departement', 'OQC')->whereDate('date', '<=', $this->maxDate)->count();
+                    $cellRange = "A1:W" . $i+1;
                 } else {
-                    $i = Quality::whereMonth('date', $this->month)->whereYear('date', $this->year)->where('departement', 'OQC')->count();
+                    $i = Quality::where('departement', 'OQC')->whereDate('date', '>=', $this->minDate)
+                            ->whereDate('date', '<=', $this->maxDate)->count();
                     $cellRange = "A1:W" . $i+1;
                 }
 

@@ -76,7 +76,8 @@ class OqcController extends Controller
     }
 
     public function export(Request $request) {
-        $filter = $request->filter;
-        return (new OqcExport($filter))->download("data-ncr-oqc-$filter.xlsx");
+        $min = $request->min;
+        $max = $request->max;
+        return (new OqcExport($min, $max))->download("data-ncr-oqc-$min-$max.xlsx");
     }
 }

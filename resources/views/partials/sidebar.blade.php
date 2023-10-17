@@ -30,12 +30,12 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ !Request::is('quality/dashboard-ipqc') ? 'collapsed' : ' ' }}" href="/quality/dashboard-ipqc">
-                    <i class="bi bi-menu-button-wide"></i><span>Input Data IPQC</span>
+                    <i class="bi bi-menu-button-wide"></i><span>Data IPQC</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ !Request::is('quality/dashboard-oqc') ? 'collapsed' : ' ' }}" href="/quality/dashboard-oqc">
-                    <i class="bi bi-journal-text"></i><span>Input Data OQC</span>
+                    <i class="bi bi-journal-text"></i><span>Data OQC</span>
                 </a>
             </li>
         </ul>

@@ -61,13 +61,13 @@
                 </tbody>
               </table>
 
-              <a href="/quality/dashboard-ipqc"><button class="btn btn-warning">Detail</button></a>
+              <a href="/quality/dashboard-ipqc"><button class="btn btn-primary">Detail</button></a>
 
-              {{-- <form action="/quality/dashboard" method="POST">
-                @csrf
-                <input type="hidden" name="departement" value="IPQC">
-                <button class="btn btn-warning">Detail</button>
-              </form> --}}
+              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetIpqc">
+                Edit
+              </button>
+
+              @include('quality.components.home.modals.editIpqc')
 
             </div>
           </div>
@@ -118,13 +118,13 @@
                 </tbody>
               </table>
 
-              <a href="/quality/dashboard-oqc"><button class="btn btn-warning">Detail</button></a>
+              <a href="/quality/dashboard-oqc"><button class="btn btn-primary">Detail</button></a>
 
-              {{-- <form action="/quality/dashboard" method="POST">
-                @csrf
-                <input type="hidden" name="departement" value="OQC">
-                <button class="btn btn-warning">Detail</button>
-              </form> --}}
+              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetOqc">
+                Edit
+              </button>
+
+              @include('quality.components.home.modals.editOqc')
 
             </div>
           </div>

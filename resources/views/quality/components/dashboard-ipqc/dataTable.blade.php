@@ -3,7 +3,7 @@
     let min = minDate.val();
     let max = maxDate.val();
 
-    let date = new Date(data[0]);
+    let date = new Date(data[1]);
 
     if (
       (min === null && max === null)
@@ -17,8 +17,8 @@
   });
 
   // Create date inputs
-  minDate = new DateTime('#minRusak', { format: 'MMMM Do YYYY' });
-  maxDate = new DateTime('#maxRusak', { format: 'MMMM Do YYYY' });
+  minDate = new DateTime('#minData', { format: 'MMMM Do YYYY' });
+  maxDate = new DateTime('#maxData', { format: 'MMMM Do YYYY' });
 
 
   const searchableColumns = [0, 11, 22];
@@ -57,7 +57,7 @@
     }
   });
 
-  document.querySelectorAll('#minRusak, #maxRusak').forEach((el) => {
+  document.querySelectorAll('#minData, #maxData').forEach((el) => {
     el.addEventListener('change', () => table.draw());
   });
 

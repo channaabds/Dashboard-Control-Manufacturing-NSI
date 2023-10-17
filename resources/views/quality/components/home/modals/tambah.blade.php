@@ -3,16 +3,16 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Data Mesin Rusak</h5>
+                <h5 class="modal-title">Tambah Data Claim NCR / LOT TAG</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3" method="POST" action="/quality/home">
+                <form class="row g-3" method="POST" action="/quality/dashboard-ipqc">
                     @csrf
-                    <input type="hidden" name="departement" value="{{ $departement }}">
+                    <input type="hidden" name="departement" value="IPQC">
                     <div class="col-6">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date"/>
+                        <label for="no_ncr_lot" class="form-label">No NCR/Lot Tag</label>
+                        <input type="text" class="form-control" id="no_ncr_lot" name="no_ncr_lot">
                     </div>
                     <div class="col-6">
                         <label for="part_no" class="form-label">Part No</label>
@@ -49,10 +49,6 @@
                         <input type="text" class="form-control" name="standard" id="standard">
                     </div>
                     <div class="col-6">
-                        <label for="standard" class="form-label">Standard</label>
-                        <input type="text" class="form-control" name="standard" id="standard">
-                    </div>
-                    <div class="col-6">
                         <label for="actual" class="form-label">Actual</label>
                         <input type="text" class="form-control" id="actual" name="actual">
                     </div>
@@ -61,12 +57,12 @@
                         <input type="text" class="form-control" id="sampling" name="sampling">
                     </div>
                     <div class="col-6">
-                        <label for="qty_check" class="form-label">Qty Check</label>
-                        <input type="number" class="form-control" id="qty_check" name="qty_check">
+                        <label for="qty_check" class="form-label">Qty Check <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="qty_check" name="qty_check" required>
                     </div>
                     <div class="col-6">
-                        <label for="ng" class="form-label">NG</label>
-                        <input type="text" class="form-control" id="ng" name="ng">
+                        <label for="ng" class="form-label">NG <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="ng" name="ng" required>
                     </div>
                     <div class="col-6">
                         <label for="ng_pic" class="form-label">NG PIC</label>
@@ -75,6 +71,10 @@
                     <div class="col-6">
                         <label for="approve_pic" class="form-label">Approve PIC</label>
                         <input type="text" class="form-control" id="approve_pic" name="approve_pic">
+                    </div>
+                    <div class="col-6">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" name="date"/>
                     </div>
                     <div class="col-6">
                         <label for="deadline" class="form-label">Deadline</label>
@@ -96,9 +96,9 @@
                         <label for="action" class="form-label">Action</label>
                         <textarea name="action" id="action" class="form-control" style="height: 100px"></textarea>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 text-center">
                         <label for="pembahasan" class="form-label">Pembahasan</label>
-                        <textarea name="pembahasan" id="pembahasan" class="form-control" style="height: 100px"></textarea>
+                        <input type="text" class="form-control" id="pembahasan" name="pembahasan">
                     </div>
                     <div class="text-center">
                         <button type="reset" class="btn btn-secondary">Reset</button>

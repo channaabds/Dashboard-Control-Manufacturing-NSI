@@ -109,39 +109,29 @@
         <div class="card">
           <div class="card-body">
             <div class="col-12 card-title d-flex justify-content-between">
-              <div class="col-8">
-                <h5>Data Claim NCR dan Lot Tag OQC</h5>
-              </div>
-              <div class="col-4 d-flex justify-content-between">
-                <form class="col-8" method="POST" action="/quality/export-oqc">
-                  @csrf
-                  <select name="filter" id="">
-                    <option value="">--</option>
-                    <option value="{{ $carbon->now()->format('F Y') }}">{{ $carbon->now()->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonth()->format('F Y') }}">{{ $carbon->now()->subMonth()->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(2)->format('F Y') }}">{{ $carbon->now()->subMonths(2)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(3)->format('F Y') }}">{{ $carbon->now()->subMonths(3)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(4)->format('F Y') }}">{{ $carbon->now()->subMonths(4)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(5)->format('F Y') }}">{{ $carbon->now()->subMonths(5)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(6)->format('F Y') }}">{{ $carbon->now()->subMonths(6)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(7)->format('F Y') }}">{{ $carbon->now()->subMonths(7)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(8)->format('F Y') }}">{{ $carbon->now()->subMonths(8)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(9)->format('F Y') }}">{{ $carbon->now()->subMonths(9)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(10)->format('F Y') }}">{{ $carbon->now()->subMonths(10)->format('F Y') }}</option>
-                    <option value="{{ $carbon->now()->subMonths(11)->format('F Y') }}">{{ $carbon->now()->subMonths(11)->format('F Y') }}</option>
-                  </select>
-                  <button class="btn btn-primary" type="submit">
-                    Export Data
-                  </button>
-                </form>
-                <div class="col-4">
-                  <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
-                    Tambah Data
-                  </button>
-                </div>
-              </div>
+              <h5>Data Claim NCR dan Lot Tag OQC</h5>
+              <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
+                Tambah Data
+              </button>
               @include('quality.components.dashboard-oqc.modals.tambah')
             </div>
+
+            <table border="0" cellspacing="5" cellpadding="5">
+              <form action="/quality/export-oqc" method="POST">
+                @csrf
+                <tbody>
+                  <tr>
+                    <td scope="col">Minimum date:</td>
+                    <td scope="col"><input type="text" id="minData" name="min"></td>
+                    <td rowspan="2"><button type="submit" class="btn btn-primary">Export</button></td>
+                  </tr>
+                  <tr>
+                    <td scope="col">Maximum date:</td>
+                    <td scope="col"><input type="text" id="maxData" name="max"></td>
+                  </tr>
+                </tbody>
+              </form>
+            </table>
 
 
             <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"

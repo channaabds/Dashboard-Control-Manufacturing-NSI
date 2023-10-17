@@ -77,7 +77,8 @@ class IpqcController extends Controller
     }
 
     public function export(Request $request) {
-        $filter = $request->filter;
-        return (new IpqcExport($filter))->download("data-ncr-ipqc-$filter.xlsx");
+        $min = $request->min;
+        $max = $request->max;
+        return (new IpqcExport($min, $max))->download("data-ncr-ipqc-$min-$max.xlsx");
     }
 }
