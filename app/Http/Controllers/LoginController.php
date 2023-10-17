@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     // login
     public function indexLogin() {
-        return view('login.index');
+        return view('authentications.login.index');
     }
 
     public function authenticate (Request $request) {
@@ -22,7 +22,12 @@ class LoginController extends Controller
 
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
-            return redirect()->intended('/')->with('success', 'masuk');
+            if ($request->username == 'maintenance') {
+                return redirect()->intended('/maintenance')->with('success', 'masuk');
+            }
+            if ($request->username == 'quality') {
+                return redirect()->intended('/quality')->with('success', 'masuk');
+            }
         }
 
         return redirect('/login')->with('fail', 'Username atau Password salah');
@@ -41,7 +46,7 @@ class LoginController extends Controller
 
     // register
     public function indexRegister() {
-        return view('register.index');
+        return view('authentications.register.index');
     }
 
     public function store(Request $request) {
