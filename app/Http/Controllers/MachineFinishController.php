@@ -17,11 +17,7 @@ class MachineFinishController extends Controller
         foreach ($machineFinishes as $machineFinish) {
             $addValue = $machineFinishes->find($machineFinish->id);
             $addValue->search = Carbon::parse($machineFinish->tgl_kerusakan)->toDateString();
-            $prodWrAndMtcWr = $MachineRepair->addDowntimeByDowntime($machineFinish->prod_waiting_repair_dt, $machineFinish->mtc_waiting_repair_dt);
-            $prodWsAndMtcWs = $MachineRepair->addDowntimeByDowntime($machineFinish->prod_waiting_sparepart_dt, $machineFinish->mtc_waiting_sparepart_dt);
-            $prodOrAndMtcOr = $MachineRepair->addDowntimeByDowntime($machineFinish->prod_on_repair_dt, $machineFinish->mtc_on_repair_dt);
-            $resultWrAndWs = $MachineRepair->addDowntimeByDowntime($prodWrAndMtcWr, $prodWsAndMtcWs);
-            $total = $MachineRepair->addDowntimeByDowntime($resultWrAndWs, $prodOrAndMtcOr);
+            $total = $MachineRepair->addDowntimeByDowntime($machineFinish->current_downtime, $machineFinish->total_downtime);
             $addValue->downtime = $MachineRepair->downtimeTranslator($total);
         }
 

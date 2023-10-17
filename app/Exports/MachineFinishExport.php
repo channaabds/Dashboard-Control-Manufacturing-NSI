@@ -27,7 +27,7 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
         $this->max = $max;
     }
 
-        // fungsi ini akan merubah downtime ke bentuk yang mudah dibaca
+    // fungsi ini akan merubah downtime ke bentuk yang mudah dibaca
     // 0:0:0:0 -> 0 Hari 0 Jam 0 Menit 0 Detik
     public function downtimeTranslator($downtime) {
         $downtimeParts = explode(':', $downtime);
@@ -116,9 +116,8 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
 
 
         foreach ($dataExportDB as $dataDB) {
-            $totalDowntime = $this->addDowntimeByDowntime($dataDB->prod_downtime, $dataDB->total_downtime);
-            $dataDowntime = $this->downtimeTranslator($totalDowntime);
-            $detikDowntime = $this->downtimeToSeconds($totalDowntime);
+            $dataDowntime = $this->downtimeTranslator($dataDB->total_downtime);
+            $detikDowntime = $this->downtimeToSeconds($dataDB->total_downtime);
             $dataExport[$i] = [
                                 $i,
                                 $dataDB->dataMesin->no_mesin,

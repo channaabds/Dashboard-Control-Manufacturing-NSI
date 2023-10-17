@@ -124,15 +124,10 @@ class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, W
 
         foreach ($dataExportDB as $dataDB) {
             if ($dataDB->status_aktifitas == 'Running') {
-                $totalDowntime = $this->addDowntimeByDowntime($dataDB->prod_downtime, $dataDB->total_downtime);
+                $totalDowntime = $dataDB->total_downtime;
             } else {
-                if ($dataDB->status_mesin == 'Stop by Prod') {
-                    $totalDowntime = $this->getInterval($dataDB->start_downtime);
-                } else {
-                    $interval = $this->getInterval($dataDB->start_downtime);
-                    $prodAndInterval = $this->addDowntimeByDowntime($interval, $dataDB->prod_downtime);
-                    $totalDowntime = $this->addDowntimeByDowntime($prodAndInterval, $dataDB->total_downtime);
-                }
+                $interval = $this->getInterval($dataDB->start_downtime);
+                $totalDowntime = $this->addDowntimeByDowntime($interval, $dataDB->total_downtime);
             }
             $dataDowntime = $this->downtimeTranslator($totalDowntime);
             $detikDowntime = $this->downtimeToSeconds($totalDowntime);

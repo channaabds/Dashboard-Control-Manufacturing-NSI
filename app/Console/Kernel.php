@@ -38,22 +38,6 @@ class Kernel extends ConsoleKernel
         return $result;
     }
 
-    public function getAllTotalMonthlyDowntime() {
-        $now = Carbon::now()->subDay();
-        $monthNow = $now->format('m');
-        $yearNow = $now->format('Y');
-        $totalSeconds = '0:0:0:0';
-        $machinesRepair = MachineRepair::whereMonth('downtime_month', "$monthNow")
-                            ->whereYear('downtime_month', "$yearNow")
-                            ->get();
-        foreach ($machinesRepair as $machineRepair) {
-            $monthlyDowntime = $machineRepair->total_monthly_downtime;
-            // $totalSeconds = $monthlyDowntime;
-            $totalSeconds = $this->addDowntimeByDowntime($totalSeconds, $monthlyDowntime);
-        }
-        return $totalSeconds;
-    }
-
     // function untuk mendapatkan interval antara waktu strat downtime dan waktu sekarang ini (current downtime)
     public function getInterval($startDowntime, $now) {
         $start = Carbon::parse($startDowntime);
@@ -71,10 +55,8 @@ class Kernel extends ConsoleKernel
     // function save current downtime atau prod downtime ke database
     public function saveCurrentMonthly($id, $currentMonthlyDowntime) {
         $machineRepair = MachineRepair::find($id);
-        if (!$machineRepair->stop_by_production) {
-            $machineRepair->current_monthly_downtime = $currentMonthlyDowntime;
-            $machineRepair->save();
-        }
+        $machineRepair->current_monthly_downtime = $currentMonthlyDowntime;
+        $machineRepair->save();
     }
 
     public function saveCurrentToTotalMonthlyDowntime($id) {
@@ -93,12 +75,27 @@ class Kernel extends ConsoleKernel
         $monthNow = $now->format('m');
         $yearNow = $now->format('Y');
         $machineRepairs = MachineRepair::whereMonth('downtime_month', "$monthNow")->whereYear('downtime_month', "$yearNow")
-        ->whereNotIn('status_mesin', ['OK Repair (Finish)', 'Stop by Prod'])
-        ->where('status_aktifitas', 'Stop')
-                ->get(['id']);
+                            ->whereNotIn('status_mesin', ['OK Repair (Finish)'])
+                            ->where('status_aktifitas', 'Stop')
+                            ->get(['id']);
         foreach ($machineRepairs as $machineRepair) {
             $this->saveCurrentToTotalMonthlyDowntime($machineRepair->id);
         }
+    }
+
+    public function getAllTotalMonthlyDowntime() {
+        $now = Carbon::now()->subDay();
+        $monthNow = $now->format('m');
+        $yearNow = $now->format('Y');
+        $totalSeconds = '0:0:0:0';
+        $machinesRepair = MachineRepair::whereMonth('downtime_month', "$monthNow")
+                            ->whereYear('downtime_month', "$yearNow")
+                            ->get();
+        foreach ($machinesRepair as $machineRepair) {
+            $monthlyDowntime = $machineRepair->total_monthly_downtime;
+            $totalSeconds = $this->addDowntimeByDowntime($totalSeconds, $monthlyDowntime);
+        }
+        return $totalSeconds;
     }
 
     public function resetMonthly() {
@@ -107,14 +104,14 @@ class Kernel extends ConsoleKernel
         $monthNow = $nowMonth->format('m');
         $yearNow = $nowMonth->format('Y');
         $machineRepairs = MachineRepair::whereMonth('downtime_month', "$monthNow")->whereYear('downtime_month', "$yearNow")
-                ->whereNotIn('status_mesin', ['OK Repair (Finish)', 'Stop by Prod'])
-                ->where('status_aktifitas', 'Stop')
-                ->get();
+                            ->whereNotIn('status_mesin', ['OK Repair (Finish)'])
+                            ->where('status_aktifitas', 'Stop')
+                            ->get();
         foreach ($machineRepairs as $machineRepair) {
             $machineRepair->current_monthly_downtime = '0:0:0:0';
             $machineRepair->total_monthly_downtime = '0:0:0:0';
             $machineRepair->start_monthly_downtime = $now->startOfMonth();
-            $machineRepair->downtime_month = $now->startOfMonth()->format('Y-m-machineRepair');
+            $machineRepair->downtime_month = $now->startOfMonth()->format('Y-m-d');
             $machineRepair->save();
         }
     }
@@ -123,15 +120,13 @@ class Kernel extends ConsoleKernel
     public function downtime() {
         $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
                 ->where('status_aktifitas', 'Stop')
-                ->get(['id', 'start_downtime', 'start_monthly_downtime', 'stop_by_production']);
+                ->get(['id', 'start_downtime', 'start_monthly_downtime']);
         $now = Carbon::now();
         foreach ($machineRepairs as $machineRepair) {
             $intervalDowntime = $this->getInterval($machineRepair->start_downtime, $now);
+            $intervalMonthlyDowntime = $this->getInterval($machineRepair->start_monthly_downtime, $now);
             $this->saveCurrentDowntime($machineRepair->id, $intervalDowntime);
-            if (!$machineRepair->stop_by_production) {
-                $intervalMonthlyDowntime = $this->getInterval($machineRepair->start_monthly_downtime, $now);
-                $this->saveCurrentMonthly($machineRepair->id, $intervalMonthlyDowntime);
-            }
+            $this->saveCurrentMonthly($machineRepair->id, $intervalMonthlyDowntime);
         }
     }
 
