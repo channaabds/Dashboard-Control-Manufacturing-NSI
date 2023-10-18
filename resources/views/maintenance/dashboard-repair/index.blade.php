@@ -83,7 +83,7 @@
                   <th hidden style="width: 10; ">search</th>
                   <th scope="col">No</th>
                   <th scope="col">No Mesin</th>
-                  {{-- <th scope="col">Tipe Mesin</th>
+                  <th scope="col">Tipe Mesin</th>
                   <th scope="col">Tipe Bartop</th>
                   <th scope="col">PIC</th>
                   <th scope="col">Request</th>
@@ -93,7 +93,7 @@
                   <th scope="col">PRL</th>
                   <th scope="col">PO</th>
                   <th scope="col">Kedatangan PO</th>
-                  <th scope="col">Kedatangan Request PRL</th> --}}
+                  <th scope="col">Kedatangan Request PRL</th>
                   <th scope="col">Tgl Kerusakan</th>
                   <th scope="col">Status Mesin</th>
                   <th scope="col">Downtime</th>
@@ -108,7 +108,7 @@
                   <td hidden style="width: 10; ">{{ $machineRepair->search }}</td>
                   <th scope="row">{{ $loop->iteration }}</th>
                   <td style="width: 1000px">{{ $machineRepair->dataMesin->no_mesin }}</td>
-                  {{-- <td>{{ $machineRepair->dataMesin->tipe_mesin }}</td>
+                  <td>{{ $machineRepair->dataMesin->tipe_mesin }}</td>
                   <td>{{ $machineRepair->dataMesin->tipe_bartop }}</td>
                   <td>{{ $machineRepair->pic }}</td>
                   <td>{{ $machineRepair->request }}</td>
@@ -118,7 +118,7 @@
                   <td>{{ $machineRepair->prl }}</td>
                   <td>{{ $machineRepair->po }}</td>
                   <td>{{ $machineRepair->kedatangan_po }}</td>
-                  <td>{{ $machineRepair->kedatangan_prl }}</td> --}}
+                  <td>{{ $machineRepair->kedatangan_prl }}</td>
                   <td>{{ $machineRepair->tgl_kerusakan }}</td>
                   <td>{{ $machineRepair->status_mesin }}</td>
                   <td id='downtime{{ $machineRepair->id }}' class='bg-success text-light'>

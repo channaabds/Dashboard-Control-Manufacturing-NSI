@@ -263,7 +263,9 @@ class MachineRepairController extends Controller
         }
         if ($machineActivityInDB == 'Stop' && $machineActivityInput == 'Running') {
             // downtime stop(pause) dari yang awalnya jalan
-            $this->saveCurrentToTotalDowntime($machineRepair->id);
+            if ($machineStatusInput != 'OK Repair (Finish)') {
+                $this->saveCurrentToTotalDowntime($machineRepair->id);
+            }
         }
         if ($machineActivityInDB == 'Running' && $machineActivityInput == 'Stop') {
             // downtime lanjut dari yang awalnya stop
