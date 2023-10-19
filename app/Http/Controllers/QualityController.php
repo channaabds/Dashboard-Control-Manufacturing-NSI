@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quality;
 use App\Http\Requests\StoreQualityRequest;
 use App\Http\Requests\UpdateQualityRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class QualityController extends Controller
@@ -14,7 +15,24 @@ class QualityController extends Controller
      */
     public function index()
     {
-        return view('quality.home.index');
+        $now = Carbon::now();
+        $monthNow = $now->format('m');
+        $yearNow = $now->format('Y');
+
+        $camIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CAM')->count();
+        $cncIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CNC')->count();
+        $mfgIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'MFG2')->count();
+        $camOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'OQC')->where('section', 'CAM')->count();
+        $cncOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'OQC')->where('section', 'CNC')->count();
+        $mfgOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'OQC')->where('section', 'MFG2')->count();
+        return view('quality.home.index', [
+            'camIpqc' => $camIpqc,
+            'cncIpqc' => $cncIpqc,
+            'mfgIpqc' => $mfgIpqc,
+            'camOqc' => $camOqc,
+            'cncOqc' => $cncOqc,
+            'mfgOqc' => $mfgOqc,
+        ]);
     }
 
     /**
@@ -31,8 +49,14 @@ class QualityController extends Controller
     public function store(StoreQualityRequest $request)
     {
         $data = $request->except('_token');
+        $departement = $request->departement;
         $quality = Quality::create($data);
-        return redirect('/quality/home');
+
+        if ($departement == 'IPQC') {
+            return redirect('/quality/dashboard-ipqc');
+        } else {
+            return redirect('/quality/dashboard-oqc');
+        }
     }
 
     /**
@@ -65,29 +89,5 @@ class QualityController extends Controller
     public function destroy(Quality $quality)
     {
         //
-    }
-
-    public $departement = null;
-
-    public function dashboard(Request $request) {
-        $this->departement = $request->departement;
-        $data = Quality::where('departement', $this->departement);
-        return view('quality.dashboard.index', [
-            'departement' => $this->departement,
-            'data' => $data,
-        ]);
-    }
-
-    // kode masih belum berfungsi sesuai keinginan dan selalu me redirect
-    public function checkDepart() {
-        if ($this->departement == null) {
-            return redirect('/quality/home');
-        } else {
-            $data = Quality::where('departement', $this->departement);
-            return view('quality.dashboard.index', [
-                'departement' => $this->departement,
-                'data' => $data,
-            ]);
-        }
     }
 }

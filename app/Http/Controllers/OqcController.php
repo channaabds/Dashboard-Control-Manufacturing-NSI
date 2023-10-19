@@ -13,7 +13,7 @@ class OqcController extends Controller
      */
     public function index()
     {
-        $data = Quality::where('departement', 'OQC')->get();
+        $data = Quality::where('departement', 'OQC')->orderBy('date', 'desc')->get();
         return view('quality.dashboard-oqc.index', [
             'data' => $data,
         ]);
@@ -32,9 +32,9 @@ class OqcController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        $quality = Quality::create($data);
-        return redirect('/quality/dashboard-oqc');
+        // $data = $request->except('_token');
+        // $quality = Quality::create($data);
+        // return redirect('/quality/dashboard-oqc');
     }
 
     /**

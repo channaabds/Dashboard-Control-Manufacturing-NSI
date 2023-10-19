@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('qualities', function (Blueprint $table) {
             $table->id();
             $table->enum('departement', ['IPQC', 'OQC']);
+            $table->enum('section', ['CAM', 'CNC', 'MFG2']);
             $table->enum('keterangan', ['NCR', 'LOT TAG']);
             $table->string('no_ncr_lot')->nullable();
             $table->string('part_no')->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->integer('qty_check')->nullable();
             $table->integer('ng')->nullable();
             $table->string('ng_pic')->nullable();
-            $table->string('approve_pic')->nullable();
+            $table->string('pic_departement')->nullable();
             $table->text('penyebab')->nullable();
             $table->text('action')->nullable();
             $table->date('date')->nullable();

@@ -14,7 +14,7 @@ class IpqcController extends Controller
      */
     public function index()
     {
-        $data = Quality::where('departement', 'IPQC')->get();
+        $data = Quality::where('departement', 'IPQC')->orderBy('date', 'desc')->get();
         return view('quality.dashboard-ipqc.index', [
             'data' => $data,
         ]);
@@ -33,9 +33,9 @@ class IpqcController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        $quality = Quality::create($data);
-        return redirect('/quality/dashboard-ipqc');
+        // $data = $request->except('_token');
+        // $quality = Quality::create($data);
+        // return redirect('/quality/dashboard-ipqc');
     }
 
     /**

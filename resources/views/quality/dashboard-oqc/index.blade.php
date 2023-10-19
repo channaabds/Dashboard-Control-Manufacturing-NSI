@@ -110,10 +110,6 @@
           <div class="card-body">
             <div class="col-12 card-title d-flex justify-content-between">
               <h5>Data Claim NCR dan Lot Tag OQC</h5>
-              <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
-                Tambah Data
-              </button>
-              @include('quality.components.dashboard-oqc.modals.tambah')
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
@@ -151,7 +147,7 @@
                   <th scope="col">NG</th>
                   <th scope="col">%</th>
                   <th scope="col">NG PIC</th>
-                  <th scope="col">Approve PIC</th>
+                  <th scope="col">PIC OQC</th>
                   <th scope="col">Penyebab</th>
                   <th scope="col">Action</th>
                   <th scope="col">Deadline</th>
@@ -166,7 +162,7 @@
               </thead>
               <tbody>
                 @foreach ($data as $d)
-                  <tr>
+                  <tr class="{{ $d->status=='OPEN' ? 'table-danger' : 'table-success' }}">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $d->date }}</td>
                     <td>{{ $d->part_no }}</td>
@@ -180,7 +176,7 @@
                     <td>{{ $d->ng }}</td>
                     <td>{{ number_format(($d->ng/$d->qty_check)*100, 2) }}</td>
                     <td>{{ $d->ng_pic }}</td>
-                    <td>{{ $d->approve_pic }}</td>
+                    <td>{{ $d->pic_departement }}</td>
                     <td>{{ $d->penyebab }}</td>
                     <td>{{ $d->action }}</td>
                     <td>{{ $d->deadline }}</td>
