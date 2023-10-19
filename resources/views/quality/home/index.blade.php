@@ -14,6 +14,14 @@
 
   <section class="section dashboard">
     <div class="row">
+
+      <div class="col-xxl-12 col-md-12 mb-3 text-center">
+        <button class="btn btn-success py-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
+          Tambah Data
+        </button>
+      </div>
+      @include('quality.components.home.modals.tambah')
+
       <div class="col-lg-12 row">
 
         <div class="col-xxl-6 col-md-6">
@@ -46,17 +54,17 @@
                   <tr>
                     <td>CAM</td>
                     <td>6</td>
-                    <td>0</td>
+                    <td>{{ $camIpqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
                     <td>12</td>
-                    <td>4</td>
+                    <td>{{ $cncIpqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
                     <td>5</td>
-                    <td>5</td>
+                    <td>{{ $mfgIpqc }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -103,17 +111,17 @@
                   <tr>
                     <td>CAM</td>
                     <td>6</td>
-                    <td>0</td>
+                    <td>{{ $camOqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
                     <td>12</td>
-                    <td>4</td>
+                    <td>{{ $cncOqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
                     <td>5</td>
-                    <td>5</td>
+                    <td>{{ $mfgOqc }}</td>
                   </tr>
                 </tbody>
               </table>

@@ -7,9 +7,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3" method="POST" action="/quality/dashboard-ipqc">
+                <form class="row g-3" method="POST" action="/quality/home">
                     @csrf
-                    <input type="hidden" name="departement" value="IPQC">
+                    <div class="col-6">
+                        <label for="departement" class="form-label">Departement</label>
+                        <select class="form-select" aria-label="Default select example" name="departement" id="departement">
+                            <option value="IPQC" selected>IPQC</option>
+                            <option value="OQC">OQC</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="section" class="form-label">Section</label>
+                        <select class="form-select" aria-label="Default select example" name="section" id="section">
+                            <option value="CAM" selected>CAM</option>
+                            <option value="CNC">CNC</option>
+                            <option value="MFG2">MFG2</option>
+                        </select>
+                    </div>
                     <div class="col-6">
                         <label for="no_ncr_lot" class="form-label">No NCR/Lot Tag</label>
                         <input type="text" class="form-control" id="no_ncr_lot" name="no_ncr_lot">
@@ -29,8 +43,8 @@
                     <div class="col-6">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-select" aria-label="Default select example" name="status" id="status">
-                            <option value="CLOSE" selected>CLOSE</option>
-                            <option value="OPEN">OPEN</option>
+                            <option value="OPEN" selected>OPEN</option>
+                            <option value="CLOSE">CLOSE</option>
                         </select>
                     </div>
                     <div class="col-6">
@@ -69,8 +83,8 @@
                         <input type="text" class="form-control" id="ng_pic" name="ng_pic">
                     </div>
                     <div class="col-6">
-                        <label for="approve_pic" class="form-label">Approve PIC</label>
-                        <input type="text" class="form-control" id="approve_pic" name="approve_pic">
+                        <label for="pic_departement" class="form-label">PIC Departement (IPQC/OQC)</label>
+                        <input type="text" class="form-control" id="pic_departement" name="pic_departement">
                     </div>
                     <div class="col-6">
                         <label for="date" class="form-label">Date</label>
