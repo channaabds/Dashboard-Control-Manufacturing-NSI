@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth');
 
 // maintenance routes
-Route::prefix('maintenance')->middleware('auth')->group(function () {
+Route::prefix('maintenance')->middleware(['auth', 'isDepartement:maintenance'])->group(function () {
   Route::get('/', function () {
     return redirect('/maintenance/dashboard-repair');
   })->middleware('auth');
@@ -49,7 +49,7 @@ Route::prefix('maintenance')->middleware('auth')->group(function () {
 });
 
 // quality routes
-Route::prefix('quality')->middleware('auth')->group(function () {
+Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(function () {
   Route::get('/', function () {
     return redirect('/quality/home');
   })->middleware('auth');
@@ -61,7 +61,7 @@ Route::prefix('quality')->middleware('auth')->group(function () {
   Route::post('/export-oqc', [OqcController::class, 'export'])->middleware('auth');
 });
 
-Route::prefix('purchasing')->middleware('auth')->group(function () {
+Route::prefix('purchasing')->middleware(['auth', 'isDepartement:purchasing'])->group(function () {
   Route::get('/', function () {
     return redirect('/purchasing/dashboard-waiting-sparepart');
   })->middleware('auth');
