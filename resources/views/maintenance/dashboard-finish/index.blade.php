@@ -23,17 +23,17 @@
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/maintenance/export-machine-finish" method="post">
+              <form action="/export/machine-finish" method="post">
                 @csrf
                 <tbody>
                   <tr>
                     <td scope="col">Minimum date:</td>
-                    <td scope="col"><input type="text" id="min" name="min"></td>
+                    <td scope="col"><input type="text" class="form-control" id="min" name="min"></td>
                     <td rowspan="2"><button type="submit" class="btn btn-success">Export</button></td>
                   </tr>
                   <tr>
                     <td scope="col">Maximum date:</td>
-                    <td scope="col"><input type="text" id="max" name="max"></td>
+                    <td scope="col"><input type="text" class="form-control" id="max" name="max"></td>
                   </tr>
                 </tbody>
               </form>

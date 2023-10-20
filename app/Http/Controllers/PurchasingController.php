@@ -58,9 +58,10 @@ class PurchasingController extends Controller
     public function index()
     {
         $MachineRepair = (new MachineRepairController());
-        $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->where('status_mesin', 'Waiting Repair')                            ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
+        $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->where('status_mesin', 'Waiting Sparepart')
+                            ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         $jsMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
-                            ->where('status_aktifitas', 'Stop')->where('status_mesin', 'Waiting Repair')
+                            ->where('status_aktifitas', 'Stop')->where('status_mesin', 'Waiting Sparepart')
                             ->get([
                                 'id', 'start_downtime', 'current_downtime', 'current_monthly_downtime',
                                 'total_monthly_downtime', 'total_downtime',

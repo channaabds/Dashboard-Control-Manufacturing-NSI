@@ -113,17 +113,17 @@
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/quality/export-oqc" method="POST">
+              <form action="/export/oqc" method="POST">
                 @csrf
                 <tbody>
                   <tr>
                     <td scope="col">Minimum date:</td>
-                    <td scope="col"><input type="text" id="minData" name="min"></td>
+                    <td scope="col"><input type="text" class="form-control" id="minData" name="min"></td>
                     <td rowspan="2"><button type="submit" class="btn btn-primary">Export</button></td>
                   </tr>
                   <tr>
                     <td scope="col">Maximum date:</td>
-                    <td scope="col"><input type="text" id="maxData" name="max"></td>
+                    <td scope="col"><input type="text" class="form-control" id="maxData" name="max"></td>
                   </tr>
                 </tbody>
               </form>

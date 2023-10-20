@@ -75,10 +75,4 @@ class IpqcController extends Controller
         $data->delete();
         return redirect('/quality/dashboard-ipqc')->with('success', 'Data NCR / LOT TAG Sudah Dihapus!');
     }
-
-    public function export(Request $request) {
-        $min = $request->min;
-        $max = $request->max;
-        return (new IpqcExport($min, $max))->download("data-ncr-ipqc-$min-$max.xlsx");
-    }
 }

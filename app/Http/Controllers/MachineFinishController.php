@@ -31,10 +31,4 @@ class MachineFinishController extends Controller
         MachineRepair::find($id)->delete();
         return redirect('/maintenance/dashboard-finish')->with('success', 'Data Mesin Berhasil Dihapus!');
     }
-
-    public function export(Request $request) {
-        $minDate = $request->min;
-        $maxDate = $request->max;
-        return (new MachineFinishExport($minDate, $maxDate))->download('Mesin-finish.xlsx');
-    }
 }

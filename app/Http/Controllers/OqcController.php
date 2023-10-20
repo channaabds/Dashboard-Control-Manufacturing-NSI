@@ -74,10 +74,4 @@ class OqcController extends Controller
         $data->delete();
         return redirect('/quality/dashboard-oqc')->with('success', 'Data NCR / LOT TAG Sudah Dihapus!');
     }
-
-    public function export(Request $request) {
-        $min = $request->min;
-        $max = $request->max;
-        return (new OqcExport($min, $max))->download("data-ncr-oqc-$min-$max.xlsx");
-    }
 }

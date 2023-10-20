@@ -23,6 +23,23 @@
               <h5>Data Mesin Rusak</h5>
             </div>
 
+            <table border="0" cellspacing="5" cellpadding="5">
+              <form action="/export/machine-repairs" method="post">
+                @csrf
+                <tbody>
+                  <tr>
+                    <td scope="col">Minimum date:</td>
+                    <td scope="col"><input type="text" class="form-control" id="minRusak" name="min"></td>
+                    <td rowspan="2"><button type="submit" class="btn btn-success">Export</button></td>
+                  </tr>
+                  <tr>
+                    <td scope="col">Maximum date:</td>
+                    <td scope="col"><input type="text" class="form-control" id="maxRusak" name="max"></td>
+                  </tr>
+                </tbody>
+              </form>
+            </table>
+
             <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
             id="tableMesinRusak">
               <thead class="mt-4">
@@ -45,7 +62,6 @@
                   <th scope="col">Status Mesin</th>
                   <th scope="col">Downtime</th>
                   <th scope="col">Status Aktivitas</th>
-                  {{-- <th scope="col">Action</th> --}}
                 </tr>
               </thead>
               <tbody>
@@ -71,14 +87,6 @@
                     {!! $machineRepair->downtime !!}
                   </td>
                   <td>{{ $machineRepair->status_aktifitas }}</td>
-                  {{-- <td class="text-center">
-                    <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#editModal{{ $machineRepair->id }}">Edit</button>
-                    @include('purchasing.components.dashboard-repair.modals.edit')
-                    <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal{{ $machineRepair->id }}">Hapus</button>
-                    @include('purchasing.components.dashboard-repair.modals.hapus')
-                  </td> --}}
                 </tr>
                 @endforeach
               </tbody>
@@ -98,6 +106,6 @@
 
 @include('maintenance.components.dashboard-repair.dataTable')
 
-@include('maintenance.components.dashboard-repair.timerDowntime')
+@include('run-downtime.index')
 
 @endsection

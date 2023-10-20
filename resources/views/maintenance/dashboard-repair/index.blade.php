@@ -19,7 +19,8 @@
 
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
-              <div class="filter">
+              <div class="filter p-2">
+                <input type="month" class="form-control" name="" id="filterByMonth" value="{{ $carbon->now()->format('Y-m') }}" onchange="coba()">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <li class="dropdown-header text-start">
@@ -28,6 +29,15 @@
                   <li><a type="button" onclick="monthFilter('{{ $carbon->now()->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->format('F Y') }}</a></li>
                   <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonth()->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonth()->format('F Y') }}</a></li>
                   <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(2)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(2)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(3)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(3)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(4)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(4)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(5)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(5)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(6)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(6)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(7)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(7)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(8)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(8)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(9)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(9)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(10)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(10)->format('F Y') }}</a></li>
+                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(11)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(11)->format('F Y') }}</a></li>
                 </ul>
               </div>
               <div class="card-body">
@@ -60,17 +70,17 @@
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/maintenance/export-machine-repairs" method="post">
+              <form action="/export/machine-repairs" method="post">
                 @csrf
                 <tbody>
                   <tr>
                     <td scope="col">Minimum date:</td>
-                    <td scope="col"><input type="text" id="minRusak" name="min"></td>
+                    <td scope="col"><input type="text" class="form-control" id="minRusak" name="min"></td>
                     <td rowspan="2"><button type="submit" class="btn btn-success">Export</button></td>
                   </tr>
                   <tr>
                     <td scope="col">Maximum date:</td>
-                    <td scope="col"><input type="text" id="maxRusak" name="max"></td>
+                    <td scope="col"><input type="text" class="form-control" id="maxRusak" name="max"></td>
                   </tr>
                 </tbody>
               </form>
@@ -151,6 +161,6 @@
 
 @include('maintenance.components.dashboard-repair.dataTable')
 
-@include('maintenance.components.dashboard-repair.timerDowntime')
+@include('run-downtime.index')
 
 @endsection

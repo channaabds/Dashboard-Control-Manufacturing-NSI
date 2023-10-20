@@ -10,7 +10,7 @@
   </div>
   @endif
   <div class="pagetitle">
-    <h1>Dashboard Data Mesin Rusak</h1>
+    <h1>Dashboard Data Mesin Waiting Sparepart</h1>
   </div>
 
   <section class="section dashboard">
@@ -20,7 +20,7 @@
         <div class="card">
           <div class="card-body">
             <div class="card-title d-flex justify-content-between">
-              <h5>Data Mesin Rusak</h5>
+              <h5>Data Mesin Waiting Sparepart</h5>
             </div>
 
             <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
@@ -98,6 +98,6 @@
 
 @include('maintenance.components.dashboard-repair.dataTable')
 
-@include('maintenance.components.dashboard-repair.timerDowntime')
+@include('run-downtime.index')
 
 @endsection

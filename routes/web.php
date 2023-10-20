@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DowntimeController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\IpqcController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MachineController;
@@ -26,6 +28,18 @@ use Illuminate\Support\Facades\Route;
 //   return redirect('/maintenance/dashboard-repair');
 // })->middleware('auth');
 
+// route untuk menjalankan downtime by ajax
+Route::post('/run-downtime', [DowntimeController::class, 'downtime'])->middleware('auth');
+
+// export routes
+Route::prefix('export')->middleware('auth')->group(function () {
+  Route::post('/machine-repairs', [ExportController::class, 'exportMachineRepair']);
+  Route::post('/machine-finish', [ExportController::class, 'exportMachineFinish']);
+  Route::post('/machine-waiting-sparepart', [MachineFinishController::class, 'export']); // masih belum dibuat
+  Route::post('/ipqc', [ExportController::class, 'exportIpqc']);
+  Route::post('/oqc', [ExportController::class, 'exportOqc']);
+});
+
 // maintenance routes
 Route::prefix('maintenance')->middleware(['auth', 'isDepartement:maintenance'])->group(function () {
   Route::get('/', function () {
@@ -35,14 +49,11 @@ Route::prefix('maintenance')->middleware(['auth', 'isDepartement:maintenance'])-
   // main dashboard maintenance routes
   // repair machines
   Route::resource('/dashboard-repair', MachineRepairController::class)->middleware('auth');
-  Route::post('/run-downtime', [MachineRepairController::class, 'downtime'])->middleware('auth');
-  Route::post('/export-machine-repairs', [MachineRepairController::class, 'export'])->middleware('auth');
   Route::post('/get-total-downtime-by-month', [MachineRepairController::class, 'getTotalDowntime'])->middleware('auth');
 
   // finish machine
   Route::get('/dashboard-finish', [MachineFinishController::class, 'index'])->middleware('auth');
   Route::delete('/dashboard-finish/{id}', [MachineFinishController::class, 'destroy'])->middleware('auth');
-  Route::post('/export-machine-finish', [MachineFinishController::class, 'export'])->middleware('auth');
 
   // machines routes
   Route::resource('/machines', MachineController::class)->middleware('auth');
@@ -57,8 +68,6 @@ Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(f
   Route::resource('/home', QualityController::class)->middleware('auth');
   Route::resource('/dashboard-ipqc', IpqcController::class)->middleware('auth');
   Route::resource('/dashboard-oqc', OqcController::class)->middleware('auth');
-  Route::post('/export-ipqc', [IpqcController::class, 'export'])->middleware('auth');
-  Route::post('/export-oqc', [OqcController::class, 'export'])->middleware('auth');
 });
 
 Route::prefix('purchasing')->middleware(['auth', 'isDepartement:purchasing'])->group(function () {
