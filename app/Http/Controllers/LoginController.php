@@ -28,6 +28,9 @@ class LoginController extends Controller
             if ($request->username == 'quality') {
                 return redirect()->intended('/quality')->with('success', 'masuk');
             }
+            if ($request->username == 'purchasing') {
+                return redirect()->intended('/purchasing')->with('success', 'masuk');
+            }
         }
 
         return redirect('/login')->with('fail', 'Username atau Password salah');

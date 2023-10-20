@@ -6,6 +6,7 @@ use App\Http\Controllers\MachineController;
 use App\Http\Controllers\MachineFinishController;
 use App\Http\Controllers\MachineRepairController;
 use App\Http\Controllers\OqcController;
+use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\QualityController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // auto redirect route
-Route::get('/', function () {
-  return redirect('/maintenance/dashboard-repair');
-})->middleware('auth');
+// Route::get('/', function () {
+//   return redirect('/maintenance/dashboard-repair');
+// })->middleware('auth');
 
 // maintenance routes
 Route::prefix('maintenance')->middleware('auth')->group(function () {
@@ -58,6 +59,15 @@ Route::prefix('quality')->middleware('auth')->group(function () {
   Route::resource('/dashboard-oqc', OqcController::class)->middleware('auth');
   Route::post('/export-ipqc', [IpqcController::class, 'export'])->middleware('auth');
   Route::post('/export-oqc', [OqcController::class, 'export'])->middleware('auth');
+});
+
+Route::prefix('purchasing')->middleware('auth')->group(function () {
+  Route::get('/', function () {
+    return redirect('/purchasing/dashboard-waiting-sparepart');
+  })->middleware('auth');
+  Route::get('/dashboard-repair', [PurchasingController::class, 'indexDashboardRepair'])->middleware('auth');
+  Route::get('/dashboard-finish', [PurchasingController::class, 'indexDashboardFinish'])->middleware('auth');
+  Route::resource('/dashboard-waiting-sparepart', PurchasingController::class)->middleware('auth');
 });
 
 // login routes

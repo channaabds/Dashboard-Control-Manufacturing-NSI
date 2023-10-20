@@ -40,5 +40,25 @@
             </li>
         </ul>
     @endif
+    @if (Request::is('purchasing*'))
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/dashboard-waiting-sparepart') ? 'collapsed' : ' ' }}" href="/purchasing/dashboard-waiting-sparepart">
+                    <i class="bi bi-journal-text"></i><span>Dashboard Mesin Waiting Repair</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/dashboard-repair') ? 'collapsed' : ' ' }}" href="/purchasing/dashboard-repair">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard Mesin Rusak</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/dashboard-finish') ? 'collapsed' : ' ' }}" href="/purchasing/dashboard-finish">
+                    <i class="bi bi-menu-button-wide"></i><span>Data Mesin OK (Finish)</span>
+                </a>
+            </li>
+        </ul>
+    @endif
 
 </aside>

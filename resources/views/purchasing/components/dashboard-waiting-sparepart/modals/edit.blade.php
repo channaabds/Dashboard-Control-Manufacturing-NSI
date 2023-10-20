@@ -6,13 +6,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="row g-3" method="POST" action="/maintenance/dashboard-repair/{{ $machineRepair->id }}">
+        <form class="row g-3" method="POST" action="/purchasing/dashboard-repair/{{ $machineRepair->id }}">
           @csrf
           @method('put')
           <input type="hidden" name="id" value="{{ $machineRepair->id }}">
           <div class="col-6">
             <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" value="{{ $machineRepair->dataMesin->no_mesin }}" required/>
+            <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" value="{{ $machineRepair->dataMesin->no_mesin }}" readonly disabled/>
             <datalist id="dataMesin">
               @foreach ($machines as $machine)
               <option>{{ $machine->no_mesin }}</option>
@@ -21,19 +21,19 @@
           </div>
           <div class="col-6">
             <label for="request" class="form-label">Masukan Request</label>
-            <input type="text" class="form-control" id="request" name="request" required value="{{ $machineRepair->request }}">
+            <input type="text" class="form-control" id="request" name="request" required value="{{ $machineRepair->request }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="analisa" class="form-label">Analisa</label>
-            <input type="text" class="form-control" id="analisa" name="analisa" value="{{ $machineRepair->analisa }}">
+            <input type="text" class="form-control" id="analisa" name="analisa" value="{{ $machineRepair->analisa }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="pic" class="form-label">Enter PIC</label>
-            <input type="text" class="form-control" id="pic" name="pic" value="{{ $machineRepair->pic }}">
+            <input type="text" class="form-control" id="pic" name="pic" value="{{ $machineRepair->pic }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="prl" class="form-label">Enter PRL</label>
-            <input type="date" class="form-control" name="prl" id="prl" value="{{ $machineRepair->prl }}">
+            <input type="date" class="form-control" name="prl" id="prl" value="{{ $machineRepair->prl }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="po" class="form-label">Enter PO</label>
@@ -45,7 +45,7 @@
           </div>
           <div class="col-6">
             <label for="sparepart" class="form-label">Sparepart</label>
-            <input type="text" class="form-control" id="sparepart" name="sparepart" value="{{ $machineRepair->sparepart }}">
+            <input type="text" class="form-control" id="sparepart" name="sparepart" value="{{ $machineRepair->sparepart }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="kedatangan_prl" class="form-label">Enter Kedatangan Request PRL</label>
@@ -57,7 +57,7 @@
           </div>
           <div class="col-6">
             <label for="status" class="form-label">Pilih Status</label>
-            <select class="form-select" aria-label="Default select example" name="status" id="status" required>
+            <select class="form-select" aria-label="Default select example" name="status" id="status" disabled>
               <option {{ $machineRepair->status_mesin == "OK Repair (Finish)" ? "selected" : "" }} value="OK Repair (Finish)">OK Repair (Finish)</option>
               <option {{ $machineRepair->status_mesin == "Waiting Repair" ? "selected" : "" }} value="Waiting Repair">Waiting Repair</option>
               <option {{ $machineRepair->status_mesin == "Waiting Sparepart" ? "selected" : "" }} value="Waiting Sparepart">Waiting Sparepart</option>
@@ -66,26 +66,26 @@
           </div>
           <div class="col-6">
             <label for="aktivitas" class="form-label">Pilih Status Aktivitas</label>
-            <select class="form-select" aria-label="Default select example" name="aktivitas" id="aktivitas" required>
+            <select class="form-select" aria-label="Default select example" name="aktivitas" id="aktivitas" disabled>
               <option value="Running" {{ $machineRepair->status_aktifitas == 'Running' ? 'selected' : '' }}>Running</option>
               <option value="Stop" {{ $machineRepair->status_aktifitas == 'Stop' ? 'selected' : '' }}>Stop</option>
             </select>
           </div>
           <div class="col-6">
             <label for="aksi" class="form-label">Aksi</label>
-            <input type="text" class="form-control" id="aksi" name="aksi" value="{{ $machineRepair->aksi }}">
+            <input type="text" class="form-control" id="aksi" name="aksi" value="{{ $machineRepair->aksi }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="bagian_rusak" class="form-label">Bagian yang Rusak</label>
-            <input type="text" class="form-control" id="bagian_rusak" name="bagian_rusak" value="{{ $machineRepair->bagian_rusak }}">
+            <input type="text" class="form-control" id="bagian_rusak" name="bagian_rusak" value="{{ $machineRepair->bagian_rusak }}" readonly disabled>
           </div>
           <div class="col-6">
             <label for="deskripsi" class="form-label">Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" class="form-control" style="height: 100px">{{ $machineRepair->deskripsi }}</textarea>
+            <textarea name="deskripsi" id="deskripsi" class="form-control" style="height: 100px" readonly disabled>{{ $machineRepair->deskripsi }}</textarea>
           </div>
           <div class="col-6">
             <label for="sebab" class="form-label">Sebab</label>
-            <textarea name="sebab" id="sebab" class="form-control" style="height: 100px">{{ $machineRepair->sebab }}</textarea>
+            <textarea name="sebab" id="sebab" class="form-control" style="height: 100px" readonly disabled>{{ $machineRepair->sebab }}</textarea>
           </div>
           <div class="text-center">
             <button type="reset" class="btn btn-secondary">Reset</button>

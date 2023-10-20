@@ -101,8 +101,6 @@ class MachineRepairController extends Controller
         $totalDowntime = '0:0:0:0';
         $downtime = '0:0:0:0';
         foreach ($machineRepairs as $machineRepair) {
-            // $downtime = $machineRepair->current_monthly_downtime;
-            // $downtime = $this->addDowntimeByDowntime($machineRepair->current_monthly_downtime, $machineRepair->total_monthly_downtime);
             if ($machineRepair->status_mesin == "OK Repair (Finish)") {
                 $downtime = $machineRepair->total_monthly_downtime;
             } else {
