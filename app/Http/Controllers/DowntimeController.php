@@ -88,7 +88,7 @@ class DowntimeController extends Controller
         $machineRepair->save();
     }
 
-    public function totalMonthlyDowntime($isString = false) {
+    public function totalMonthlyDowntime($isString = false, $format = false) {
         $now = Carbon::now();
         $monthNow = $now->format('m');
         $yearNow = $now->format('Y');
@@ -112,10 +112,14 @@ class DowntimeController extends Controller
             $totalDowntime = $this->addDowntimeByDowntime($totalDowntime, $downtime);
         }
 
-        if ($isString) {
-            $result = $this->downtimeTranslator($totalDowntime, true);
+        if ($format) {
+            $result = $totalDowntime;
         } else {
-            $result = $this->downtimeTranslator($totalDowntime);
+            if ($isString) {
+                $result = $this->downtimeTranslator($totalDowntime, true);
+            } else {
+                $result = $this->downtimeTranslator($totalDowntime);
+            }
         }
 
         return $result;

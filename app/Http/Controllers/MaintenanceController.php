@@ -62,9 +62,15 @@ class MaintenanceController extends Controller
         $data = TotalDowntime::whereBetween('bulan_downtime',[
                                                                 Carbon::now()->subMonths(11)->format('Y-m-d'),
                                                                 Carbon::now()->format('Y-m-d')
-                                                            ])->get(['total_downtime', 'bulan_downtime']);
+                                                            ])
+                                                            ->orderBy('bulan_downtime', 'desc')
+                                                            ->get(['total_downtime', 'bulan_downtime']);
         $DowntimeController = (new DowntimeController());
-        $array = Arr::add($data, 'data', $DowntimeController->totalMonthlyDowntime(true));
+        $downtimeNow = [
+                        'total_downtime' => $DowntimeController->totalMonthlyDowntime(true, true),
+                        'bulan_downtime' => Carbon::now()->format('Y-m-d'),
+        ];
+        $array = Arr::collapse([[$downtimeNow], $data]);
         return ["data" => ["historyDowntimes" => $array]];
     }
 }
