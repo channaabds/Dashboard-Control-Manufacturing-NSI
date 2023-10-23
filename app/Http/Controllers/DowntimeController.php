@@ -88,7 +88,7 @@ class DowntimeController extends Controller
         $machineRepair->save();
     }
 
-    public function totalMonthlyDowntime() {
+    public function totalMonthlyDowntime($isString = false, $format = false) {
         $now = Carbon::now();
         $monthNow = $now->format('m');
         $yearNow = $now->format('Y');
@@ -112,12 +112,20 @@ class DowntimeController extends Controller
             $totalDowntime = $this->addDowntimeByDowntime($totalDowntime, $downtime);
         }
 
-        $result = $this->downtimeTranslator($totalDowntime);
+        if ($format) {
+            $result = $totalDowntime;
+        } else {
+            if ($isString) {
+                $result = $this->downtimeTranslator($totalDowntime, true);
+            } else {
+                $result = $this->downtimeTranslator($totalDowntime);
+            }
+        }
 
         return $result;
     }
 
-    public function getTotalDowntime(Request $request) {
+    public function getTotalDowntime(Request $request, $isString = false) {
         $monthNow = Carbon::now()->format('Y-m');
         $monthFormated = Carbon::create($request->filter)->format('F Y');
 
@@ -131,7 +139,11 @@ class DowntimeController extends Controller
             $year = $monthParts[1];
             $totalDowntimeDB = TotalDowntime::whereMonth('bulan_downtime', "$month")->whereYear('bulan_downtime', "$year")->get('total_downtime');
             if (count($totalDowntimeDB) > 0) {
-                $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
+                if ($isString) {
+                    $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime, true);
+                } else {
+                    $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
+                }
                 return $totalDowntime;
             } else {
                 return "downtime bulan</br>$monthFormated</br>belum terdata";

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quality;
 use App\Http\Requests\StoreQualityRequest;
 use App\Http\Requests\UpdateQualityRequest;
+use App\Models\HistoryQuality;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,10 @@ class QualityController extends Controller
         $now = Carbon::now();
         $monthNow = $now->format('m');
         $yearNow = $now->format('Y');
+        $date = $now->format('m-Y');
+
+        // $historyQuality = HistoryQuality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->first();
+        $historyQuality = HistoryQuality::where('date', $date)->first();
 
         $camIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CAM')->count();
         $cncIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CNC')->count();
@@ -29,6 +34,7 @@ class QualityController extends Controller
             'camOqc' => $camOqc,
             'cncOqc' => $cncOqc,
             'mfgOqc' => $mfgOqc,
+            'historyQuality' => $historyQuality,
         ]);
     }
 
@@ -63,6 +69,26 @@ class QualityController extends Controller
     public function update(UpdateQualityRequest $request, Quality $quality)
     {
         //
+    }
+
+    public function updateIpqc(UpdateQualityRequest $request, HistoryQuality $historyQuality)
+    {
+        $now = Carbon::now()->format('m-Y');
+
+        $data = $request->except(['_token', '_method']);
+
+        $historyQuality::updateOrCreate(['date' => $now], $data);
+        return redirect('/quality/home')->with('success', 'Update data target IPQC!');
+    }
+
+    public function updateOqc(UpdateQualityRequest $request, HistoryQuality $historyQuality)
+    {
+        $now = Carbon::now()->format('m-Y');
+
+        $data = $request->except(['_token', '_method']);
+
+        $historyQuality::updateOrCreate(['date' => $now], $data);
+        return redirect('/quality/home')->with('success', 'Update data target IPQC!');
     }
 
     public function destroy(Quality $quality)
