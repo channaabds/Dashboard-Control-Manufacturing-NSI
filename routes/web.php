@@ -71,6 +71,8 @@ Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(f
   })->middleware('auth');
 
   Route::resource('/home', QualityController::class)->middleware('auth');
+  Route::put('/home-edit-ipqc', [QualityController::class, 'updateIpqc'])->middleware('auth');
+  Route::put('/home-edit-oqc', [QualityController::class, 'updateOqc'])->middleware('auth');
   Route::resource('/dashboard-ipqc', IpqcController::class)->middleware('auth');
   Route::resource('/dashboard-oqc', OqcController::class)->middleware('auth');
 });

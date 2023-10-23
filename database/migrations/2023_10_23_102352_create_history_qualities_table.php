@@ -13,18 +13,19 @@ return new class extends Migration
     {
         Schema::create('history_qualities', function (Blueprint $table) {
             $table->id();
-            $table->integer('targetCamIpqc')->default(0);
-            $table->integer('targetCncIpqc')->default(0);
-            $table->integer('targetMfgIpqc')->default(0);
-            $table->integer('targetCamOqc')->default(0);
-            $table->integer('targetCncOqc')->default(0);
-            $table->integer('targetMfgOqc')->default(0);
-            $table->integer('aktualCamIpqc')->default(0);
-            $table->integer('aktualCncIpqc')->default(0);
-            $table->integer('aktualMfgIpqc')->default(0);
-            $table->integer('aktualCamOqc')->default(0);
-            $table->integer('aktualCncOqc')->default(0);
-            $table->integer('aktualMfgOqc')->default(0);
+            $table->integer('target_cam_ipqc')->default(0);
+            $table->integer('target_cnc_ipqc')->default(0);
+            $table->integer('target_mfg_ipqc')->default(0);
+            $table->integer('target_cam_oqc')->default(0);
+            $table->integer('target_cnc_oqc')->default(0);
+            $table->integer('target_mfg_oqc')->default(0);
+            $table->integer('aktual_cam_ipqc')->default(0);
+            $table->integer('aktual_cnc_ipqc')->default(0);
+            $table->integer('aktual_mfg_ipqc')->default(0);
+            $table->integer('aktual_cam_oqc')->default(0);
+            $table->integer('aktual_cnc_oqc')->default(0);
+            $table->integer('aktual_mfg_oqc')->default(0);
+            $table->string('date');
             $table->timestamps();
         });
     }

@@ -53,17 +53,17 @@
                 <tbody>
                   <tr>
                     <td>CAM</td>
-                    <td>6</td>
+                    <td>{{ $historyQuality->target_cam_ipqc }}</td>
                     <td>{{ $camIpqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
-                    <td>12</td>
+                    <td>{{ $historyQuality->target_cnc_ipqc }}</td>
                     <td>{{ $cncIpqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
-                    <td>5</td>
+                    <td>{{ $historyQuality->target_mfg_ipqc }}</td>
                     <td>{{ $mfgIpqc }}</td>
                   </tr>
                 </tbody>
@@ -110,17 +110,17 @@
                 <tbody>
                   <tr>
                     <td>CAM</td>
-                    <td>6</td>
+                    <td>{{ $historyQuality->target_cam_oqc }}</td>
                     <td>{{ $camOqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
-                    <td>12</td>
+                    <td>{{ $historyQuality->target_cnc_oqc }}</td>
                     <td>{{ $cncOqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
-                    <td>5</td>
+                    <td>{{ $historyQuality->target_mfg_oqc }}</td>
                     <td>{{ $mfgOqc }}</td>
                   </tr>
                 </tbody>
