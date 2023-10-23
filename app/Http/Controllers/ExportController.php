@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\IpqcExport;
 use App\Exports\MachineFinishExport;
 use App\Exports\MachineRepairsExport;
+use App\Exports\MachinesWaitingSparepartExport;
 use App\Exports\OqcExport;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,12 @@ class ExportController extends Controller
         $minDate = $request->min;
         $maxDate = $request->max;
         return (new MachineRepairsExport($minDate, $maxDate))->download('Mesin-rusak.xlsx');
+    }
+
+    public function exportMachineWaitingSparepart(Request $request) {
+        $minDate = $request->min;
+        $maxDate = $request->max;
+        return (new MachinesWaitingSparepartExport($minDate, $maxDate))->download('Mesin-Waiting-Sparepart.xlsx');
     }
 
     public function exportMachineFinish(Request $request) {

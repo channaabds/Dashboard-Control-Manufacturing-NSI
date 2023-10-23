@@ -30,10 +30,12 @@ use Illuminate\Support\Facades\Route;
 
 // route untuk menjalankan downtime by ajax
 Route::post('/run-downtime', [DowntimeController::class, 'downtime'])->middleware('auth');
+Route::post('/get-total-downtime-by-month', [DowntimeController::class, 'getTotalDowntime'])->middleware('auth');
 
 // export routes
 Route::prefix('export')->middleware('auth')->group(function () {
   Route::post('/machine-repairs', [ExportController::class, 'exportMachineRepair']);
+  Route::post('/machines-waiting-sparepart', [ExportController::class, 'exportMachineWaitingSparepart']);
   Route::post('/machine-finish', [ExportController::class, 'exportMachineFinish']);
   Route::post('/machine-waiting-sparepart', [MachineFinishController::class, 'export']); // masih belum dibuat
   Route::post('/ipqc', [ExportController::class, 'exportIpqc']);
@@ -49,7 +51,6 @@ Route::prefix('maintenance')->middleware(['auth', 'isDepartement:maintenance'])-
   // main dashboard maintenance routes
   // repair machines
   Route::resource('/dashboard-repair', MachineRepairController::class)->middleware('auth');
-  Route::post('/get-total-downtime-by-month', [MachineRepairController::class, 'getTotalDowntime'])->middleware('auth');
 
   // finish machine
   Route::get('/dashboard-finish', [MachineFinishController::class, 'index'])->middleware('auth');

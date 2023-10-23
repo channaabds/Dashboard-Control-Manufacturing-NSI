@@ -11,14 +11,18 @@ class DowntimeController extends Controller
 {
     // fungsi ini akan merubah downtime ke bentuk yang mudah dibaca
     // 0:0:0:0 -> 0 Hari 0 Jam 0 Menit 0 Detik
-    public function downtimeTranslator($downtime) {
+    public function downtimeTranslator($downtime, $isString = false) {
         $downtimeParts = explode(':', $downtime);
         $days = $downtimeParts[0];
         $hours = $downtimeParts[1];
         $minutes = $downtimeParts[2];
         $seconds = $downtimeParts[3];
 
-        return $days . ' Hari </br>' . $hours . ' Jam </br>' . $minutes .  ' Menit </br>' . $seconds . ' Detik';
+        if ($isString) {
+            return $days . ' Hari ' . $hours . ' Jam ' . $minutes .  ' Menit ' . $seconds . ' Detik';
+        } else {
+            return $days . ' Hari </br>' . $hours . ' Jam </br>' . $minutes .  ' Menit </br>' . $seconds . ' Detik';
+        }
     }
 
     // function untuk menambahkan antara 2 downtime yang memiliki format '0:0:0:0'
@@ -114,7 +118,8 @@ class DowntimeController extends Controller
     }
 
     public function getTotalDowntime(Request $request) {
-        $monthNow = Carbon::now()->format('F Y');
+        $monthNow = Carbon::now()->format('Y-m');
+        $monthFormated = Carbon::create($request->filter)->format('F Y');
 
         if ($request->filter == $monthNow) {
             $totalDowntime = $this->totalMonthlyDowntime();
@@ -129,10 +134,22 @@ class DowntimeController extends Controller
                 $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
                 return $totalDowntime;
             } else {
-                return "downtime bulan</br>$request->filter</br>belum terdata";
+                return "downtime bulan</br>$monthFormated</br>belum terdata";
             }
         }
-        // return ["filter" => $request->filter, "bulanSekarang" => $monthNow];
+    }
+
+    public function downtimeToSeconds($downtime) {
+        $downtimeParts = explode(':', $downtime);
+
+        $days = intval($downtimeParts[0]);
+        $hours = intval($downtimeParts[1]);
+        $minutes = intval($downtimeParts[2]);
+        $seconds = intval($downtimeParts[3]);
+
+        $totalSeconds = ($days * 86400) + ($hours * 3600) + ($minutes * 60) + $seconds;
+
+        return $totalSeconds;
     }
 
     // function ini yang menangani ajax request dari halaman dashboard, dan berfungsi sebagai fitur realtime downtime counter dan auto update downtime ke database

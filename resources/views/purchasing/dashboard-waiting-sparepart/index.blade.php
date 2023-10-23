@@ -23,6 +23,23 @@
               <h5>Data Mesin Waiting Sparepart</h5>
             </div>
 
+            <table border="0" cellspacing="5" cellpadding="5">
+              <form action="/export/machines-waiting-sparepart" method="post">
+                @csrf
+                <tbody>
+                  <tr>
+                    <td scope="col">Minimum date:</td>
+                    <td scope="col"><input type="text" class="form-control" id="minRusak" name="min"></td>
+                    <td rowspan="2"><button type="submit" class="btn btn-success">Export</button></td>
+                  </tr>
+                  <tr>
+                    <td scope="col">Maximum date:</td>
+                    <td scope="col"><input type="text" class="form-control" id="maxRusak" name="max"></td>
+                  </tr>
+                </tbody>
+              </form>
+            </table>
+
             <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
             id="tableMesinRusak">
               <thead class="mt-4">

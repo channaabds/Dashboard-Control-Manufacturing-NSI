@@ -12,7 +12,7 @@ class PurchasingController extends Controller
 
     public function indexDashboardRepair()
     {
-        $MachineRepair = (new MachineRepairController());
+        $MachineRepair = (new DowntimeController());
         $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
                             ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         $jsMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
@@ -41,7 +41,7 @@ class PurchasingController extends Controller
     public function indexDashboardFinish()
     {
         $machineFinishes = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
-        $MachineRepair = (new MachineRepairController());
+        $MachineRepair = (new DowntimeController());
 
         foreach ($machineFinishes as $machineFinish) {
             $addValue = $machineFinishes->find($machineFinish->id);
@@ -57,7 +57,7 @@ class PurchasingController extends Controller
 
     public function index()
     {
-        $MachineRepair = (new MachineRepairController());
+        $MachineRepair = (new DowntimeController());
         $machineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->where('status_mesin', 'Waiting Sparepart')
                             ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         $jsMachineRepairs = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])

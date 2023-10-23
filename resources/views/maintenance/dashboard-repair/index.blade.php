@@ -20,28 +20,10 @@
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="filter p-2">
-                <input type="month" class="form-control" name="" id="filterByMonth" value="{{ $carbon->now()->format('Y-m') }}" onchange="coba()">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonth()->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonth()->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(2)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(2)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(3)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(3)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(4)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(4)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(5)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(5)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(6)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(6)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(7)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(7)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(8)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(8)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(9)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(9)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(10)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(10)->format('F Y') }}</a></li>
-                  <li><a type="button" onclick="monthFilter('{{ $carbon->now()->subMonths(11)->format('F Y') }}')" class="dropdown-item">{{ $carbon->now()->subMonths(11)->format('F Y') }}</a></li>
-                </ul>
+                <input type="month" class="form-control" name="" id="filterByMonth" value="{{ $carbon->now()->format('Y-m') }}" onchange="monthFilter()">
               </div>
               <div class="card-body">
-                <h5 class="card-title">Total Downtime <span>| </span><span id="monthFilter">{{ $carbon::now()->format("F Y") }}</span></h5>
+                <h5 class="card-title">Total Downtime</h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-clock"></i>

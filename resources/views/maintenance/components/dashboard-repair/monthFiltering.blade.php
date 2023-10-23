@@ -1,13 +1,14 @@
 <script>
-    function monthFilter(request) {
+
+    function monthFilter() {
+        let data = document.querySelector('#filterByMonth');
+
         $.ajax({
-            url: '/maintenance/get-total-downtime-by-month',
+            url: '/get-total-downtime-by-month',
             method: 'POST',
-            data: {filter: request},
+            data: {filter: data.value},
             success: function (response) {
-                var monthDisplayRef = document.querySelector('#monthFilter');
                 var totalDTDisplayRef = document.querySelector('#totalDowntime');
-                monthDisplayRef.innerHTML = request;
                 totalDTDisplayRef.innerHTML = response;
                 console.log(response);
             },
@@ -17,23 +18,4 @@
         })
     }
 
-
-    function coba() {
-        let coba = document.querySelector('#filterByMonth');
-        $.ajax({
-            url: '/maintenance/get-total-downtime-by-month',
-            method: 'POST',
-            data: {filter: request},
-            success: function (response) {
-                var monthDisplayRef = document.querySelector('#monthFilter');
-                var totalDTDisplayRef = document.querySelector('#totalDowntime');
-                monthDisplayRef.innerHTML = request;
-                totalDTDisplayRef.innerHTML = response;
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error: ' + error);
-            }
-        })
-    }
 </script>
