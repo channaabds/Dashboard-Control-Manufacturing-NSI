@@ -10,49 +10,21 @@
   </div>
   @endif
   <div class="pagetitle">
-    <h1>Dashboard Data Mesin Rusak</h1>
+    <h1>Dashboard Data Mesin Waiting Sparepart</h1>
   </div>
 
   <section class="section dashboard">
     <div class="row">
       <div class="col-lg-12">
 
-          <div class="col-xxl-4 col-md-6">
-            <div class="card info-card sales-card">
-              <div class="filter p-2">
-                <input type="month" class="form-control" name="" id="filterByMonth" value="{{ $carbon->now()->format('Y-m') }}" onchange="monthFilter()">
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Total Downtime</h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-clock"></i>
-                  </div>
-                  <div class="ps-3">
-                    <h6 class="fs-4" id="totalDowntime">{!! $monthlyDowntime !!}</h6>
-                    <span class="text-success small pt-1 fw-bold">{{ $totalMachineRepairs }}</span> <span
-                      class="text-muted small pt-2 ps-1">Mesin down bulan ini</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        {{-- javascript untuk filtering bulan total downtime --}}
-        @include('maintenance.components.dashboard-repair.monthFiltering')
-
         <div class="card">
           <div class="card-body">
             <div class="card-title d-flex justify-content-between">
-              <h5>Data Mesin Rusak</h5>
-              <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
-                Tambah Data
-              </button>
-              @include('maintenance.components.dashboard-repair.modals.tambah')
+              <h5>Data Mesin Waiting Sparepart</h5>
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/export/machine-repairs" method="post">
+              <form action="/export/machines-waiting-sparepart" method="post">
                 @csrf
                 <tbody>
                   <tr>
@@ -119,10 +91,10 @@
                   <td class="text-center">
                     <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
                     data-bs-target="#editModal{{ $machineRepair->id }}">Edit</button>
-                    @include('maintenance.components.dashboard-repair.modals.edit')
+                    @include('purchasing.components.dashboard-waiting-sparepart.modals.edit')
                     <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal"
                     data-bs-target="#deleteModal{{ $machineRepair->id }}">Hapus</button>
-                    @include('maintenance.components.dashboard-repair.modals.hapus')
+                    @include('purchasing.components.dashboard-waiting-sparepart.modals.hapus')
                   </td>
                 </tr>
                 @endforeach

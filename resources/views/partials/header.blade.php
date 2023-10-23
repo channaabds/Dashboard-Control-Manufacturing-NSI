@@ -12,6 +12,12 @@
                 <span class="d-none d-lg-block">Dashboard Control Manufacturing</span>
             </a>
         @endif
+        @if (Request::is('purchasing*'))
+            <a href="/purchasing/dashboard-waiting-sparepart" class="logo d-flex align-items-center">
+                <img src="{{ asset('./img/logo/logo-nsi.jpg') }}" alt="">
+                <span class="d-none d-lg-block">Dashboard Control Manufacturing</span>
+            </a>
+        @endif
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
 

@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, WithEvents
+class MachinesWaitingSparepartExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, WithEvents
 {
     use Exportable;
 
@@ -43,7 +43,7 @@ class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, W
         $dataExport = [];
         $i = 1;
         if ($this->min === null && $this->max === null) {
-            $dataExportDB = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
+            $dataExportDB = MachineRepair::where('status_mesin', 'Waiting Sparepart')
                             ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         }
 
@@ -52,19 +52,19 @@ class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, W
             $maxDate = Carbon::create($this->max);
 
             if ($this->min !== null && $this->max === null) {
-                $dataExportDB = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
+                $dataExportDB = MachineRepair::where('status_mesin', 'Waiting Sparepart')
                                 ->whereDate('tgl_kerusakan', '>=', $minDate)->orderBy('tgl_input', 'desc')
                                 ->orderBy('id', 'desc')->get();
             }
 
             if ($this->min === null && $this->max !== null) {
-                $dataExportDB = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])
+                $dataExportDB = MachineRepair::where('status_mesin', 'Waiting Sparepart')
                                 ->whereDate('tgl_kerusakan', '<=', $maxDate)->orderBy('tgl_input', 'desc')
                                 ->orderBy('id', 'desc')->get();
                             }
 
             if ($this->min !== null && $this->max !== null) {
-                $dataExportDB = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->whereDate('tgl_kerusakan', '>=', $minDate)
+                $dataExportDB = MachineRepair::where('status_mesin', 'Waiting Sparepart')->whereDate('tgl_kerusakan', '>=', $minDate)
                                 ->whereDate('tgl_kerusakan', '<=', $maxDate)->orderBy('tgl_input', 'desc')
                                 ->orderBy('id', 'desc')->get();
             }
@@ -156,7 +156,7 @@ class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, W
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 if ($this->min === null && $this->max === null) {
-                    $i = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->count();
+                    $i = MachineRepair::where('status_mesin', 'Waiting Sparepart')->count();
                     $cellRange = "A1:W" . $i+1;
                 }
 
@@ -164,17 +164,17 @@ class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, W
                 $maxDate = Carbon::create($this->max);
 
                 if ($this->min !== null && $this->max === null) {
-                    $i = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->whereDate('tgl_kerusakan', '>=', $minDate)->count();
+                    $i = MachineRepair::where('status_mesin', 'Waiting Sparepart')->whereDate('tgl_kerusakan', '>=', $minDate)->count();
                     $cellRange = "A1:W" . $i+1;
                 }
 
                 if ($this->min === null && $this->max !== null) {
-                    $i = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->whereDate('tgl_kerusakan', '<=', $maxDate)->count();
+                    $i = MachineRepair::where('status_mesin', 'Waiting Sparepart')->whereDate('tgl_kerusakan', '<=', $maxDate)->count();
                     $cellRange = "A1:W" . $i+1;
                 }
 
                 if ($this->min !== null && $this->max !== null) {
-                    $i = MachineRepair::whereNotIn('status_mesin', ['OK Repair (Finish)'])->whereDate('tgl_kerusakan', '>=', $minDate)
+                    $i = MachineRepair::where('status_mesin', 'Waiting Sparepart')->whereDate('tgl_kerusakan', '>=', $minDate)
                             ->whereDate('tgl_kerusakan', '<=', $maxDate)->count();
                     $cellRange = "A1:W" . $i+1;
                 }

@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\DowntimeController;
 use App\Models\MachineRepair;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -27,61 +28,10 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
         $this->max = $max;
     }
 
-    // fungsi ini akan merubah downtime ke bentuk yang mudah dibaca
-    // 0:0:0:0 -> 0 Hari 0 Jam 0 Menit 0 Detik
-    public function downtimeTranslator($downtime) {
-        $downtimeParts = explode(':', $downtime);
-        $days = $downtimeParts[0];
-        $hours = $downtimeParts[1];
-        $minutes = $downtimeParts[2];
-        $seconds = $downtimeParts[3];
-
-        return $days . ' Hari ' . $hours . ' Jam ' . $minutes .  ' Menit ' . $seconds . ' Detik';
-    }
-
-    public function downtimeToSeconds($downtime) {
-        $downtimeParts = explode(':', $downtime);
-
-        $days = intval($downtimeParts[0]);
-        $hours = intval($downtimeParts[1]);
-        $minutes = intval($downtimeParts[2]);
-        $seconds = intval($downtimeParts[3]);
-
-        $totalSeconds = ($days * 86400) + ($hours * 3600) + ($minutes * 60) + $seconds;
-
-        return $totalSeconds;
-    }
-
-    // function untuk menambahkan antara 2 downtime yang memiliki format '0:0:0:0'
-    public function addDowntimeByDowntime($firstDowntime, $secDowntime) {
-        $firstDowntimeParts = explode(':', $firstDowntime);
-        $secDowntimeParts = explode(':', $secDowntime);
-
-        $firstDowntimeDays = intval($firstDowntimeParts[0]);
-        $firstDowntimeHours = intval($firstDowntimeParts[1]);
-        $firstDowntimeMinutes = intval($firstDowntimeParts[2]);
-        $firstDowntimeSeconds = intval($firstDowntimeParts[3]);
-
-        $secDowntimeDays = intval($secDowntimeParts[0]);
-        $secDowntimeHours = intval($secDowntimeParts[1]);
-        $secDowntimeMinutes = intval($secDowntimeParts[2]);
-        $secDowntimeSeconds = intval($secDowntimeParts[3]);
-
-        $totalSeconds = (($firstDowntimeDays * 86400) + ($firstDowntimeHours * 3600) + ($firstDowntimeMinutes * 60) + $firstDowntimeSeconds) + (($secDowntimeDays * 86400) + ($secDowntimeHours * 3600) + ($secDowntimeMinutes * 60) + $secDowntimeSeconds);
-
-        $days = floor($totalSeconds / 86400);
-        $totalSeconds %= 86400;
-        $hours = floor($totalSeconds / 3600);
-        $totalSeconds %= 3600;
-        $minutes = floor($totalSeconds / 60);
-        $seconds = $totalSeconds %  60;
-
-        $result = "$days:$hours:$minutes:$seconds";
-        return $result;
-    }
-
     public function array(): array
     {
+        $DowntimeController = (new DowntimeController);
+
         $dataExport = [];
         $i = 1;
         if ($this->min === null && $this->max === null) {
@@ -116,8 +66,8 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
 
 
         foreach ($dataExportDB as $dataDB) {
-            $dataDowntime = $this->downtimeTranslator($dataDB->total_downtime);
-            $detikDowntime = $this->downtimeToSeconds($dataDB->total_downtime);
+            $dataDowntime = $DowntimeController->downtimeTranslator($dataDB->total_downtime, true);
+            $detikDowntime = $DowntimeController->downtimeToSeconds($dataDB->total_downtime);
             $dataExport[$i] = [
                                 $i,
                                 $dataDB->dataMesin->no_mesin,

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -27,6 +28,9 @@ class LoginController extends Controller
             }
             if ($request->username == 'quality') {
                 return redirect()->intended('/quality')->with('success', 'masuk');
+            }
+            if ($request->username == 'purchasing') {
+                return redirect()->intended('/purchasing')->with('success', 'masuk');
             }
         }
 
@@ -50,7 +54,7 @@ class LoginController extends Controller
     }
 
     public function store(Request $request) {
-        $username = $request->username;
+        $username = Str::lower($request->usernamee);
         $password = Hash::make($username);
 
         $result = User::where('username', $username)->count();

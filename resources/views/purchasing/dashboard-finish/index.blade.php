@@ -39,8 +39,7 @@
               </form>
             </table>
 
-            <table class="table table-bordered table-striped"
-              style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;" id="tableMesinFinish">
+            <table class="table table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;" id="tableMesinFinish">
               <thead>
                 <tr>
                   <th hidden style="width: 10; ">search</th>
@@ -61,7 +60,6 @@
                   <th scope="col">Status Mesin</th>
                   <th scope="col">Downtime</th>
                   <th scope="col">Status Aktivitas</th>
-                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -85,10 +83,6 @@
                   <td>{{ $machineFinish->status_mesin }}</td>
                   <td>{!! $machineFinish->downtime !!}</td>
                   <td>{{ $machineFinish->status_aktifitas }}</td>
-                  <td class="text-center">
-                    <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $machineFinish->id }}">Hapus</button>
-                    @include('maintenance.components.dashboard-finish.modals.hapus')
-                  </td>
                 </tr>
                 @endforeach
               </tbody>
