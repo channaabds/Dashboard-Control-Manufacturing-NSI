@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiQualityController;
 use App\Http\Controllers\MaintenanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,9 @@ Route::prefix('maintenance')->group(function () {
     Route::get('/downtime-2', [MaintenanceController::class, 'beforeLastDowntime']);
     Route::get('/data-downtime', [MaintenanceController::class, 'dataMachineRepairs']);
     Route::get('/history-downtime', [MaintenanceController::class, 'historyDowntimes']);
+});
+
+Route::prefix('quality')->group(function () {
+    Route::get('ipqc', [ApiQualityController::class, 'ipqc']);
+    Route::get('oqc', [ApiQualityController::class, 'oqc']);
 });

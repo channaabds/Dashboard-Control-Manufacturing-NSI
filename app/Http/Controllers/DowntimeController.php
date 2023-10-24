@@ -125,7 +125,7 @@ class DowntimeController extends Controller
         return $result;
     }
 
-    public function getTotalDowntime(Request $request, $isString = false) {
+    public function getTotalDowntime(Request $request, $isString = false, $format = false) {
         $monthNow = Carbon::now()->format('Y-m');
         $monthFormated = Carbon::create($request->filter)->format('F Y');
 
@@ -139,10 +139,14 @@ class DowntimeController extends Controller
             $year = $monthParts[1];
             $totalDowntimeDB = TotalDowntime::whereMonth('bulan_downtime', "$month")->whereYear('bulan_downtime', "$year")->get('total_downtime');
             if (count($totalDowntimeDB) > 0) {
-                if ($isString) {
-                    $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime, true);
+                if ($format) {
+                    $totalDowntime = $totalDowntimeDB[0]->total_downtime;
                 } else {
-                    $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
+                    if ($isString) {
+                        $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime, true);
+                    } else {
+                        $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
+                    }
                 }
                 return $totalDowntime;
             } else {

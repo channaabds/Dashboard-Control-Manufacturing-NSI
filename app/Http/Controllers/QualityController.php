@@ -18,7 +18,6 @@ class QualityController extends Controller
         $yearNow = $now->format('Y');
         $date = $now->format('m-Y');
 
-        // $historyQuality = HistoryQuality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->first();
         $historyQuality = HistoryQuality::where('date', $date)->first();
 
         $camIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CAM')->count();
