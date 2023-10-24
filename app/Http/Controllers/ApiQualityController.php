@@ -18,9 +18,9 @@ class ApiQualityController extends Controller
 
         $historyQuality = HistoryQuality::where('date', $date)
             ->first([
-                'target_cam_oqc',
-                'target_cnc_oqc',
-                'target_mfg_oqc',
+                'target_cam_ipqc',
+                'target_cnc_ipqc',
+                'target_mfg_ipqc',
             ])->toArray();
 
         $camIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CAM')->count();
