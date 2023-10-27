@@ -17,11 +17,11 @@
   });
 
   // Create date inputs
-  minDate = new DateTime('#minRusak', { format: 'MMMM Do YYYY' });
-  maxDate = new DateTime('#maxRusak', { format: 'MMMM Do YYYY' });
+  minDate = new DateTime('#minData', { format: 'MMMM Do YYYY' });
+  maxDate = new DateTime('#maxData', { format: 'MMMM Do YYYY' });
 
 
-  const searchableColumns = [0, 11, 22];
+  const searchableColumns = [0, 11, 24];
   const table = new DataTable('#tableDashboardOqc', {
     // order: [[1, 'asc']],
     ordering: false,

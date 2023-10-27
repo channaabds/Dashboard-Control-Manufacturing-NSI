@@ -15,12 +15,14 @@
   <section class="section dashboard">
     <div class="row">
 
-      <div class="col-xxl-12 col-md-12 mb-3 text-center">
-        <button class="btn btn-success py-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
-          Tambah Data
-        </button>
-      </div>
-      @include('quality.components.home.modals.tambah')
+      @if ($departement === 'c')
+        <div class="col-xxl-12 col-md-12 mb-3 text-center">
+          <button class="btn btn-success py-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
+            Tambah Data
+          </button>
+        </div>
+        @include('quality.components.home.modals.tambah')
+      @endif
 
       <div class="col-lg-12 row">
 
@@ -47,35 +49,45 @@
                   <tr>
                     <th>Departement</th>
                     <th>Target</th>
-                    <th>Aktual</th>
+                    <th>NCR</th>
+                    <th>LOT TAG</th>
+                    <th>Total Aktual</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>CAM</td>
                     <td>{{ $historyQuality->target_cam_ipqc }}</td>
-                    <td>{{ $camIpqc }}</td>
+                    <td>{{ $ncrCamIpqc }}</td>
+                    <td>{{ $lotCamIpqc }}</td>
+                    <td>{{ $historyQuality->aktual_cam_ipqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
                     <td>{{ $historyQuality->target_cnc_ipqc }}</td>
-                    <td>{{ $cncIpqc }}</td>
+                    <td>{{ $ncrCncIpqc }}</td>
+                    <td>{{ $lotCncIpqc }}</td>
+                    <td>{{ $historyQuality->aktual_cnc_ipqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
                     <td>{{ $historyQuality->target_mfg_ipqc }}</td>
-                    <td>{{ $mfgIpqc }}</td>
+                    <td>{{ $ncrCncOqc }}</td>
+                    <td>{{ $lotCncOqc }}</td>
+                    <td>{{ $historyQuality->aktual_mfg_ipqc }}</td>
                   </tr>
                 </tbody>
               </table>
 
               <a href="/quality/dashboard-ipqc"><button class="btn btn-primary">Detail</button></a>
 
-              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetIpqc">
-                Edit
-              </button>
+              @if ($departement == 'c')
+                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetIpqc">
+                  Edit
+                </button>
 
-              @include('quality.components.home.modals.editIpqc')
+                @include('quality.components.home.modals.editIpqc')
+              @endif
 
             </div>
           </div>
@@ -104,35 +116,45 @@
                   <tr>
                     <th>Departement</th>
                     <th>Target</th>
-                    <th>Aktual</th>
+                    <th>NCR</th>
+                    <th>LOT TAG</th>
+                    <th>Total Aktual</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>CAM</td>
                     <td>{{ $historyQuality->target_cam_oqc }}</td>
-                    <td>{{ $camOqc }}</td>
+                    <td>{{ $ncrCamOqc }}</td>
+                    <td>{{ $lotCamOqc }}</td>
+                    <td>{{ $historyQuality->aktual_cam_oqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
                     <td>{{ $historyQuality->target_cnc_oqc }}</td>
-                    <td>{{ $cncOqc }}</td>
+                    <td>{{ $ncrCncOqc }}</td>
+                    <td>{{ $lotCncOqc }}</td>
+                    <td>{{ $historyQuality->aktual_cnc_oqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
                     <td>{{ $historyQuality->target_mfg_oqc }}</td>
-                    <td>{{ $mfgOqc }}</td>
+                    <td>{{ $ncrMfgOqc }}</td>
+                    <td>{{ $lotMfgOqc }}</td>
+                    <td>{{ $historyQuality->aktual_mfg_oqc }}</td>
                   </tr>
                 </tbody>
               </table>
 
               <a href="/quality/dashboard-oqc"><button class="btn btn-primary">Detail</button></a>
 
-              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetOqc">
-                Edit
-              </button>
+              @if ($departement == 'c')
+                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetOqc">
+                  Edit
+                </button>
 
-              @include('quality.components.home.modals.editOqc')
+                @include('quality.components.home.modals.editOqc')
+              @endif
 
             </div>
           </div>

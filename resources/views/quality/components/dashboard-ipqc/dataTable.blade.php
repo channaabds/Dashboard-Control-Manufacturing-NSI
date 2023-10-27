@@ -21,7 +21,7 @@
   maxDate = new DateTime('#maxData', { format: 'MMMM Do YYYY' });
 
 
-  const searchableColumns = [0, 11, 22];
+  const searchableColumns = [0, 11, 24];
   const table = new DataTable('#tableDashboardIpqc', {
     // order: [[1, 'asc']],
     ordering: false,
