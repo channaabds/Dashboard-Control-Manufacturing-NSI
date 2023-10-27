@@ -10,6 +10,19 @@ use Carbon\Carbon;
 
 class QualityController extends Controller
 {
+    public function autoFillNoLot($departement, $section) {
+        $now = Carbon::now();
+        $monthNow = $now->format('m');
+        $yearNow = $now->format('Y');
+
+        $no = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', $departement)->where('section', $section)->count();
+        if ($no < 10) {
+            $no = "0$no";
+        }
+        $noLot = "$no/$section/$yearNow";
+        return $noLot;
+    }
+    
     public function updateCurrentHistoryQuality() {
         $now = Carbon::now();
         $monthNow = $now->format('m');
@@ -126,6 +139,11 @@ class QualityController extends Controller
 
         $departement = $request->departement;
         $quality = Quality::create($data);
+
+        $departement = $request->departement;
+        $section = $request->section;
+        $noLot = $this->autoFillNoLot($departement, $section);
+        $quality->no_ncr_lot = $noLot;
         $quality->save();
 
         $this->updateCurrentHistoryQuality();

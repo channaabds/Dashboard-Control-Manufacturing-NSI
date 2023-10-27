@@ -25,8 +25,10 @@
                         </select>
                     </div>
                     <div class="col-6">
-                        <label for="no_ncr_lot" class="form-label">No NCR/Lot Tag <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="no_ncr_lot" name="no_ncr_lot" required>
+                        {{-- <label for="no_ncr_lot" class="form-label">No NCR/Lot Tag <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="no_ncr_lot" name="no_ncr_lot" required> --}}
+                        <label for="no_ncr_lot" class="form-label">No NCR/Lot Tag</label>
+                        <input type="text" class="form-control" id="no_ncr_lot" name="no_ncr_lot" disabled value="Akan Diinput Otomatis Oleh Sistem">
                     </div>
                     <div class="col-6">
                         <label for="part_no" class="form-label">Part No <span class="text-danger">*</span></label>

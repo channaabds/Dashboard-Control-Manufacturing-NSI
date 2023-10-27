@@ -164,7 +164,7 @@ class Kernel extends ConsoleKernel
             $historyQuality = HistoryQuality::whereMonth('date', $pastMonth)->whereYear('date', $year)->get(['target_cam_ipqc', 'target_cnc_ipqc', 'target_mfg_ipqc', 'target_cam_oqc', 'target_cnc_oqc', 'target_mfg_oqc'])->toArray();
             HistoryQuality::updateOrCreate(['date' => Carbon::now()->startOfMonth()->format('Y-m-d')], $historyQuality[0]);
 
-        })->monthlyOn(27, '16:51');
+        })->monthlyOn(1, '01:00');
 
         // melakukan create or update ke tabel total_downtime tiap sebulan sekali di awal bulan
         $schedule->call(function () {
