@@ -28,7 +28,14 @@ Route::get('/', function () {
   if (!auth()->user()) {
     return redirect("/login");
   }
-  $url = auth()->user()->username;
+
+  $username = auth()->user()->username;
+  $url = $username;
+
+  if ($username == 'qc' || $username == 'qa') {
+    $url = 'quality';
+  }
+
   return redirect("/$url");
 })->middleware('auth');
 
@@ -70,11 +77,15 @@ Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(f
     return redirect('/quality/home');
   })->middleware('auth');
 
-  Route::resource('/home', QualityController::class)->middleware('auth');
-  Route::put('/home-edit-ipqc', [QualityController::class, 'updateIpqc'])->middleware('auth');
-  Route::put('/home-edit-oqc', [QualityController::class, 'updateOqc'])->middleware('auth');
-  Route::resource('/dashboard-ipqc', IpqcController::class)->middleware('auth');
-  Route::resource('/dashboard-oqc', OqcController::class)->middleware('auth');
+  Route::get('/home', [QualityController::class, 'indexHome'])->middleware('auth');
+  Route::post('/home', [QualityController::class, 'store'])->middleware('auth');
+  Route::put('/home-edit-ipqc', [QualityController::class, 'updateTargetIpqc'])->middleware('auth');
+  Route::put('/home-edit-oqc', [QualityController::class, 'updateTargetOqc'])->middleware('auth');
+
+  Route::get('/dashboard-ipqc', [QualityController::class, 'indexIpqc'])->middleware('auth');
+  Route::get('/dashboard-oqc', [QualityController::class, 'indexOqc'])->middleware('auth');
+  Route::put('/dashboard-ipqc/{id}', [QualityController::class, 'updateDataIpqc'])->middleware('auth');
+  Route::put('/dashboard-oqc/{id}', [QualityController::class, 'updateDataOqc'])->middleware('auth');
 });
 
 Route::prefix('purchasing')->middleware(['auth', 'isDepartement:purchasing'])->group(function () {

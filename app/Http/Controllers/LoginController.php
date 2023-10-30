@@ -26,7 +26,7 @@ class LoginController extends Controller
             if ($request->username == 'maintenance') {
                 return redirect()->intended('/maintenance')->with('success', 'masuk');
             }
-            if ($request->username == 'quality') {
+            if ($request->username == 'qc' || $request->username == 'qa') {
                 return redirect()->intended('/quality')->with('success', 'masuk');
             }
             if ($request->username == 'purchasing') {
@@ -54,7 +54,7 @@ class LoginController extends Controller
     }
 
     public function store(Request $request) {
-        $username = Str::lower($request->usernamee);
+        $username = Str::lower($request->username);
         $password = Hash::make($username);
 
         $result = User::where('username', $username)->count();

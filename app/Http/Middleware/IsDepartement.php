@@ -15,8 +15,18 @@ class IsDepartement
      */
     public function handle(Request $request, Closure $next, string $departement): Response
     {
-        if (auth()->user()->username != $departement) {
-            $url = auth()->user()->username;
+        if (auth()->user()->username == 'admin') {
+            return $next($request);
+        }
+
+        $user = auth()->user()->username;
+        $username = auth()->user()->username;
+        if ($user == 'qc' || $user == 'qa') {
+            $username = 'quality';
+        }
+
+        if ($username != $departement) {
+            $url = $username;
             return redirect("/$url");
         }
         return $next($request);

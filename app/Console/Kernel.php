@@ -138,16 +138,17 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {
-            $pastDate = Carbon::now()->subMonth();
+            $now = Carbon::now();
+            $pastDate = $now->subMonth()->startOfMonth();
             $pastMonth = $pastDate->format('m');
-            $pastYear = $pastDate->format('Y');
+            $year = $pastDate->format('Y');
 
-            $camIpqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $pastYear)->where('departement', 'IPQC')->where('section', 'CAM')->count();
-            $cncIpqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $pastYear)->where('departement', 'IPQC')->where('section', 'CNC')->count();
-            $mfgIpqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $pastYear)->where('departement', 'IPQC')->where('section', 'MFG2')->count();
-            $camOqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $pastYear)->where('departement', 'OQC')->where('section', 'CAM')->count();
-            $cncOqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $pastYear)->where('departement', 'OQC')->where('section', 'CNC')->count();
-            $mfgOqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $pastYear)->where('departement', 'OQC')->where('section', 'MFG2')->count();
+            $camIpqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $year)->where('departement', 'IPQC')->where('section', 'CAM')->count();
+            $cncIpqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $year)->where('departement', 'IPQC')->where('section', 'CNC')->count();
+            $mfgIpqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $year)->where('departement', 'IPQC')->where('section', 'MFG2')->count();
+            $camOqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $year)->where('departement', 'OQC')->where('section', 'CAM')->count();
+            $cncOqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $year)->where('departement', 'OQC')->where('section', 'CNC')->count();
+            $mfgOqc = Quality::whereMonth('date', $pastMonth)->whereYear('date', $year)->where('departement', 'OQC')->where('section', 'MFG2')->count();
 
             $data = [
                 'aktual_cam_ipqc' => $camIpqc,
@@ -158,7 +159,11 @@ class Kernel extends ConsoleKernel
                 'aktual_mfg_oqc' => $mfgOqc,
             ];
 
-            HistoryQuality::updateOrCreate(['date' => $pastDate->format('m-Y')], $data);
+            HistoryQuality::updateOrCreate(['date' => $pastDate->format('Y-m-d')], $data);
+
+            $historyQuality = HistoryQuality::whereMonth('date', $pastMonth)->whereYear('date', $year)->get(['target_cam_ipqc', 'target_cnc_ipqc', 'target_mfg_ipqc', 'target_cam_oqc', 'target_cnc_oqc', 'target_mfg_oqc'])->toArray();
+            HistoryQuality::updateOrCreate(['date' => Carbon::now()->startOfMonth()->format('Y-m-d')], $historyQuality[0]);
+
         })->monthlyOn(1, '01:00');
 
         // melakukan create or update ke tabel total_downtime tiap sebulan sekali di awal bulan

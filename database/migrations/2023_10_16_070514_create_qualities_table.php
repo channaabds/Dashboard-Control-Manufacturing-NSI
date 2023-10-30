@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('pic_input')->nullable();
             $table->string('judgement')->nullable();
             $table->string('pembahasan')->nullable();
+            $table->text('verifikasi_qa')->nullable();
             $table->timestamps();
         });
     }
