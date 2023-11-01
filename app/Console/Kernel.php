@@ -112,8 +112,8 @@ class Kernel extends ConsoleKernel
         foreach ($machineRepairs as $machineRepair) {
             $machineRepair->current_monthly_downtime = '0:0:0:0';
             $machineRepair->total_monthly_downtime = '0:0:0:0';
-            $machineRepair->start_monthly_downtime = $now->startOfMonth();
-            $machineRepair->downtime_month = $now->startOfMonth()->format('Y-m-d');
+            $machineRepair->start_monthly_downtime = Carbon::now()->startOfMonth();
+            $machineRepair->downtime_month = Carbon::now()->startOfMonth()->format('Y-m-d');
             $machineRepair->save();
         }
     }
