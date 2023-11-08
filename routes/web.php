@@ -39,6 +39,14 @@ Route::get('/', function () {
   return redirect("/$url");
 })->middleware('auth');
 
+Route::get('/manager', function () {
+  return redirect('/menu');
+});
+
+Route::get('/menu', function () {
+  return view('menu.index');
+});
+
 // route untuk menjalankan downtime by ajax
 Route::post('/run-downtime', [DowntimeController::class, 'downtime'])->middleware('auth');
 Route::post('/get-total-downtime-by-month', [DowntimeController::class, 'getTotalDowntime'])->middleware('auth');

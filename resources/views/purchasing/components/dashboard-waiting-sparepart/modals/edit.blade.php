@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="row g-3" method="POST" action="/purchasing/dashboard-repair/{{ $machineRepair->id }}">
+        <form class="row g-3" method="POST" action="/purchasing/dashboard-waiting-sparepart/{{ $machineRepair->id }}">
           @csrf
           @method('put')
           <input type="hidden" name="id" value="{{ $machineRepair->id }}">

@@ -31,6 +31,8 @@ class MachineRepairController extends Controller
                                 ->where('status_aktifitas', 'Stop')->count();
         $machines = Machine:: all();
         $monthlyDowntime = $DowntimeController->totalMonthlyDowntime();
+        $monthlyDowntimeToHours = $DowntimeController->totalMonthlyDowntime(false, true);
+        $hoursMonthlyDowntime = $DowntimeController->downtimeHoursTranslator($monthlyDowntimeToHours);
         foreach ($machineRepairs as $machineRepair) {
             $addValue = $machineRepairs->find($machineRepair->id);
             $addValue->search = Carbon::parse($machineRepair->tgl_kerusakan)->toDateString();
@@ -43,6 +45,7 @@ class MachineRepairController extends Controller
             'jsMachineRepairs' => $jsMachineRepairs,
             'monthlyDowntime' => $monthlyDowntime,
             'totalMachineRepairs' => $totalMachineRepairs,
+            'hoursMonthlyDowntime' => $hoursMonthlyDowntime,
         ]);
     }
 
