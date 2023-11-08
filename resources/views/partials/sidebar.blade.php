@@ -18,6 +18,13 @@
                     <i class="bi bi-journal-text"></i><span>Data Mesin</span>
                 </a>
             </li>
+            @if (auth()->user()->username == 'manager')
+                <li class="nav-item">
+                    <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
+                        <i class="bi bi-journal-text"></i><span>Menu</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     @endif
     @if (Request::is('quality*'))
@@ -38,6 +45,13 @@
                     <i class="bi bi-journal-text"></i><span>Data OQC</span>
                 </a>
             </li>
+            @if (auth()->user()->username == 'manager')
+                <li class="nav-item">
+                    <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
+                        <i class="bi bi-journal-text"></i><span>Menu</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     @endif
     @if (Request::is('purchasing*'))
@@ -56,6 +70,40 @@
             <li class="nav-item">
                 <a class="nav-link {{ !Request::is('purchasing/dashboard-finish') ? 'collapsed' : ' ' }}" href="/purchasing/dashboard-finish">
                     <i class="bi bi-menu-button-wide"></i><span>Data Mesin OK (Finish)</span>
+                </a>
+            </li>
+            @if (auth()->user()->username == 'manager')
+                <li class="nav-item">
+                    <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
+                        <i class="bi bi-journal-text"></i><span>Menu</span>
+                    </a>
+                </li>
+            @endif
+        </ul>
+    @endif
+    @if (Request::is('menu*'))
+        <ul class="sidebar-nav" id="sidebar-nav">
+            @if (auth()->user()->username == 'manager')
+                <li class="nav-item">
+                    <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
+                        <i class="bi bi-journal-text"></i><span>Menu</span>
+                    </a>
+                </li>
+            @endif
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/dashboard-waiting-sparepart') ? 'collapsed' : ' ' }}" href="/maintenance">
+                    <i class="bi bi-journal-text"></i><span>Maintenance</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/dashboard-repair') ? 'collapsed' : ' ' }}" href="/purchasing">
+                    <i class="bi bi-grid"></i>
+                    <span>Purchasing</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/dashboard-finish') ? 'collapsed' : ' ' }}" href="/quality">
+                    <i class="bi bi-menu-button-wide"></i><span>Quality</span>
                 </a>
             </li>
         </ul>

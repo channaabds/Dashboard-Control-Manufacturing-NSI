@@ -15,7 +15,7 @@ class IsDepartement
      */
     public function handle(Request $request, Closure $next, string $departement): Response
     {
-        if (auth()->user()->username == 'admin') {
+        if (auth()->user()->username == 'admin' || auth()->user()->username == 'manager') {
             return $next($request);
         }
 

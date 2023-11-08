@@ -21,7 +21,7 @@
   maxDate = new DateTime('#maxRusak', { format: 'MMMM Do YYYY' });
 
 
-  const searchableColumns = [1, 16, 19];
+  const searchableColumns = [1, 16, 18];
   const table = new DataTable('#tableMesinRusak', {
     paging: false,
     // order: [[1, 'asc']],
@@ -39,12 +39,12 @@
             titleElement.textContent = '';
 
             let label = document.createElement('label');
-            label.textContent = ": ";
+            // label.textContent = ": ";
             column.header().appendChild(label);
 
             let input = document.createElement('input');
+            input.style.width = '50px';
             input.placeholder = 'cari...';
-            // input.placeholder = titleElement;
             column.header().appendChild(input);
 
             // Event listener for user input

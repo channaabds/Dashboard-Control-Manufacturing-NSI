@@ -23,6 +23,9 @@ class LoginController extends Controller
 
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
+            if ($request->username == 'manager') {
+                return redirect()->intended('/menu')->with('success', 'masuk');
+            }
             if ($request->username == 'maintenance') {
                 return redirect()->intended('/maintenance')->with('success', 'masuk');
             }

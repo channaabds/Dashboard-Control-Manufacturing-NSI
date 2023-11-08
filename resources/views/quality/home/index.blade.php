@@ -72,8 +72,8 @@
                   <tr>
                     <td>MFG2</td>
                     <td>{{ $historyQuality->target_mfg_ipqc }}</td>
-                    <td>{{ $ncrCncOqc }}</td>
-                    <td>{{ $lotCncOqc }}</td>
+                    <td>{{ $ncrMfgIpqc }}</td>
+                    <td>{{ $lotMfgIpqc }}</td>
                     <td>{{ $historyQuality->aktual_mfg_ipqc }}</td>
                   </tr>
                 </tbody>

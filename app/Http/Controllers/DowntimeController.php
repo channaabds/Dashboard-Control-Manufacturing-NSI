@@ -25,6 +25,17 @@ class DowntimeController extends Controller
         }
     }
 
+    public function downtimeHoursTranslator($downtime) {
+        $downtimeParts = explode(':', $downtime);
+        $days = $downtimeParts[0];
+        $hours = $downtimeParts[1];
+        $minutes = $downtimeParts[2];
+        $seconds = $downtimeParts[3];
+        $hours = $hours + ($days * 24);
+
+        return $hours . ' Jam </br>' . $minutes .  ' Menit </br>' . $seconds . ' Detik';
+    }
+
     // function untuk menambahkan antara 2 downtime yang memiliki format '0:0:0:0'
     public function addDowntimeByDowntime($firstDowntime, $secDowntime) {
         $firstDowntimeParts = explode(':', $firstDowntime);
@@ -125,13 +136,14 @@ class DowntimeController extends Controller
         return $result;
     }
 
-    public function getTotalDowntime(Request $request, $isString = false, $format = false) {
+    public function getTotalDowntime(Request $request) {
         $monthNow = Carbon::now()->format('Y-m');
         $monthFormated = Carbon::create($request->filter)->format('F Y');
 
         if ($request->filter == $monthNow) {
             $totalDowntime = $this->totalMonthlyDowntime();
-            return $totalDowntime;
+            $downtimeInHours = $this->downtimeHoursTranslator($this->totalMonthlyDowntime(false, true));
+            return ['days' => $totalDowntime, 'hours' => $downtimeInHours];
         } else {
             $parseRequest = Carbon::parse($request->filter)->format('m Y');
             $monthParts = explode(" ", $parseRequest);
@@ -139,18 +151,14 @@ class DowntimeController extends Controller
             $year = $monthParts[1];
             $totalDowntimeDB = TotalDowntime::whereMonth('bulan_downtime', "$month")->whereYear('bulan_downtime', "$year")->get('total_downtime');
             if (count($totalDowntimeDB) > 0) {
-                if ($format) {
-                    $totalDowntime = $totalDowntimeDB[0]->total_downtime;
-                } else {
-                    if ($isString) {
-                        $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime, true);
-                    } else {
-                        $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
-                    }
-                }
-                return $totalDowntime;
+                $totalDowntime = $this->downtimeTranslator($totalDowntimeDB[0]->total_downtime);
+
+                $downtimeInHours = $this->downtimeHoursTranslator($totalDowntimeDB[0]->total_downtime);
+                return ['days' => $totalDowntime, 'hours' => $downtimeInHours];
             } else {
-                return "downtime bulan</br>$monthFormated</br>belum terdata";
+                return ['days' => "downtime bulan</br>$monthFormated</br>belum terdata",
+                    'hours' => "downtime bulan</br>$monthFormated</br>belum terdata",
+                ];
             }
         }
     }

@@ -22,7 +22,7 @@ class QualityController extends Controller
         $noLot = "$no/$section/$yearNow";
         return $noLot;
     }
-    
+
     public function updateCurrentHistoryQuality() {
         $now = Carbon::now();
         $monthNow = $now->format('m');
@@ -161,6 +161,7 @@ class QualityController extends Controller
         $now = Carbon::now()->startOfMonth()->format('Y-m-d');
         $data = $request->except(['_token', '_method']);
         $historyQuality::updateOrCreate(['date' => $now], $data);
+        $this->updateCurrentHistoryQuality();
         return redirect('/quality/home')->with('success', 'Update data target IPQC!');
     }
 
@@ -170,6 +171,7 @@ class QualityController extends Controller
         $now = Carbon::now()->startOfMonth()->format('Y-m-d');
         $data = $request->except(['_token', '_method']);
         $historyQuality::updateOrCreate(['date' => $now], $data);
+        $this->updateCurrentHistoryQuality();
         return redirect('/quality/home')->with('success', 'Update data target IPQC!');
     }
 
@@ -178,6 +180,7 @@ class QualityController extends Controller
         $data = $quality->find($update['id']);
         $data->update($update);
         $data->save();
+        $this->updateCurrentHistoryQuality();
         return redirect('/quality/dashboard-ipqc')->with('success', 'Data NCR / LOT TAG Berhasil Diubah!');
     }
 
@@ -186,6 +189,7 @@ class QualityController extends Controller
         $data = $quality->find($update['id']);
         $data->update($update);
         $data->save();
+        $this->updateCurrentHistoryQuality();
         return redirect('/quality/dashboard-oqc')->with('success', 'Data NCR / LOT TAG Berhasil Diubah!');
     }
 }

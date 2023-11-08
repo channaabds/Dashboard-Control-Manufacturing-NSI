@@ -9,7 +9,9 @@
             data: {filter: data.value},
             success: function (response) {
                 var totalDTDisplayRef = document.querySelector('#totalDowntime');
-                totalDTDisplayRef.innerHTML = response;
+                var totalDTDHoursisplayRef = document.querySelector('#totalDowntimeHours');
+                totalDTDisplayRef.innerHTML = response.days;
+                totalDTDHoursisplayRef.innerHTML = response.hours;
                 console.log(response);
             },
             error: function(xhr, status, error) {
