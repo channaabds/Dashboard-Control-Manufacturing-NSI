@@ -24,16 +24,16 @@ class LoginController extends Controller
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
             if ($request->username == 'manager') {
-                return redirect()->intended('/menu')->with('success', 'masuk');
+                return redirect()->intended('/menu')->with('success', 'Login berhasil');
             }
             if ($request->username == 'maintenance') {
-                return redirect()->intended('/maintenance')->with('success', 'masuk');
+                return redirect()->intended('/maintenance')->with('success', 'Login berhasil');
             }
             if ($request->username == 'qc' || $request->username == 'qa') {
-                return redirect()->intended('/quality')->with('success', 'masuk');
+                return redirect()->intended('/quality')->with('success', 'Login berhasil');
             }
             if ($request->username == 'purchasing') {
-                return redirect()->intended('/purchasing')->with('success', 'masuk');
+                return redirect()->intended('/purchasing')->with('success', 'Login berhasil');
             }
         }
 

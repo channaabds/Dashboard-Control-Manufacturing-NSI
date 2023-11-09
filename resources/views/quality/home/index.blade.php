@@ -58,23 +58,23 @@
                   <tr>
                     <td>CAM</td>
                     <td>{{ $historyQuality->target_cam_ipqc }}</td>
-                    <td>{{ $ncrCamIpqc }}</td>
-                    <td>{{ $lotCamIpqc }}</td>
-                    <td>{{ $historyQuality->aktual_cam_ipqc }}</td>
+                    <td>{{ $historyQuality->ncr_cam_ipqc }}</td>
+                    <td>{{ $historyQuality->lot_cam_ipqc }}</td>
+                    <td>{{ $actualCamIpqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
                     <td>{{ $historyQuality->target_cnc_ipqc }}</td>
-                    <td>{{ $ncrCncIpqc }}</td>
-                    <td>{{ $lotCncIpqc }}</td>
-                    <td>{{ $historyQuality->aktual_cnc_ipqc }}</td>
+                    <td>{{ $historyQuality->ncr_cnc_ipqc }}</td>
+                    <td>{{ $historyQuality->lot_cnc_ipqc }}</td>
+                    <td>{{ $actualCncIpqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
                     <td>{{ $historyQuality->target_mfg_ipqc }}</td>
-                    <td>{{ $ncrMfgIpqc }}</td>
-                    <td>{{ $lotMfgIpqc }}</td>
-                    <td>{{ $historyQuality->aktual_mfg_ipqc }}</td>
+                    <td>{{ $historyQuality->ncr_mfg_ipqc }}</td>
+                    <td>{{ $historyQuality->lot_mfg_ipqc }}</td>
+                    <td>{{ $actualMfgIpqc }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -125,23 +125,23 @@
                   <tr>
                     <td>CAM</td>
                     <td>{{ $historyQuality->target_cam_oqc }}</td>
-                    <td>{{ $ncrCamOqc }}</td>
-                    <td>{{ $lotCamOqc }}</td>
-                    <td>{{ $historyQuality->aktual_cam_oqc }}</td>
+                    <td>{{ $historyQuality->ncr_cam_oqc }}</td>
+                    <td>{{ $historyQuality->lot_cam_oqc }}</td>
+                    <td>{{ $actualCamOqc }}</td>
                   </tr>
                   <tr>
                     <td>CNC</td>
                     <td>{{ $historyQuality->target_cnc_oqc }}</td>
-                    <td>{{ $ncrCncOqc }}</td>
-                    <td>{{ $lotCncOqc }}</td>
-                    <td>{{ $historyQuality->aktual_cnc_oqc }}</td>
+                    <td>{{ $historyQuality->ncr_cnc_oqc }}</td>
+                    <td>{{ $historyQuality->lot_cnc_oqc }}</td>
+                    <td>{{ $actualCncOqc }}</td>
                   </tr>
                   <tr>
                     <td>MFG2</td>
                     <td>{{ $historyQuality->target_mfg_oqc }}</td>
-                    <td>{{ $ncrMfgOqc }}</td>
-                    <td>{{ $lotMfgOqc }}</td>
-                    <td>{{ $historyQuality->aktual_mfg_oqc }}</td>
+                    <td>{{ $historyQuality->ncr_mfg_oqc }}</td>
+                    <td>{{ $historyQuality->lot_mfg_oqc }}</td>
+                    <td>{{ $actualMfgOqc }}</td>
                   </tr>
                 </tbody>
               </table>

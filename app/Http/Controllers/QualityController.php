@@ -30,40 +30,6 @@ class QualityController extends Controller
 
         $pastDate = $now->startOfMonth()->format('Y-m-d');
 
-        $camIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CAM')->count();
-        $cncIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'CNC')->count();
-        $mfgIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'IPQC')->where('section', 'MFG2')->count();
-        $camOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'OQC')->where('section', 'CAM')->count();
-        $cncOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'OQC')->where('section', 'CNC')->count();
-        $mfgOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->where('departement', 'OQC')->where('section', 'MFG2')->count();
-
-        $data = [
-            'aktual_cam_ipqc' => $camIpqc,
-            'aktual_cnc_ipqc' => $cncIpqc,
-            'aktual_mfg_ipqc' => $mfgIpqc,
-            'aktual_cam_oqc' => $camOqc,
-            'aktual_cnc_oqc' => $cncOqc,
-            'aktual_mfg_oqc' => $mfgOqc,
-        ];
-
-        HistoryQuality::updateOrCreate(['date' => $pastDate], $data);
-    }
-
-    public function indexHome()
-    {
-        $now = Carbon::now();
-        $monthNow = $now->format('m');
-        $yearNow = $now->format('Y');
-
-        $historyQuality = HistoryQuality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->first();
-
-        $user = auth()->user()->username;
-        $departement = substr($user, -1);
-
-        if ($historyQuality === null) {
-            $historyQuality = new HistoryQuality();
-        }
-
         $ncrCamIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)
             ->where('departement', 'IPQC')->where('section', 'CAM')->where('keterangan', 'NCR')->count();
         $lotCamIpqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)
@@ -89,21 +55,55 @@ class QualityController extends Controller
         $lotMfgOqc = Quality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)
             ->where('departement', 'OQC')->where('section', 'MFG2')->where('keterangan', 'LOT TAG')->count();
 
+        $data = [
+            'ncr_cam_ipqc' => $ncrCamIpqc,
+            'lot_cam_ipqc' => $lotCamIpqc,
+            'ncr_cnc_ipqc' => $ncrCncIpqc,
+            'lot_cnc_ipqc' => $lotCncIpqc,
+            'ncr_mfg_ipqc' => $ncrMfgIpqc,
+            'lot_mfg_ipqc' => $lotMfgIpqc,
+            'ncr_cam_oqc' => $ncrCamOqc,
+            'lot_cam_oqc' => $lotCamOqc,
+            'ncr_cnc_oqc' => $ncrCncOqc,
+            'lot_cnc_oqc' => $lotCncOqc,
+            'ncr_mfg_oqc' => $ncrMfgOqc,
+            'lot_mfg_oqc' => $lotMfgOqc,
+        ];
+
+        HistoryQuality::updateOrCreate(['date' => $pastDate], $data);
+    }
+
+    public function indexHome()
+    {
+        $now = Carbon::now();
+        $monthNow = $now->format('m');
+        $yearNow = $now->format('Y');
+
+        $historyQuality = HistoryQuality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->first();
+
+        $user = auth()->user()->username;
+        $departement = substr($user, -1);
+
+        if ($historyQuality === null) {
+            $historyQuality = new HistoryQuality();
+        }
+
+        $actualCamIpqc = $historyQuality->ncr_cam_ipqc + $historyQuality->lot_cam_ipqc;
+        $actualCncIpqc = $historyQuality->ncr_cnc_ipqc + $historyQuality->lot_cnc_ipqc;
+        $actualMfgIpqc = $historyQuality->ncr_mfg_ipqc + $historyQuality->lot_mfg_ipqc;
+        $actualCamOqc = $historyQuality->ncr_cam_oqc + $historyQuality->lot_cam_oqc;
+        $actualCncOqc = $historyQuality->ncr_cnc_oqc + $historyQuality->lot_cnc_oqc;
+        $actualMfgOqc = $historyQuality->ncr_mfg_oqc + $historyQuality->lot_mfg_oqc;
+
         return view('quality.home.index', [
             'historyQuality' => $historyQuality,
             'departement' => $departement,
-            'ncrCamIpqc' => $ncrCamIpqc,
-            'lotCamIpqc' => $lotCamIpqc,
-            'ncrCncIpqc' => $ncrCncIpqc,
-            'lotCncIpqc' => $lotCncIpqc,
-            'ncrMfgIpqc' => $ncrMfgIpqc,
-            'lotMfgIpqc' => $lotMfgIpqc,
-            'ncrCamOqc' => $ncrCamOqc,
-            'lotCamOqc' => $lotCamOqc,
-            'ncrCncOqc' => $ncrCncOqc,
-            'lotCncOqc' => $lotCncOqc,
-            'ncrMfgOqc' => $ncrMfgOqc,
-            'lotMfgOqc' => $lotMfgOqc,
+            'actualCamIpqc' => $actualCamIpqc,
+            'actualCncIpqc' => $actualCncIpqc,
+            'actualMfgIpqc' => $actualMfgIpqc,
+            'actualCamOqc' => $actualCamOqc,
+            'actualCncOqc' => $actualCncOqc,
+            'actualMfgOqc' => $actualMfgOqc,
         ]);
     }
 
