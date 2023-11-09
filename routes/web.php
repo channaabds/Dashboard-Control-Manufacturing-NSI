@@ -10,6 +10,7 @@ use App\Http\Controllers\MachineRepairController;
 use App\Http\Controllers\OqcController;
 use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\QualityController;
+use App\Http\Controllers\TargetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,9 +48,7 @@ Route::get('/menu', function () {
   return view('menu.index');
 });
 
-Route::get('/target', function () {
-  return view('target.index');
-});
+Route::get('/target', [TargetController::class, 'index']);
 
 // route untuk menjalankan downtime by ajax
 Route::post('/run-downtime', [DowntimeController::class, 'downtime'])->middleware('auth');
