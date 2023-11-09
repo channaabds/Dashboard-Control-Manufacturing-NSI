@@ -34,6 +34,11 @@
                         <p class="text-light fs-4">Quality ⚙</p>
                       </button>
                     </form>
+                    <form action="/target" method="get">
+                      <button class="card py-3 bg-danger d-flex align-items-center text-center px-3">
+                        <p class="text-light fs-4">Target 📈</p>
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>

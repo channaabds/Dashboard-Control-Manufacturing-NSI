@@ -47,6 +47,10 @@ Route::get('/menu', function () {
   return view('menu.index');
 });
 
+Route::get('/target', function () {
+  return view('target.index');
+});
+
 // route untuk menjalankan downtime by ajax
 Route::post('/run-downtime', [DowntimeController::class, 'downtime'])->middleware('auth');
 Route::post('/get-total-downtime-by-month', [DowntimeController::class, 'getTotalDowntime'])->middleware('auth');
@@ -84,18 +88,17 @@ Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(f
   Route::get('/', function () {
     return redirect('/quality/home');
   })->middleware('auth');
-
   Route::get('/home', [QualityController::class, 'indexHome'])->middleware('auth');
   Route::post('/home', [QualityController::class, 'store'])->middleware('auth');
   Route::put('/home-edit-ipqc', [QualityController::class, 'updateTargetIpqc'])->middleware('auth');
   Route::put('/home-edit-oqc', [QualityController::class, 'updateTargetOqc'])->middleware('auth');
-
   Route::get('/dashboard-ipqc', [QualityController::class, 'indexIpqc'])->middleware('auth');
   Route::get('/dashboard-oqc', [QualityController::class, 'indexOqc'])->middleware('auth');
   Route::put('/dashboard-ipqc/{id}', [QualityController::class, 'updateDataIpqc'])->middleware('auth');
   Route::put('/dashboard-oqc/{id}', [QualityController::class, 'updateDataOqc'])->middleware('auth');
 });
 
+// purchasing routes
 Route::prefix('purchasing')->middleware(['auth', 'isDepartement:purchasing'])->group(function () {
   Route::get('/', function () {
     return redirect('/purchasing/dashboard-waiting-sparepart');
