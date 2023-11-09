@@ -36,6 +36,48 @@
 
                 <form class="row g-3 needs-validation" novalidate method="POST" action="/register">
                   @csrf
+
+                  <div class="col-12">
+                    <label for="yourUsername" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" id="yourUsername" required>
+                    <div class="invalid-feedback">Masukkan username anda</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="departement" class="form-label">Departement</label>
+                    <select class="form-control" name="departement" id="departement">
+                      <option value="maintenance">Maintenance</option>
+                      <option value="purchasing">Purchasing</option>
+                      <option value="qc">QC</option>
+                      <option value="qa">QA</option>
+                      <option value="it">IT</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-control" name="role" id="role">
+                      <option value="member">Member</option>
+                      <option value="leader">Leader</option>
+                      <option value="manager">Manager</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" required>
+                    <div class="invalid-feedback">Masukkan password anda</div>
+                  </div>
+
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                  </div>
+
+                  <div class="col-4">
+                    <button class="btn btn-success" type="button"><a href="/login" class="text-light">Login</a></button>
+                  </div>
+                </form>
+
+                {{-- <form class="row g-3 needs-validation" novalidate method="POST" action="/register">
+                  @csrf
                   <div class="col-12">
                     <label for="yourUsername" class="form-label">Username</label>
                     <input type="text" name="username" class="form-control" id="yourUsername" required>
@@ -49,7 +91,8 @@
                   <div class="col-4">
                     <button class="btn btn-success" type="button"><a href="/login" class="text-light">Login</a></button>
                   </div>
-                </form>
+                </form> --}}
+
               </div>
             </div>
 
