@@ -10,6 +10,7 @@ use App\Http\Controllers\MachineRepairController;
 use App\Http\Controllers\OqcController;
 use App\Http\Controllers\PurchasingController;
 use App\Http\Controllers\QualityController;
+use App\Http\Controllers\TargetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,8 +48,11 @@ Route::get('/menu', function () {
   return view('menu.index');
 });
 
-Route::get('/target', function () {
-  return view('target.index');
+Route::prefix('target')->group(function () {
+  Route::get('/', [TargetController::class, 'index']);
+  Route::put('/update-quality', [TargetController::class, 'updateQuality']);
+  Route::put('/update-maintenance', [TargetController::class, 'updateMaintenance']);
+  Route::put('/update-sales', [TargetController::class, 'updateSales']);
 });
 
 // route untuk menjalankan downtime by ajax

@@ -8,123 +8,130 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   @endif
-  <div class="pagetitle">
-    <h1>Dashboard Data Claim NCR dan Lot Tag</h1>
-  </div>
 
   <section class="section dashboard">
     <div class="row">
-
-      <div class="col-lg-12 row">
-
-        <div class="col-xxl-6 col-md-6">
+      <div class="col-lg-6 row">
+        <div class="col-xxl-12 col-md-12">
+          <div class="pagetitle">
+            <h1>Target Departement Quality</h1>
+          </div>
           <div class="card info-card sales-card">
-            <div class="card-body">
-              <div class="card-title d-flex justify-content-between">
-                <h5>IPQC</h5>
+            <div class="card-body row">
+              <div class="col-lg-6">
+                <div class="card-title d-flex justify-content-between">
+                  <h5>IPQC</h5>
+                </div>
+
+                <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
+                  <thead class="mt-4">
+                    <tr>
+                      <th>Departement</th>
+                      <th>Target</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>CAM</td>
+                      <td>{{ $targetQuality->target_cam_ipqc }}</td>
+                    </tr>
+                    <tr>
+                      <td>CNC</td>
+                      <td>{{ $targetQuality->target_cnc_ipqc }}</td>
+                    </tr>
+                    <tr>
+                      <td>MFG2</td>
+                      <td>{{ $targetQuality->target_mfg_ipqc }}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+              <div class="col-lg-6">
+                <div class="card-title d-flex justify-content-between">
+                  <h5>OQC</h5>
+                </div>
 
-              <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
-                <thead class="mt-4">
-                  <tr>
-                    <th>Departement</th>
-                    <th>Target</th>
-                    <th>NCR</th>
-                    <th>LOT TAG</th>
-                    <th>Total Aktual</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>CAM</td>
-                    {{-- <td>{{ $historyQuality->target_cam_ipqc }}</td>
-                    <td>{{ $historyQuality->ncr_cam_ipqc }}</td>
-                    <td>{{ $historyQuality->lot_cam_ipqc }}</td>
-                    <td>{{ $actualCamIpqc }}</td> --}}
-                  </tr>
-                  <tr>
-                    <td>CNC</td>
-                    {{-- <td>{{ $historyQuality->target_cnc_ipqc }}</td>
-                    <td>{{ $historyQuality->ncr_cnc_ipqc }}</td>
-                    <td>{{ $historyQuality->lot_cnc_ipqc }}</td>
-                    <td>{{ $actualCncIpqc }}</td> --}}
-                  </tr>
-                  <tr>
-                    <td>MFG2</td>
-                    {{-- <td>{{ $historyQuality->target_mfg_ipqc }}</td>
-                    <td>{{ $historyQuality->ncr_mfg_ipqc }}</td>
-                    <td>{{ $historyQuality->lot_mfg_ipqc }}</td>
-                    <td>{{ $actualMfgIpqc }}</td> --}}
-                  </tr>
-                </tbody>
-              </table>
+                <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
+                  <thead class="mt-4">
+                    <tr>
+                      <th>Departement</th>
+                      <th>Target</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>CAM</td>
+                      <td>{{ $targetQuality->target_cam_oqc }}</td>
+                    </tr>
+                    <tr>
+                      <td>CNC</td>
+                      <td>{{ $targetQuality->target_cnc_oqc }}</td>
+                    </tr>
+                    <tr>
+                      <td>MFG2</td>
+                      <td>{{ $targetQuality->target_mfg_oqc }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetQuality">
+                Edit
+              </button>
 
-              {{-- @if ($departement == 'c')
-                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetIpqc">
-                  Edit
-                </button>
-
-                @include('quality.components.home.modals.editIpqc')
-              @endif --}}
-
+              @include('target.components.editQuality')
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col-xxl-6 col-md-6">
+      <div class="col-lg-3 row">
+        <div class="col-xxl-12 col-md-12">
+          <div class="pagetitle">
+            <h1>Target Departement Maintenance</h1>
+          </div>
           <div class="card info-card sales-card">
-            <div class="card-body">
-              <div class="card-title d-flex justify-content-between">
-                <h5>OQC</h5>
+            <div class="card-body row">
+              <div class="col-lg-12">
+                <div class="card-title d-flex justify-content-between">
+                  <h5>Target Downtime selama satu bulan</h5>
+                </div>
+                <div class="card-body d-flex justify-content-center">
+                  <h1>{{ $target->target_maintenance }}</h1>
+                </div>
               </div>
+              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetMaintenance">
+                Edit
+              </button>
 
-              <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
-                <thead class="mt-4">
-                  <tr>
-                    <th>Departement</th>
-                    <th>Target</th>
-                    <th>NCR</th>
-                    <th>LOT TAG</th>
-                    <th>Total Aktual</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>CAM</td>
-                    {{-- <td>{{ $historyQuality->target_cam_oqc }}</td>
-                    <td>{{ $historyQuality->ncr_cam_oqc }}</td>
-                    <td>{{ $historyQuality->lot_cam_oqc }}</td>
-                    <td>{{ $actualCamOqc }}</td> --}}
-                  </tr>
-                  <tr>
-                    <td>CNC</td>
-                    {{-- <td>{{ $historyQuality->target_cnc_oqc }}</td>
-                    <td>{{ $historyQuality->ncr_cnc_oqc }}</td>
-                    <td>{{ $historyQuality->lot_cnc_oqc }}</td>
-                    <td>{{ $actualCncOqc }}</td> --}}
-                  </tr>
-                  <tr>
-                    <td>MFG2</td>
-                    {{-- <td>{{ $historyQuality->target_mfg_oqc }}</td>
-                    <td>{{ $historyQuality->ncr_mfg_oqc }}</td>
-                    <td>{{ $historyQuality->lot_mfg_oqc }}</td>
-                    <td>{{ $actualMfgOqc }}</td> --}}
-                  </tr>
-                </tbody>
-              </table>
-
-              {{-- @if ($departement == 'c')
-                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetOqc">
-                  Edit
-                </button>
-
-                @include('quality.components.home.modals.editOqc')
-              @endif --}}
-
+              @include('target.components.editMaintenance')
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="col-lg-3 row">
+        <div class="col-xxl-12 col-md-12">
+          <div class="pagetitle">
+            <h1>Target Departement Sales</h1>
+          </div>
+          <div class="card info-card sales-card">
+            <div class="card-body row">
+              <div class="col-lg-12">
+                <div class="card-title d-flex justify-content-between">
+                  <h5>Target Sales Selama Satu Tahun</h5>
+                </div>
+                <div class="card-body d-flex justify-content-center">
+                  <h1>{{ $target->target_sales }}</h1>
+                </div>
+              </div>
+              <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetSales">
+                Edit
+              </button>
+
+              @include('target.components.editSales')
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
