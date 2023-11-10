@@ -93,15 +93,17 @@
             <div class="card-body row">
               <div class="col-lg-12">
                 <div class="card-title d-flex justify-content-between">
-                  <h5>Target Downtime selama satu tahun</h5>
+                  <h5>Target Downtime selama satu bulan</h5>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                  <h1>33000 JAM</h1>
+                  <h1>{{ $target->target_maintenance }}</h1>
                 </div>
               </div>
               <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetMaintenance">
                 Edit
               </button>
+
+              @include('target.components.editMaintenance')
             </div>
           </div>
         </div>
@@ -119,12 +121,14 @@
                   <h5>Target Sales Selama Satu Tahun</h5>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                  <h1>$ 20.000.000</h1>
+                  <h1>{{ $target->target_sales }}</h1>
                 </div>
               </div>
               <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetSales">
                 Edit
               </button>
+
+              @include('target.components.editSales')
             </div>
           </div>
         </div>

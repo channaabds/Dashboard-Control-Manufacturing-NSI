@@ -48,7 +48,12 @@ Route::get('/menu', function () {
   return view('menu.index');
 });
 
-Route::get('/target', [TargetController::class, 'index']);
+Route::prefix('target')->group(function () {
+  Route::get('/', [TargetController::class, 'index']);
+  Route::put('/update-quality', [TargetController::class, 'updateQuality']);
+  Route::put('/update-maintenance', [TargetController::class, 'updateMaintenance']);
+  Route::put('/update-sales', [TargetController::class, 'updateSales']);
+});
 
 // route untuk menjalankan downtime by ajax
 Route::post('/run-downtime', [DowntimeController::class, 'downtime'])->middleware('auth');
