@@ -9,7 +9,6 @@
         <form class="row g-3" method="POST" action="/purchasing/dashboard-waiting-sparepart/{{ $machineRepair->id }}">
           @csrf
           @method('put')
-          <input type="hidden" name="id" value="{{ $machineRepair->id }}">
           <div class="col-6">
             <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" value="{{ $machineRepair->dataMesin->no_mesin }}" readonly disabled/>

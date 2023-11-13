@@ -55,6 +55,15 @@ class PurchasingController extends Controller
         ]);
     }
 
+    public function indexMachine()
+    {
+        $machines = Machine::all();
+
+        return view('purchasing.machines.index', [
+            'machines' => $machines,
+        ]);
+    }
+
     public function index()
     {
         $MachineRepair = (new DowntimeController());
@@ -83,19 +92,19 @@ class PurchasingController extends Controller
         ]);
     }
 
-    public function update(Request $request, MachineRepair $machineRepair)
+    public function update($id, Request $request, MachineRepair $machineRepair)
     {
         $data = $request->except(['_method', '_token']);
-        $machineRepair = $machineRepair->find($data['id']);
+        $machineRepair = $machineRepair->find($id);
         $machineRepair->update($data);
         $machineRepair->save();
-        return redirect('/purchasing/dashboard-repair')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
+        return redirect('/purchasing/dashboard-waiting-sparepart')->with('success', 'Data Mesin Rusak Berhasil Diubah!');
     }
 
-    public function destroy(MachineRepair $machineRepair, $id)
+    public function destroy($id, MachineRepair $machineRepair)
     {
         $machineRepair = $machineRepair->find($id);
         $machineRepair->delete();
-        return redirect('/purchasing/dashboard-repair')->with('success', 'Data Mesin Sudah Dihapus!');
+        return redirect('/purchasing/dashboard-waiting-sparepart')->with('success', 'Data Mesin Sudah Dihapus!');
     }
 }

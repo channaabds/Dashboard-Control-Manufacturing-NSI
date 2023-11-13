@@ -7,7 +7,7 @@
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
                 <div class="logo d-flex align-items-center w-auto">
@@ -16,7 +16,46 @@
                 </div>
               </div>
 
-              <div class="container border border-dark p-4 rounded">
+              <div class="row row-cols-1 row-cols-md-2 g-4 border border-info rounded pb-2 mt-3">
+                <a href="/maintenance">
+                  <div class="col">
+                    <div class="card h-100 text-bg-danger text-center">
+                      <div class="card-body">
+                        <h5 class="card-title">Maintenance</h5>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a href="/purchasing">
+                  <div class="col">
+                    <div class="card h-100 text-bg-warning text-center">
+                      <div class="card-body">
+                        <h5 class="card-title">Purchasing</h5>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a href="/quality">
+                  <div class="col">
+                    <div class="card h-100 text-bg-success text-center">
+                      <div class="card-body">
+                        <h5 class="card-title">Quality</h5>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                {{-- <a href="">
+                  <div class="col">
+                    <div class="card h-100 text-bg-primary text-center">
+                      <div class="card-body">
+                        <h5 class="card-title">QA</h5>
+                      </div>
+                    </div>
+                  </div>
+                </a> --}}
+              </div>
+
+              {{-- <div class="container border border-dark p-4 rounded">
                 <div class="row">
                   <div class="col-md-12 card-container">
                     <form action="/maintenance" method="get">
@@ -41,7 +80,7 @@
                     </form>
                   </div>
                 </div>
-              </div>
+              </div> --}}
 
             </div>
           </div>

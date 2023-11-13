@@ -18,7 +18,7 @@
                     <i class="bi bi-journal-text"></i><span>Data Mesin</span>
                 </a>
             </li>
-            @if (auth()->user()->username == 'manager')
+            @if (auth()->user()->departement == 'it')
                 <li class="nav-item">
                     <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
                         <i class="bi bi-journal-text"></i><span>Menu</span>
@@ -27,6 +27,7 @@
             @endif
         </ul>
     @endif
+
     @if (Request::is('quality*'))
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
@@ -45,7 +46,7 @@
                     <i class="bi bi-journal-text"></i><span>Data OQC</span>
                 </a>
             </li>
-            @if (auth()->user()->username == 'manager')
+            @if (auth()->user()->departement == 'it')
                 <li class="nav-item">
                     <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
                         <i class="bi bi-journal-text"></i><span>Menu</span>
@@ -54,6 +55,7 @@
             @endif
         </ul>
     @endif
+
     @if (Request::is('purchasing*'))
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
@@ -72,7 +74,12 @@
                     <i class="bi bi-menu-button-wide"></i><span>Data Mesin OK (Finish)</span>
                 </a>
             </li>
-            @if (auth()->user()->username == 'manager')
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('purchasing/machines') ? 'collapsed' : ' ' }}" href="/purchasing/machines">
+                    <i class="bi bi-menu-button-wide"></i><span>Data Mesin</span>
+                </a>
+            </li>
+            @if (auth()->user()->departement == 'it')
                 <li class="nav-item">
                     <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
                         <i class="bi bi-journal-text"></i><span>Menu</span>
@@ -81,15 +88,14 @@
             @endif
         </ul>
     @endif
+
     @if (Request::is('menu*'))
         <ul class="sidebar-nav" id="sidebar-nav">
-            @if (auth()->user()->username == 'manager')
-                <li class="nav-item">
-                    <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
-                        <i class="bi bi-journal-text"></i><span>Menu</span>
-                    </a>
-                </li>
-            @endif
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
+                    <i class="bi bi-journal-text"></i><span>Menu</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link {{ !Request::is('purchasing/dashboard-waiting-sparepart') ? 'collapsed' : ' ' }}" href="/maintenance">
                     <i class="bi bi-journal-text"></i><span>Maintenance</span>
@@ -106,6 +112,13 @@
                     <i class="bi bi-menu-button-wide"></i><span>Quality</span>
                 </a>
             </li>
+            @if (auth()->user()->role == 'admin')
+                <li class="nav-item">
+                    <a class="nav-link {{ !Request::is('register') ? 'collapsed' : ' ' }}" href="/menu/register">
+                        <i class="bi bi-journal-text"></i><span>Tambah User Baru</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     @endif
 

@@ -30,25 +30,31 @@ Route::get('/', function () {
     return redirect("/login");
   }
 
-  $username = auth()->user()->username;
-  $url = $username;
+  $departement = auth()->user()->departement;
+  $url = $departement;
 
-  if ($username == 'qc' || $username == 'qa') {
+  if ($departement == 'it') {
+    return redirect("/menu");
+  }
+
+  if ($departement == 'qc' || $departement == 'qa') {
     $url = 'quality';
   }
 
   return redirect("/$url");
 })->middleware('auth');
 
-Route::get('/manager', function () {
-  return redirect('/menu');
+Route::prefix('/menu')->middleware(['auth', 'isDepartement: it'])->group(function () {
+  Route::get('/', function () {
+    return view('menu.index');
+  });
+
+  Route::get('/register', [LoginController::class, 'indexRegister']);
+  Route::post('/register', [LoginController::class, 'store']);
 });
 
-Route::get('/menu', function () {
-  return view('menu.index');
-});
 
-Route::prefix('target')->group(function () {
+Route::prefix('target')->middleware(['auth', 'isDepartement:it'])->group(function () {
   Route::get('/', [TargetController::class, 'index']);
   Route::put('/update-quality', [TargetController::class, 'updateQuality']);
   Route::put('/update-maintenance', [TargetController::class, 'updateMaintenance']);
@@ -73,50 +79,49 @@ Route::prefix('export')->middleware('auth')->group(function () {
 Route::prefix('maintenance')->middleware(['auth', 'isDepartement:maintenance'])->group(function () {
   Route::get('/', function () {
     return redirect('/maintenance/dashboard-repair');
-  })->middleware('auth');
+  });
 
   // main dashboard maintenance routes
   // repair machines
-  Route::resource('/dashboard-repair', MachineRepairController::class)->middleware('auth');
+  Route::resource('/dashboard-repair', MachineRepairController::class);
 
   // finish machine
-  Route::get('/dashboard-finish', [MachineFinishController::class, 'index'])->middleware('auth');
-  Route::delete('/dashboard-finish/{id}', [MachineFinishController::class, 'destroy'])->middleware('auth');
+  Route::get('/dashboard-finish', [MachineFinishController::class, 'index']);
+  Route::delete('/dashboard-finish/{id}', [MachineFinishController::class, 'destroy']);
 
   // machines routes
-  Route::resource('/machines', MachineController::class)->middleware('auth');
+  Route::resource('/machines', MachineController::class);
 });
 
 // quality routes
 Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(function () {
   Route::get('/', function () {
     return redirect('/quality/home');
-  })->middleware('auth');
-  Route::get('/home', [QualityController::class, 'indexHome'])->middleware('auth');
-  Route::post('/home', [QualityController::class, 'store'])->middleware('auth');
-  Route::put('/home-edit-ipqc', [QualityController::class, 'updateTargetIpqc'])->middleware('auth');
-  Route::put('/home-edit-oqc', [QualityController::class, 'updateTargetOqc'])->middleware('auth');
-  Route::get('/dashboard-ipqc', [QualityController::class, 'indexIpqc'])->middleware('auth');
-  Route::get('/dashboard-oqc', [QualityController::class, 'indexOqc'])->middleware('auth');
-  Route::put('/dashboard-ipqc/{id}', [QualityController::class, 'updateDataIpqc'])->middleware('auth');
-  Route::put('/dashboard-oqc/{id}', [QualityController::class, 'updateDataOqc'])->middleware('auth');
+  });
+  Route::get('/home', [QualityController::class, 'indexHome']);
+  Route::post('/home', [QualityController::class, 'store']);
+  Route::put('/home-edit-ipqc', [QualityController::class, 'updateTargetIpqc']);
+  Route::put('/home-edit-oqc', [QualityController::class, 'updateTargetOqc']);
+  Route::get('/dashboard-ipqc', [QualityController::class, 'indexIpqc']);
+  Route::get('/dashboard-oqc', [QualityController::class, 'indexOqc']);
+  Route::put('/dashboard-ipqc/{id}', [QualityController::class, 'updateDataIpqc']);
+  Route::put('/dashboard-oqc/{id}', [QualityController::class, 'updateDataOqc']);
 });
 
 // purchasing routes
 Route::prefix('purchasing')->middleware(['auth', 'isDepartement:purchasing'])->group(function () {
   Route::get('/', function () {
     return redirect('/purchasing/dashboard-waiting-sparepart');
-  })->middleware('auth');
-  Route::get('/dashboard-repair', [PurchasingController::class, 'indexDashboardRepair'])->middleware('auth');
-  Route::get('/dashboard-finish', [PurchasingController::class, 'indexDashboardFinish'])->middleware('auth');
-  Route::resource('/dashboard-waiting-sparepart', PurchasingController::class)->middleware('auth');
+  });
+  Route::get('/dashboard-repair', [PurchasingController::class, 'indexDashboardRepair']);
+  Route::get('/dashboard-finish', [PurchasingController::class, 'indexDashboardFinish']);
+  Route::get('/machines', [PurchasingController::class, 'indexMachine']);
+  Route::get('/dashboard-waiting-sparepart', [PurchasingController::class, 'index']);
+  Route::put('/dashboard-waiting-sparepart/{id}', [PurchasingController::class, 'update']);
+  Route::delete('/dashboard-waiting-sparepart/{id}', [PurchasingController::class, 'destroy']);
 });
 
 // login routes
 Route::get('/login', [LoginController::class, 'indexLogin'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest');
 Route::delete('/login', [LoginController::class, 'logout'])->middleware('auth');
-
-// register routes
-Route::get('/register', [LoginController::class, 'indexRegister']);
-Route::post('/register', [LoginController::class, 'store']);

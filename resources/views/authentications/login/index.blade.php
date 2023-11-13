@@ -57,10 +57,6 @@
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
-
-                    <div class="col-4">
-                      <button class="btn btn-success" type="button"><a href="/register" class="text-light">Register</a></button>
-                    </div>
                   </form>
 
                 </div>

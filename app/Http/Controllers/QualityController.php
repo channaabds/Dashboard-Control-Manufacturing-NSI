@@ -82,7 +82,7 @@ class QualityController extends Controller
         $historyQuality = HistoryQuality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->first();
 
         $user = auth()->user()->username;
-        $departement = substr($user, -1);
+        // $departement = substr($user, -1);
 
         if ($historyQuality === null) {
             $historyQuality = new HistoryQuality();
@@ -97,7 +97,7 @@ class QualityController extends Controller
 
         return view('quality.home.index', [
             'historyQuality' => $historyQuality,
-            'departement' => $departement,
+            // 'departement' => $departement,
             'actualCamIpqc' => $actualCamIpqc,
             'actualCncIpqc' => $actualCncIpqc,
             'actualMfgIpqc' => $actualMfgIpqc,
@@ -110,22 +110,18 @@ class QualityController extends Controller
     public function indexIpqc()
     {
         $user = auth()->user()->username;
-        $departement = substr($user, -1);
         $data = Quality::where('departement', 'IPQC')->orderBy('date', 'desc')->get();
         return view('quality.dashboard-ipqc.index', [
             'data' => $data,
-            'departement' => $departement,
         ]);
     }
 
     public function indexOqc()
     {
         $user = auth()->user()->username;
-        $departement = substr($user, -1);
         $data = Quality::where('departement', 'OQC')->orderBy('date', 'desc')->get();
         return view('quality.dashboard-oqc.index', [
             'data' => $data,
-            'departement' => $departement,
         ]);
     }
 
