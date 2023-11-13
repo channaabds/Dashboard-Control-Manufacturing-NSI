@@ -39,7 +39,7 @@
 </head>
 
 <body>
-  @if (!Request::is(['login', 'register']))
+  @if (!Request::is('login'))
     @include('partials.header')
     @include('partials.sidebar')
     {{-- @if (Request::is('quality/*'))
@@ -48,7 +48,7 @@
 
     @yield('content')
 
-  @if (!Request::is(['login', 'register']))
+  @if (!Request::is('login'))
     @include('partials.footer')
   @endif
 

@@ -6,10 +6,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="row g-3" method="POST" action="/maintenance/dashboard-repair/{{ $machineRepair->id }}">
+        <form class="row g-3" method="POST" action="/purchasing/dashboard-waiting-sparepart/{{ $machineRepair->id }}">
           @csrf
           @method('delete')
-          <input type="hidden" name="id" value="{{ $machineRepair->id }}">
           <h5 class="fw-bold text-center">Yakin Akan Menghapus Data {{ $machineRepair->dataMesin->no_mesin }} ?</h5>
           <div class="text-center">
             <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Batal</button>

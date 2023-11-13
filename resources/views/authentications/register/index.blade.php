@@ -70,10 +70,6 @@
                   <div class="col-12">
                     <button class="btn btn-primary w-100" type="submit">Create Account</button>
                   </div>
-
-                  <div class="col-4">
-                    <button class="btn btn-success" type="button"><a href="/login" class="text-light">Login</a></button>
-                  </div>
                 </form>
 
                 {{-- <form class="row g-3 needs-validation" novalidate method="POST" action="/register">

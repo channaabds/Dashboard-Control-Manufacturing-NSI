@@ -92,9 +92,11 @@
                     <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
                     data-bs-target="#editModal{{ $machineRepair->id }}">Edit</button>
                     @include('purchasing.components.dashboard-waiting-sparepart.modals.edit')
-                    <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal{{ $machineRepair->id }}">Hapus</button>
-                    @include('purchasing.components.dashboard-waiting-sparepart.modals.hapus')
+                    @if (auth()->user()->role == 'manager' || auth()->user()->role == 'admin')
+                      <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal"
+                      data-bs-target="#deleteModal{{ $machineRepair->id }}">Hapus</button>
+                      @include('purchasing.components.dashboard-waiting-sparepart.modals.hapus')
+                    @endif
                   </td>
                 </tr>
                 @endforeach

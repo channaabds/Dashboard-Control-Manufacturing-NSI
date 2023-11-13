@@ -48,16 +48,17 @@ class LoginController extends Controller
 
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
-            if ($request->username == 'manager') {
+            $departement = UserTest::where('username', $request->username)->first()->get('departement');
+            if ($departement == 'it') {
                 return redirect()->intended('/menu')->with('success', 'Login berhasil');
             }
-            if ($request->username == 'maintenance') {
+            if ($departement == 'maintenance') {
                 return redirect()->intended('/maintenance')->with('success', 'Login berhasil');
             }
-            if ($request->username == 'qc' || $request->username == 'qa') {
+            if ($departement == 'qc' || $departement == 'qa') {
                 return redirect()->intended('/quality')->with('success', 'Login berhasil');
             }
-            if ($request->username == 'purchasing') {
+            if ($departement == 'purchasing') {
                 return redirect()->intended('/purchasing')->with('success', 'Login berhasil');
             }
         }
