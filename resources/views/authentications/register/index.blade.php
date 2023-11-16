@@ -34,7 +34,7 @@
                   </div>
                 @endif
 
-                <form class="row g-3 needs-validation" novalidate method="POST" action="/register">
+                <form class="row g-3 needs-validation" novalidate method="POST" action="/menu/register">
                   @csrf
 
                   <div class="col-12">
@@ -71,23 +71,6 @@
                     <button class="btn btn-primary w-100" type="submit">Create Account</button>
                   </div>
                 </form>
-
-                {{-- <form class="row g-3 needs-validation" novalidate method="POST" action="/register">
-                  @csrf
-                  <div class="col-12">
-                    <label for="yourUsername" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" id="yourUsername" required>
-                    <div class="invalid-feedback">Masukkan username anda</div>
-                  </div>
-
-                  <div class="col-12">
-                    <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                  </div>
-
-                  <div class="col-4">
-                    <button class="btn btn-success" type="button"><a href="/login" class="text-light">Login</a></button>
-                  </div>
-                </form> --}}
 
               </div>
             </div>

@@ -106,6 +106,8 @@ Route::prefix('quality')->middleware(['auth', 'isDepartement:quality'])->group(f
   Route::get('/dashboard-oqc', [QualityController::class, 'indexOqc']);
   Route::put('/dashboard-ipqc/{id}', [QualityController::class, 'updateDataIpqc']);
   Route::put('/dashboard-oqc/{id}', [QualityController::class, 'updateDataOqc']);
+  Route::delete('/dashboard-ipqc/{id}', [QualityController::class, 'destroyDataIpqc']);
+  Route::delete('/dashboard-oqc/{id}', [QualityController::class, 'destroyDataOqc']);
 });
 
 // purchasing routes
