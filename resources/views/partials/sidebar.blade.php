@@ -122,4 +122,19 @@
         </ul>
     @endif
 
+    @if (Request::is('target*'))
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('target') ? 'collapsed' : ' ' }}" href="/target">
+                    <i class="bi bi-journal-text"></i><span>Target</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ !Request::is('menu') ? 'collapsed' : ' ' }}" href="/menu">
+                    <i class="bi bi-journal-text"></i><span>Menu</span>
+                </a>
+            </li>
+        </ul>
+    @endif
+
 </aside>

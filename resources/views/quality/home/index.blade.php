@@ -15,7 +15,7 @@
   <section class="section dashboard">
     <div class="row">
 
-      @if (auth()->user()->departement == 'qc')
+      @if ((auth()->user()->departement == 'qc') || (auth()->user()->departement == 'it'))
         <div class="col-xxl-12 col-md-12 mb-3 text-center">
           <button class="btn btn-success py-3" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
             Tambah Data
@@ -81,7 +81,8 @@
 
               <a href="/quality/dashboard-ipqc"><button class="btn btn-primary">Detail</button></a>
 
-              @if (auth()->user()->departement == 'qc')
+              {{-- @if (auth()->user()->departement == 'qc') --}}
+              @if (auth()->user()->departement == 'it')
                 <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetIpqc">
                   Edit
                 </button>
@@ -148,7 +149,8 @@
 
               <a href="/quality/dashboard-oqc"><button class="btn btn-primary">Detail</button></a>
 
-              @if (auth()->user()->departement == 'qc')
+              {{-- @if (auth()->user()->departement == 'qc') --}}
+              @if (auth()->user()->departement == 'it')
                 <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetOqc">
                   Edit
                 </button>

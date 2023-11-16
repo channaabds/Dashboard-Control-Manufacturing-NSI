@@ -102,6 +102,11 @@
                       <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
                       data-bs-target="#editModal{{ $d->id }}">Edit</button>
                       @include('quality.components.dashboard-ipqc.modals.edit')
+                      @if (auth()->user()->departement === 'it')
+                        <button class="btn btn-danger mb-1" type="button" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal{{ $d->id }}">Hapus</button>
+                        @include('quality.components.dashboard-ipqc.modals.hapus')
+                      @endif
                     </td>
                   </tr>
                 @endforeach

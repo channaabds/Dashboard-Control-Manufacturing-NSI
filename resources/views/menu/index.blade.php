@@ -44,15 +44,15 @@
                     </div>
                   </div>
                 </a>
-                {{-- <a href="">
+                <a href="/target">
                   <div class="col">
                     <div class="card h-100 text-bg-primary text-center">
                       <div class="card-body">
-                        <h5 class="card-title">QA</h5>
+                        <h5 class="card-title">Target</h5>
                       </div>
                     </div>
                   </div>
-                </a> --}}
+                </a>
               </div>
 
               {{-- <div class="container border border-dark p-4 rounded">

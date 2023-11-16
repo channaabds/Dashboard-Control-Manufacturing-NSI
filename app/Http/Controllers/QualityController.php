@@ -188,4 +188,16 @@ class QualityController extends Controller
         $this->updateCurrentHistoryQuality();
         return redirect('/quality/dashboard-oqc')->with('success', 'Data NCR / LOT TAG Berhasil Diubah!');
     }
+
+    public function destroyDataIpqc(Quality $quality, $id) {
+        $data = $quality->find($id);
+        $data->delete();
+        return redirect('/quality/dashboard-ipqc')->with('success', 'Data NCR / LOT TAG Sudah Dihapus!');
+    }
+
+    public function destroyDataOqc(Quality $quality, $id) {
+        $data = $quality->find($id);
+        $data->delete();
+        return redirect('/quality/dashboard-oqc')->with('success', 'Data NCR / LOT TAG Sudah Dihapus!');
+    }
 }
