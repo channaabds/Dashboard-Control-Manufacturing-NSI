@@ -132,61 +132,54 @@
                   <tbody>
                     <tr>
                       <td>Januari</td>
-                      <td>{{ $targetSales->januari }}</td>
+                      <td>{{ $targetSalesShow->januari }}</td>
                     </tr>
                     <tr>
                       <td>Februari</td>
-                      <td>{{ $targetSales->februari }}</td>
+                      <td>{{ $targetSalesShow->februari }}</td>
                     </tr>
                     <tr>
                       <td>Maret</td>
-                      <td>{{ $targetSales->maret }}</td>
+                      <td>{{ $targetSalesShow->maret }}</td>
                     </tr>
                     <tr>
                       <td>April</td>
-                      <td>{{ $targetSales->april }}</td>
+                      <td>{{ $targetSalesShow->april }}</td>
                     </tr>
                     <tr>
                       <td>Mei</td>
-                      <td>{{ $targetSales->mei }}</td>
+                      <td>{{ $targetSalesShow->mei }}</td>
                     </tr>
                     <tr>
                       <td>Juni</td>
-                      <td>{{ $targetSales->juni }}</td>
+                      <td>{{ $targetSalesShow->juni }}</td>
                     </tr>
                     <tr>
                       <td>Juli</td>
-                      <td>{{ $targetSales->juli }}</td>
+                      <td>{{ $targetSalesShow->juli }}</td>
                     </tr>
                     <tr>
                       <td>Agustus</td>
-                      <td>{{ $targetSales->agustus }}</td>
+                      <td>{{ $targetSalesShow->agustus }}</td>
                     </tr>
                     <tr>
                       <td>September</td>
-                      <td>{{ $targetSales->september }}</td>
+                      <td>{{ $targetSalesShow->september }}</td>
                     </tr>
                     <tr>
                       <td>Oktober</td>
-                      <td>{{ $targetSales->oktober }}</td>
+                      <td>{{ $targetSalesShow->oktober }}</td>
                     </tr>
                     <tr>
                       <td>November</td>
-                      <td>{{ $targetSales->november }}</td>
+                      <td>{{ $targetSalesShow->november }}</td>
                     </tr>
                     <tr>
                       <td>Desember</td>
-                      <td>{{ $targetSales->desember }}</td>
+                      <td>{{ $targetSalesShow->desember }}</td>
                     </tr>
                   </tbody>
                 </table>
-
-                {{-- <div class="card-title d-flex justify-content-between">
-                  <h5>Target Sales Selama Satu Tahun</h5>
-                </div>
-                <div class="card-body d-flex justify-content-center"> --}}
-                  {{-- <h1>{{ $target->target_sales }}</h1> --}}
-                {{-- </div> --}}
               </div>
               <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetSales">
                 Edit

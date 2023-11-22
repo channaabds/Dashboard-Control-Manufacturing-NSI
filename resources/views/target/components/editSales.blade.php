@@ -9,7 +9,6 @@
         <form class="row g-3" method="POST" action="/target/update-sales">
           @csrf
           @method('put')
-          {{-- <input type="hidden" name="id" value="{{ $targetSales->id }}"> --}}
           <div class="col-6">
             <div class="col-12">
               <label for="januari" class="form-label">Januari</label>
