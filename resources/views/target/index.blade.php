@@ -96,7 +96,7 @@
                   <h5>Target Downtime selama satu bulan</h5>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                  <h1>{{ $target->target_maintenance }}</h1>
+                  <h1>{{ $targetMaintenance->target_maintenance }}</h1>
                 </div>
               </div>
               <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetMaintenance">
@@ -117,12 +117,76 @@
           <div class="card info-card sales-card">
             <div class="card-body row">
               <div class="col-lg-12">
+
                 <div class="card-title d-flex justify-content-between">
+                  <h5>Target Sales Bulanan</h5>
+                </div>
+
+                <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
+                  <thead class="mt-4">
+                    <tr>
+                      <th>Bulan</th>
+                      <th>Target</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Januari</td>
+                      <td>{{ $targetSales->januari }}</td>
+                    </tr>
+                    <tr>
+                      <td>Februari</td>
+                      <td>{{ $targetSales->februari }}</td>
+                    </tr>
+                    <tr>
+                      <td>Maret</td>
+                      <td>{{ $targetSales->maret }}</td>
+                    </tr>
+                    <tr>
+                      <td>April</td>
+                      <td>{{ $targetSales->april }}</td>
+                    </tr>
+                    <tr>
+                      <td>Mei</td>
+                      <td>{{ $targetSales->mei }}</td>
+                    </tr>
+                    <tr>
+                      <td>Juni</td>
+                      <td>{{ $targetSales->juni }}</td>
+                    </tr>
+                    <tr>
+                      <td>Juli</td>
+                      <td>{{ $targetSales->juli }}</td>
+                    </tr>
+                    <tr>
+                      <td>Agustus</td>
+                      <td>{{ $targetSales->agustus }}</td>
+                    </tr>
+                    <tr>
+                      <td>September</td>
+                      <td>{{ $targetSales->september }}</td>
+                    </tr>
+                    <tr>
+                      <td>Oktober</td>
+                      <td>{{ $targetSales->oktober }}</td>
+                    </tr>
+                    <tr>
+                      <td>November</td>
+                      <td>{{ $targetSales->november }}</td>
+                    </tr>
+                    <tr>
+                      <td>Desember</td>
+                      <td>{{ $targetSales->desember }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                {{-- <div class="card-title d-flex justify-content-between">
                   <h5>Target Sales Selama Satu Tahun</h5>
                 </div>
-                <div class="card-body d-flex justify-content-center">
-                  <h1>{{ $target->target_sales }}</h1>
-                </div>
+                <div class="card-body d-flex justify-content-center"> --}}
+                  {{-- <h1>{{ $target->target_sales }}</h1> --}}
+                {{-- </div> --}}
               </div>
               <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#editTargetSales">
                 Edit
