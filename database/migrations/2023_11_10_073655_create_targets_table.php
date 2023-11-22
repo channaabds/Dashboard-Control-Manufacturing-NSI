@@ -14,6 +14,18 @@ return new class extends Migration
         Schema::create('targets', function (Blueprint $table) {
             $table->id();
             $table->integer('target_maintenance')->default(2750);
+            // $table->integer('januari')->default(1500);
+            // $table->integer('februari')->default(1500);
+            // $table->integer('maret')->default(1500);
+            // $table->integer('april')->default(1500);
+            // $table->integer('mei')->default(1500);
+            // $table->integer('juni')->default(1500);
+            // $table->integer('juli')->default(1500);
+            // $table->integer('agustus')->default(1500);
+            // $table->integer('september')->default(1500);
+            // $table->integer('oktober')->default(1500);
+            // $table->integer('november')->default(1500);
+            // $table->integer('desember')->default(1500);
             $table->integer('target_qmp')->default(20000000);
             $table->timestamps();
         });

@@ -9,11 +9,11 @@
         <form class="row g-3" method="POST" action="/target/update-maintenance">
           @csrf
           @method('put')
-          <input type="hidden" name="id" value="{{ $target->id }}">
+          <input type="hidden" name="id" value="{{ $targetMaintenance->id }}">
           <div class="col-12">
             <div class="col-12">
               <label for="target_maintenance" class="form-label">Target downtime selama satu bulan</label>
-              <input type="number" class="form-control" id="target_maintenance" name="target_maintenance" value="{{ $target->target_maintenance }}">
+              <input type="number" class="form-control" id="target_maintenance" name="target_maintenance" value="{{ $targetMaintenance->target_maintenance }}">
             </div>
           </div>
           <div class="text-center">

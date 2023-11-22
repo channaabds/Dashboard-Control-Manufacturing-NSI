@@ -30,11 +30,5 @@ class HistoryQuality extends Model
         'lot_cnc_oqc' => 0,
         'ncr_mfg_oqc' => 0,
         'lot_mfg_oqc' => 0,
-        // 'aktual_cam_ipqc' => 0,
-        // 'aktual_cnc_ipqc' => 0,
-        // 'aktual_mfg_ipqc' => 0,
-        // 'aktual_cam_oqc' => 0,
-        // 'aktual_cnc_oqc' => 0,
-        // 'aktual_mfg_oqc' => 0,
     ];
 }

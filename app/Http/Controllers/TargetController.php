@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\HistoryQuality;
 use App\Models\Target;
+use App\Models\TargetMaintenance;
+use App\Models\TargetSales;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,15 +21,31 @@ class TargetController extends Controller
         $monthNow = $now->format('m');
         $yearNow = $now->format('Y');
 
+        $targetMaintenance = TargetMaintenance::first();
+        if ($targetMaintenance === null) {
+            $targetMaintenance = new TargetMaintenance();
+        }
+
         $targetQuality = HistoryQuality::whereMonth('date', $monthNow)->whereYear('date', $yearNow)->get([
             'target_cam_ipqc', 'target_cnc_ipqc', 'target_mfg_ipqc',
             'target_cam_oqc', 'target_cnc_oqc', 'target_mfg_oqc',
         ])->first();
-        $target = Target::first();
-        $target->target_sales = $this->moneyFormat($target->target_qmp);
+        if ($targetQuality === null) {
+            $targetQuality = new HistoryQuality();
+        }
+
+        $targetSales = TargetSales::whereYear('tahun', $yearNow)->first();
+        if ($targetSales === null) {
+            $targetSales = new TargetSales();
+        }
+        // return dd($targetSales, $targetMaintenance, $targetQuality);
+
+        // $target = Target::first();
+        // $target->target_sales = $this->moneyFormat($target->target_qmp);
         return view('target.index', [
             'targetQuality' => $targetQuality,
-            'target' => $target,
+            'targetMaintenance' => $targetMaintenance,
+            'targetSales' => $targetSales,
         ]);
     }
 
@@ -47,9 +65,18 @@ class TargetController extends Controller
         return redirect('/target')->with('success', 'Data Target Maintenance Berhasil Diubah!');
     }
 
-    public function updateSales(Request $request, Target $target) {
-        $data = $request->only('target_qmp');
-        $target->find($request->id)->update($data);
+    public function updateSales(Request $request, TargetSales $targetSales) {
+        $now = Carbon::now();
+        $yearNow = $now->format('Y');
+        $tahun = $now->format('Y-m-d');
+        $data = $request->except(['_token', '_method']);
+        $target = $targetSales::whereYear('tahun', $yearNow)->first();
+        if ($target === null) {
+            $data['tahun'] = $tahun;
+            $targetSales::create($data);
+        } else {
+            $target->update($data);
+        }
         return redirect('/target')->with('success', 'Data Target QMP Sales Berhasil Diubah!');
     }
 }
