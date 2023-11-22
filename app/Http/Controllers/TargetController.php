@@ -35,16 +35,22 @@ class TargetController extends Controller
         }
 
         $targetSales = TargetSales::whereYear('tahun', $yearNow)->first();
-        if ($targetSales === null) {
+        $targetSalesShow = TargetSales::whereYear('tahun', $yearNow)->first();
+        if ($targetSales === null || $targetSalesShow === null) {
             $targetSales = new TargetSales();
+            $targetSalesShow = new TargetSales();
         }
-        // return dd($targetSales, $targetMaintenance, $targetQuality);
 
-        // $target = Target::first();
-        // $target->target_sales = $this->moneyFormat($target->target_qmp);
+        $bulanList = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
+
+        foreach ($bulanList as $bulan) {
+            $targetSalesShow->$bulan = $this->moneyFormat($targetSalesShow->$bulan);
+        }
+
         return view('target.index', [
             'targetQuality' => $targetQuality,
             'targetMaintenance' => $targetMaintenance,
+            'targetSalesShow' => $targetSalesShow,
             'targetSales' => $targetSales,
         ]);
     }
