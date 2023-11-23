@@ -192,12 +192,14 @@ class QualityController extends Controller
     public function destroyDataIpqc(Quality $quality, $id) {
         $data = $quality->find($id);
         $data->delete();
+        $this->updateCurrentHistoryQuality();
         return redirect('/quality/dashboard-ipqc')->with('success', 'Data NCR / LOT TAG Sudah Dihapus!');
     }
 
     public function destroyDataOqc(Quality $quality, $id) {
         $data = $quality->find($id);
         $data->delete();
+        $this->updateCurrentHistoryQuality();
         return redirect('/quality/dashboard-oqc')->with('success', 'Data NCR / LOT TAG Sudah Dihapus!');
     }
 }
