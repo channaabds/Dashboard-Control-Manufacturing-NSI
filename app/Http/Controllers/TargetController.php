@@ -65,9 +65,14 @@ class TargetController extends Controller
         return redirect('/target')->with('success', 'Data Target Quality Berhasil Diubah!');
     }
 
-    public function updateMaintenance(Request $request, Target $target) {
+    public function updateMaintenance(Request $request) {
         $data = $request->only('target_maintenance');
-        $target->find($request->id)->update($data);
+        $target = TargetMaintenance::first();
+        if ($target === null) {
+            TargetMaintenance::create($data);
+        } else {
+            $target->update($data);
+        }
         return redirect('/target')->with('success', 'Data Target Maintenance Berhasil Diubah!');
     }
 
