@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Models\HistoryQuality;
+use App\Models\TargetSales;
 use App\Models\MachineRepair;
 use App\Models\Quality;
 use App\Models\TotalDowntime;
@@ -137,6 +138,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->call(function () {
+            $now = Carbon::now();
+            $year = $now->format('Y');
+            $tahun = $now->addYear()->startOfYear()->format('Y-m-d');
+            $data = TargetSales::whereYear('tahun', $year)->get([
+                'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli',
+                'agustus', 'september', 'oktober', 'november', 'desember',
+            ])->first()->toArray();
+            $data['tahun'] = $tahun;
+            TargetSales::create($data);
+        })->yearlyOn(12, 31, '23:00');
+
+        // update data target quality
         $schedule->call(function () {
             $now = Carbon::now();
             $pastDate = $now->subMonth()->startOfMonth();
