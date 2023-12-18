@@ -3,7 +3,7 @@
     let min = minDate.val();
     let max = maxDate.val();
 
-    let date = new Date(data[0]);
+    let date = new Date(data[1]);
 
     if (
       (min === null && max === null)
@@ -57,7 +57,7 @@
     }
   });
 
-  document.querySelectorAll('#minRusak, #maxRusak').forEach((el) => {
+  document.querySelectorAll('#minData, #maxData').forEach((el) => {
     el.addEventListener('change', () => table.draw());
   });
 
