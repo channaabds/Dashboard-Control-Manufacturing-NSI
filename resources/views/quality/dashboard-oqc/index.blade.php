@@ -40,7 +40,6 @@
               </form>
             </table>
 
-
             <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
             id="tableDashboardOqc">
               <thead class="mt-4">
