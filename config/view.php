@@ -33,4 +33,8 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+    // Di dalam config/view.php
+    'pagination' => 'pagination::bootstrap-4',
+
+
 ];

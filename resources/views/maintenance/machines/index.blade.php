@@ -4,8 +4,8 @@
 @inject('carbon', 'Carbon\Carbon')
 <main id="main" class="main">
   @if (session()->has('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ session('success') }}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   @endif
@@ -24,6 +24,12 @@
               <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#tambahData">
                 Tambah Data
               </button>
+              <!-- Tambahkan form untuk menangani ekspor -->
+              <form action="{{ route('export.mesin') }}" method="POST">
+    @csrf <!-- Tambahkan CSRF token untuk keamanan -->
+    <button type="submit" class="btn btn-success">Export</button>
+</form>
+
             </div>
 
             <table class="table table-bordered table-striped"
@@ -62,7 +68,7 @@
     </div>
   </section>
 
-@include('maintenance.components.machines.modals.tambah')
+  @include('maintenance.components.machines.modals.tambah')
 
 </main>
 

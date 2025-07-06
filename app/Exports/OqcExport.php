@@ -71,10 +71,16 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
                                 $dataDB->sampling,
                                 $dataDB->qty_check,
                                 $dataDB->ng,
-                                number_format(($dataDB->ng/$dataDB->qty_check)*100, 2),
+                                $dataDB->qty_check != 0 ? number_format(($dataDB->ng / $dataDB->qty_check) * 100, 2) : '0.00',
+                                $dataDB->section,
                                 $dataDB->ng_pic,
-                                $dataDB->pic_departement,
+                                $dataDB->shift,
+                                $dataDB->leader,
+                                // $dataDB->penyebab,
+                                $dataDB->{'4m_make'},
                                 $dataDB->penyebab,
+                                $dataDB->{'4m_loose'},
+                                $dataDB->w_loose,
                                 $dataDB->action,
                                 $dataDB->deadline,
                                 $dataDB->status,
@@ -82,7 +88,7 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
                                 $dataDB->no_ncr_lot,
                                 $dataDB->keterangan,
                                 $dataDB->judgement,
-                                $dataDB->pembahasan,
+                                // $dataDB->pembahasan,
                             ];
             $i++;
         }
@@ -104,9 +110,14 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
             'Qty Check',
             'NG',
             '%',
+            'Department',
             'NG PIC',
-            'PIC Departement (IPQC/OQC)',
-            'Penyebab',
+            'Shift',
+            'Leader',
+            '4M Why Make',
+            'Why Make',
+            '4m Why Loose',
+            'Why Loose',
             'Action',
             'Deadline',
             'Status',
@@ -114,7 +125,7 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
             'No NCR/LOT TAG',
             'Keterangan',
             'judgement',
-            'Pembahasan',
+
         ];
     }
 
@@ -122,6 +133,7 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
     {
         return [
             1    => ['font' => ['bold' => true]],
+
         ];
     }
 
@@ -148,16 +160,17 @@ class OqcExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, 
                     $cellRange = "A1:W" . $i+1;
                 }
 
-                $event->sheet->styleCells(
-                    $cellRange,
-                    [
-                        'borders' => [
-                            'allBorders' => [
-                                'borderStyle' => Border::BORDER_THIN,
-                            ],
-                        ]
-                    ]
-                );
+                $event->sheet->getStyle($cellRange)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                        ],
+                    ],
+                ]);
+
+                for ($column = 'A'; $column <= 'Z'; $column++) {
+                    $event->sheet->getColumnDimension($column)->setAutoSize(true);
+                }
             },
         ];
     }

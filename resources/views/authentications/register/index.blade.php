@@ -47,6 +47,7 @@
                     <select class="form-control" name="departement" id="departement">
                       <option value="maintenance">Maintenance</option>
                       <option value="purchasing">Purchasing</option>
+                      <option value="pd">Production</option>
                       <option value="qc">QC</option>
                       <option value="qa">QA</option>
                       <option value="it">IT</option>

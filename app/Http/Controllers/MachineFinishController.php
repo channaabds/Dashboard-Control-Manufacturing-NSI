@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\MachineRepair;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 
 class MachineFinishController extends Controller
 {
     public function index()
     {
-        $machineFinishes = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
+        $machineFinishes = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->orderBy('tgl_kerusakan', 'desc')->orderBy('id', 'desc')->get();
         $DowntimeController = (new DowntimeController());
 
         foreach ($machineFinishes as $machineFinish) {

@@ -22,6 +22,10 @@ class IsDepartement
             $userDepartement = 'quality';
         }
 
+        if ($userDepartement == 'pd') {
+            $userDepartement = 'production';
+        }
+
         if ($userDepartement == 'it') {
             return $next($request);
         }

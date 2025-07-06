@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, WithEvents
+class MachineRepairsExportHistory implements FromArray, ShouldAutoSize, WithHeadings, WithStyles, WithEvents
 {
     use Exportable;
 
@@ -59,22 +59,21 @@ class MachineRepairsExport implements FromArray, ShouldAutoSize, WithHeadings, W
             $maxDate = Carbon::create($this->max);
 
             if ($this->min !== null && $this->max === null) {
-                $query->whereDate('tgl_kerusakan', '>=', $minDate);
+                $query->whereDate('updated_at', '>=', $minDate);
             }
 
             if ($this->min === null && $this->max !== null) {
-                $query->whereDate('tgl_kerusakan', '<=', $maxDate);
+                $query->whereDate('updated_at', '<=', $maxDate);
             }
 
             if ($this->min !== null && $this->max !== null) {
-                $query->whereDate('tgl_kerusakan', '>=', $minDate)
-                    ->whereDate('tgl_kerusakan', '<=', $maxDate);
+                $query->whereDate('updated_at', '>=', $minDate)
+                    ->whereDate('updated_at', '<=', $maxDate);
             }
         }
 
         // Ambil semua data yang memiliki keterangan "history" dan urutkan berdasarkan mesin_id dan tanggal input
         $dataExportDB = $query->where('keterangan', 'LIKE', '%history%')
-            ->where('status_mesin', '<>', 'OK Repair (Finish)') // Tambahkan filter untuk mengecualikan OK Repair (Finish)
             ->orderBy('mesin_id')
             ->orderBy('tgl_input', 'desc')
             ->orderBy('id', 'desc')

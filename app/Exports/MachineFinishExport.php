@@ -36,7 +36,7 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
         $i = 1;
         if ($this->min === null && $this->max === null) {
             $dataExportDB = MachineRepair::where('status_mesin', 'OK Repair (Finish)')
-                            ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
+                ->orderBy('tgl_input', 'desc')->orderBy('id', 'desc')->get();
         }
 
         if ($this->min !== null || $this->max !== null) {
@@ -45,21 +45,21 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
 
             if ($this->min !== null && $this->max === null) {
                 $dataExportDB = MachineRepair::where('status_mesin', 'OK Repair (Finish)')
-                                ->whereDate('tgl_kerusakan', '>=', $minDate)->orderBy('tgl_input', 'desc')
-                                ->orderBy('id', 'desc')->get();
+                    ->whereDate('tgl_kerusakan', '>=', $minDate)->orderBy('tgl_input', 'desc')
+                    ->orderBy('id', 'desc')->get();
             }
 
             if ($this->min === null && $this->max !== null) {
                 $dataExportDB = MachineRepair::where('status_mesin', 'OK Repair (Finish)')
-                                ->whereDate('tgl_kerusakan', '<=', $maxDate)->orderBy('tgl_input', 'desc')
-                                ->orderBy('id', 'desc')->get();
-                            }
+                    ->whereDate('tgl_kerusakan', '<=', $maxDate)->orderBy('tgl_input', 'desc')
+                    ->orderBy('id', 'desc')->get();
+            }
 
             if ($this->min !== null && $this->max !== null) {
                 $dataExportDB = MachineRepair::where('status_mesin', 'OK Repair (Finish)')
-                                ->whereDate('tgl_kerusakan', '>=', $minDate)
-                                ->whereDate('tgl_kerusakan', '<=', $maxDate)->orderBy('tgl_input', 'desc')
-                                ->orderBy('id', 'desc')->get();
+                    ->whereDate('tgl_kerusakan', '>=', $minDate)
+                    ->whereDate('tgl_kerusakan', '<=', $maxDate)->orderBy('tgl_input', 'desc')
+                    ->orderBy('id', 'desc')->get();
             }
         }
 
@@ -69,30 +69,30 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
             $dataDowntime = $DowntimeController->downtimeTranslator($dataDB->total_downtime, true);
             $detikDowntime = $DowntimeController->downtimeToSeconds($dataDB->total_downtime);
             $dataExport[$i] = [
-                                $i,
-                                $dataDB->dataMesin->no_mesin,
-                                $dataDB->dataMesin->tipe_mesin,
-                                $dataDB->dataMesin->tipe_bartop,
-                                $dataDB->dataMesin->seri_mesin,
-                                $dataDB->pic,
-                                $dataDB->request,
-                                $dataDB->bagian_rusak,
-                                $dataDB->sebab,
-                                $dataDB->analisa,
-                                $dataDB->aksi,
-                                $dataDB->sparepart,
-                                $dataDB->prl,
-                                $dataDB->po,
-                                $dataDB->kedatangan_po,
-                                $dataDB->kedatangan_prl,
-                                $dataDB->tgl_kerusakan,
-                                $dataDB->tgl_input,
-                                $dataDB->tgl_ok_repair,
-                                $dataDB->status_mesin,
-                                $dataDB->status_aktifitas,
-                                $dataDowntime,
-                                $detikDowntime,
-                            ];
+                $i,
+                $dataDB->dataMesin->no_mesin,
+                $dataDB->dataMesin->tipe_mesin,
+                $dataDB->dataMesin->tipe_bartop,
+                $dataDB->dataMesin->seri_mesin,
+                $dataDB->pic,
+                $dataDB->request,
+                $dataDB->bagian_rusak,
+                $dataDB->sebab,
+                $dataDB->analisa,
+                $dataDB->aksi,
+                $dataDB->sparepart,
+                $dataDB->prl,
+                $dataDB->po,
+                $dataDB->kedatangan_po,
+                $dataDB->kedatangan_prl,
+                $dataDB->tgl_kerusakan,
+                $dataDB->tgl_input,
+                $dataDB->tgl_finish,
+                $dataDB->status_mesin,
+                $dataDB->status_aktifitas,
+                $dataDowntime,
+                $detikDowntime,
+            ];
             $i++;
         }
         return $dataExport;
@@ -130,7 +130,7 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
     public function styles(Worksheet $sheet)
     {
         return [
-            1    => ['font' => ['bold' => true]],
+            1 => ['font' => ['bold' => true]],
         ];
     }
 
@@ -141,10 +141,10 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
         });
 
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 if ($this->min === null && $this->max === null) {
                     $i = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->count();
-                    $cellRange = "A1:W" . $i+1;
+                    $cellRange = "A1:W" . $i + 1;
                 }
 
                 $minDate = Carbon::create($this->min);
@@ -152,18 +152,18 @@ class MachineFinishExport implements FromArray, ShouldAutoSize, WithHeadings, Wi
 
                 if ($this->min !== null && $this->max === null) {
                     $i = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->whereDate('tgl_kerusakan', '>=', $minDate)->count();
-                    $cellRange = "A1:W" . $i+1;
+                    $cellRange = "A1:W" . $i + 1;
                 }
 
                 if ($this->min === null && $this->max !== null) {
                     $i = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->whereDate('tgl_kerusakan', '<=', $maxDate)->count();
-                    $cellRange = "A1:W" . $i+1;
+                    $cellRange = "A1:W" . $i + 1;
                 }
 
                 if ($this->min !== null && $this->max !== null) {
                     $i = MachineRepair::where('status_mesin', 'OK Repair (Finish)')->whereDate('tgl_kerusakan', '>=', $minDate)
-                            ->whereDate('tgl_kerusakan', '<=', $maxDate)->count();
-                    $cellRange = "A1:W" . $i+1;
+                        ->whereDate('tgl_kerusakan', '<=', $maxDate)->count();
+                    $cellRange = "A1:W" . $i + 1;
                 }
 
                 $event->sheet->styleCells(

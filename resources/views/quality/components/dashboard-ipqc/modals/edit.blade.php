@@ -79,13 +79,21 @@
                   <label for="ng" class="form-label">NG</label>
                   <input type="number" class="form-control" id="ng" name="ng" value="{{ $d->ng }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
               </div>
+              {{-- <div class="col-6">
+                <label for="ng_pic" class="form-label">DEPARTMENT <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="ng_pic" name="ng_pic" value="{{ $d->department }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }} required>
+            </div> --}}
               <div class="col-6">
                   <label for="ng_pic" class="form-label">NG PIC <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="ng_pic" name="ng_pic" value="{{ $d->ng_pic }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }} required>
               </div>
               <div class="col-6">
-                  <label for="pic_departement" class="form-label">PIC Departement <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="pic_departement" name="pic_departement" value="{{ $d->pic_departement }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }} required>
+                  <label for="leader" class="form-label">LEADER <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="leader" name="leader" value="{{ $d->leader }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }} required>
+              </div>
+              <div class="col-6">
+                  <label for="shift" class="form-label">SHIFT <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="shift" name="shift" value="{{ $d->shift }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }} required>
               </div>
               <div class="col-6">
                   <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
@@ -99,21 +107,34 @@
                   <label for="pic_input" class="form-label">PIC Input <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="pic_input" name="pic_input" value="{{ $d->pic_input }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }} required>
               </div>
-              <div class="col-6">
+              <div class="col-12">
                   <label for="judgement" class="form-label">Judgement</label>
                   <input type="text" class="form-control" id="judgement" name="judgement" value="{{ $d->judgement }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
               </div>
-              <div class="col-6">
+              {{-- <div class="col-6">
                   <label for="penyebab" class="form-label">Penyebab</label>
                   <textarea name="penyebab" id="penyebab" class="form-control" style="height: 100px" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>{{ $d->penyebab }}</textarea>
+              </div> --}}
+
+              <div class="col-6 text-center">
+                  <label for="4m_make" class="form-label">4M WHY MAKE</label>
+                  <input type="text" class="form-control" style="height: 100px" id="4m_make" name="4m_make" value="{{ $d->{'4m_make'} }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
               </div>
-              <div class="col-6">
+              <div class="col-6 text-center">
+                  <label for="w_make" class="form-label">WHY MAKE</label>
+                  <input type="text" class="form-control" id="penyebab" name="penyebab" style="height: 100px" value="{{ $d->penyebab }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
+              </div>
+              <div class="col-6 text-center">
+                  <label for="4m_loose" class="form-label">4M WHY LOOSE</label>
+                  <input type="text" class="form-control" id="4m_loose" name="4m_loose" style="height: 100px" value="{{ $d->{'4m_loose'} }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
+              </div>
+              <div class="col-6 text-center">
+                  <label for="w_loose" class="form-label">WHY LOOSE</label>
+                  <input type="text" class="form-control" id="w_loose" style="height: 100px" name="w_loose" value="{{ $d->w_loose }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
+              </div>
+              <div class="col-12">
                   <label for="action" class="form-label">Action</label>
-                  <textarea name="action" id="action" class="form-control" style="height: 100px" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>{{ $d->action }}</textarea>
-              </div>
-              <div class="col-12 text-center">
-                  <label for="pembahasan" class="form-label">Pembahasan</label>
-                  <input type="text" class="form-control" id="pembahasan" name="pembahasan" value="{{ $d->pembahasan }}" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>
+                  <textarea name="action" id="action" class="form-control" style="height: 6 0px" {{ (auth()->user()->departement == 'qc') ? '' : 'readonly disabled' }}>{{ $d->action }}</textarea>
               </div>
               <div class="col-12 text-center">
                   <label for="verifikasi_qa" class="form-label">Verifikasi QA</label>

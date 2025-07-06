@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Data Mesin Rusak</h5>
+                <h5 class="modal-title">Tambah Data Mesin Rusak cuyyyyyy</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,7 +11,8 @@
                     @csrf
                     <div class="col-6">
                         <label for="noMesin" class="form-label">Pilih Mesin <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin" required/>
+                        <input type="text" class="form-control" id="noMesin" name="noMesin" list="dataMesin"
+                            required />
                         <datalist id="dataMesin">
                             @foreach ($machines as $machine)
                                 <option>{{ $machine->no_mesin }}</option>
@@ -19,7 +20,8 @@
                         </datalist>
                     </div>
                     <div class="col-6">
-                        <label for="request" class="form-label">Masukan Request <span class="text-danger">*</span></label>
+                        <label for="request" class="form-label">Masukan Request <span
+                                class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="request" name="request" required>
                     </div>
                     <div class="col-6">
@@ -28,7 +30,7 @@
                     </div>
                     <div class="col-6">
                         <label for="pic" class="form-label">Enter PIC <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="pic" name="pic" required/>
+                        <input type="text" class="form-control" id="pic" name="pic" required />
                     </div>
                     <div class="col-6">
                         <label for="prl" class="form-label">Enter PRL</label>
@@ -52,11 +54,14 @@
                     </div>
                     <div class="col-6">
                         <label for="tanggalKerusakan" class="form-label">Tanggal Kerusakan</label>
-                        <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan" step="any">
+                        <input type="datetime-local" class="form-control" name="tgl_kerusakan" id="tanggalKerusakan"
+                            step="any">
                     </div>
                     <div class="col-6">
-                        <label for="inputStatusMesin" class="form-label">Pilih Status <span class="text-danger">*</span></label>
-                        <select class="form-select" aria-label="Default select example" name="status_mesin" id="inputStatusMesin" required>
+                        <label for="inputStatusMesin" class="form-label">Pilih Status <span
+                                class="text-danger">*</span></label>
+                        <select class="form-select" aria-label="Default select example" name="status_mesin"
+                            id="inputStatusMesin" required>
                             <option value="" selected>Status</option>
                             <option value="OK Repair (Finish)">OK Repair (Finish)</option>
                             <option value="Waiting Repair">Waiting Repair</option>
@@ -65,8 +70,10 @@
                         </select>
                     </div>
                     <div class="col-6">
-                        <label for="aktivitas" class="form-label">Pilih Status Aktivitas <span class="text-danger">*</span></label>
-                        <select class="form-select" aria-label="Default select example" name="status_aktifitas" id="aktivitas" required>
+                        <label for="aktivitas" class="form-label">Pilih Status Aktivitas <span
+                                class="text-danger">*</span></label>
+                        <select class="form-select" aria-label="Default select example" name="status_aktifitas"
+                            id="aktivitas" required>
                             <option value="" selected>Status Aktivitas</option>
                             <option value="Running">Running</option>
                             <option value="Stop">Stop</option>
@@ -90,7 +97,8 @@
                     </div>
                     <div class="col-12 text-center" id="isFinish" style="display: none">
                         <label for="finish" class="form-label">Finish</label>
-                        <input type="datetime-local" class="form-control" name="finish" id="finish" value="" step="any">
+                        <input type="datetime-local" class="form-control" name="finish" id="finish"
+                            value="" step="any">
                     </div>
                     <div class="text-center">
                         <button type="reset" class="btn btn-secondary">Reset</button>
@@ -103,7 +111,7 @@
                     const additionalInfoDiv = document.getElementById("isFinish");
                     const input = document.getElementById("finish");
 
-                    statusSelect.addEventListener("change", function () {
+                    statusSelect.addEventListener("change", function() {
                         console.log('berubah');
                         console.log(statusSelect.value);
                         if (statusSelect.value === "OK Repair (Finish)") {

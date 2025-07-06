@@ -33,6 +33,9 @@ class LoginController extends Controller
             if ($departement == 'qc' || $departement == 'qa') {
                 return redirect()->intended('/quality')->with('success', 'Login berhasil');
             }
+            if ($departement == 'pd') {
+                return redirect()->intended('/production')->with('success', 'Login berhasil');
+            }
             if ($departement == 'purchasing') {
                 return redirect()->intended('/purchasing')->with('success', 'Login berhasil');
             }

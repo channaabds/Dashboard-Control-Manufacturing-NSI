@@ -56,17 +56,23 @@
                   <th scope="col">Qty Check</th>
                   <th scope="col">NG</th>
                   <th scope="col">%</th>
+                  <th scope="col">DEPARTMENT</th>
                   <th scope="col">NG PIC</th>
-                  <th scope="col">PIC Departement</th>
-                  <th scope="col">Penyebab</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">SHIFT</th>
+                  <th scope="col">LEADER</th>
+                  <th scope="col">4M WHY MAKE</th>
+                  <th scope="col">WHY MAKE</th>
+                  <th scope="col">4M WHY LOOSE</th>
+                  <th scope="col">WHY LOOSE</th>
+                  <!-- <th scope="col">Penyebab</th> -->
+                  <th scope="col">Action Korektif</th>
                   <th scope="col">Deadline</th>
                   <th scope="col">Status</th>
                   <th scope="col">PIC Input</th>
                   <th scope="col">No NCR/Lot Tag</th>
                   <th scope="col">Ket</th>
                   <th scope="col">Judgement</th>
-                  <th scope="col">Pembahasan</th>
+                  <!-- <th scope="col">Pembahasan</th> -->
                   <th scope="col">Verifikasi QA</th>
                   <th scope="col">Action</th>
                 </tr>
@@ -85,10 +91,21 @@
                     <td>{{ $d->sampling }}</td>
                     <td>{{ $d->qty_check }}</td>
                     <td>{{ $d->ng }}</td>
-                    <td>{{ number_format(($d->ng/$d->qty_check)*100, 2) }}</td>
+                    <td>
+                        @if ($d->qty_check != 0)
+                            {{ number_format(($d->ng / $d->qty_check) * 100, 2) }}
+                        @else
+                            0.00
+                        @endif
+                    </td>
+                    <td>{{ $d->section }}</td>
                     <td>{{ $d->ng_pic }}</td>
-                    <td>{{ $d->pic_departement }}</td>
+                    <td>{{ $d->shift }}</td>
+                    <td>{{ $d->leader }}</td>
+                    <td>{{ $d->{'4m_make'} }}</td>
                     <td>{{ $d->penyebab }}</td>
+                    <td>{{ $d->{'4m_loose'} }}</td>
+                    <td>{{ $d->w_loose }}</td>
                     <td>{{ $d->action }}</td>
                     <td>{{ $d->deadline }}</td>
                     <td>{{ $d->status }}</td>
@@ -96,7 +113,7 @@
                     <td>{{ $d->no_ncr_lot }}</td>
                     <td>{{ $d->keterangan }}</td>
                     <td>{{ $d->judgement }}</td>
-                    <td>{{ $d->pembahasan }}</td>
+                    <!-- <td>{{ $d->pembahasan }}</td> -->
                     <td>{{ $d->verifikasi_qa }}</td>
                     <td class="text-center">
                       <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"

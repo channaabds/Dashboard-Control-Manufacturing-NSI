@@ -56,7 +56,6 @@
                   <th scope="col">Qty Check</th>
                   <th scope="col">NG</th>
                   <th scope="col">%</th>
-                  <th scope="col">DEPARTMENT</th>
                   <th scope="col">NG PIC</th>
                   <th scope="col">SHIFT</th>
                   <th scope="col">LEADER</th>
@@ -74,7 +73,7 @@
                   <th scope="col">Judgement</th>
                   <!-- <th scope="col">Pembahasan</th> -->
                   <th scope="col">Verifikasi QA</th>
-                  <th scope="col" >Action</th>
+                  {{-- <th scope="col" >Action</th> --}}
                 </tr>
               </thead>
               <tbody>
@@ -98,7 +97,6 @@
                             0.00
                         @endif
                     </td>
-                    <td>{{ $d->section }}</td>
                     <td>{{ $d->ng_pic }}</td>
                     <td>{{ $d->shift }}</td>
                     <td>{{ $d->leader }}</td>
@@ -115,7 +113,7 @@
                     <td>{{ $d->judgement }}</td>
                     <!-- <td>{{ $d->pembahasan }}</td> -->
                     <td>{{ $d->verifikasi_qa }}</td>
-                    <td class="text-center">
+                    {{-- <td class="text-center">
                       <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
                       data-bs-target="#editModal{{ $d->id }}">Edit</button>
                       @include('quality.components.dashboard-ipqc.modals.edit')
@@ -124,7 +122,7 @@
                         data-bs-target="#deleteModal{{ $d->id }}">Hapus</button>
                         @include('quality.components.dashboard-ipqc.modals.hapus')
                       @endif
-                    </td>
+                    </td> --}}
                   </tr>
                 @endforeach
               </tbody>

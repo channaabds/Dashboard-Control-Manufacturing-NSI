@@ -41,7 +41,7 @@
             </div>
             <div class="card-body">
               <div class="card-title d-flex justify-content-between">
-                <h5>IPQC <span>| </span><span id="monthFilterIpqc">Oktober</span></h5>
+                <h5>IPQC <span>| </span><span id="monthFilter">Oktober</span></h5>
               </div>
 
               <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
@@ -109,7 +109,7 @@
             </div>
             <div class="card-body">
               <div class="card-title d-flex justify-content-between">
-                <h5>OQC <span>| </span><span id="monthFilterOqc">Oktober</span></h5>
+                <h5>OQC <span>| </span><span id="monthFilter">Oktober</span></h5>
               </div>
 
               <table class="table table-fixed table-bordered table-striped" id="tableMesinRusak">
@@ -170,29 +170,8 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
-<script>
-    // Fungsi untuk mendapatkan nama bulan dalam bahasa Indonesia
-    function getNamaBulan(bulan) {
-        const namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
-        return namaBulan[bulan];
-    }
-
-    // Mendapatkan bulan saat ini
-    const sekarang = new Date();
-    const bulanSaatIni = sekarang.getMonth(); // getMonth() mengembalikan nilai 0-11
-
-    // Mendapatkan elemen dengan id "monthFilterIpqc" dan "monthFilterOqc"
-    const monthFilterIpqc = document.getElementById('monthFilterIpqc');
-    const monthFilterOqc = document.getElementById('monthFilterOqc');
-
-    // Mengubah teks bulan di elemen-elemen tersebut
-    monthFilterIpqc.textContent = getNamaBulan(bulanSaatIni);
-    monthFilterOqc.textContent = getNamaBulan(bulanSaatIni);
-</script>
 
 {{-- @include('maintenance.components.dashboard-repair.dataTable') --}}
+
 
 @endsection

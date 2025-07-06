@@ -10,7 +10,7 @@
   </div>
   @endif
   <div class="pagetitle">
-    <h1>Dashboard Data claim NCR dan Lot Tag OQC</h1>
+    <h1>Dashboard Data claim NCR dan Lot Tag IPQC</h1>
   </div>
 
   <section class="section dashboard">
@@ -20,11 +20,11 @@
         <div class="card">
           <div class="card-body">
             <div class="col-12 card-title d-flex justify-content-between">
-              <h5>Data Claim NCR dan Lot Tag OQC</h5>
+              <h5>Data Claim NCR dan Lot Tag IPQC</h5>
             </div>
 
             <table border="0" cellspacing="5" cellpadding="5">
-              <form action="/export/oqc" method="POST">
+              <form action="/export/ipqc" method="POST">
                 @csrf
                 <tbody>
                   <tr>
@@ -41,7 +41,7 @@
             </table>
 
             <table class="table table-fixed table-bordered table-striped" style="overflow-x: scroll; display: block; table-layout: fixed; width: 100%;"
-            id="tableDashboardOqc">
+            id="tableDashboardIpqc">
               <thead class="mt-4">
                 <tr>
                   <th scope="col">No</th>
@@ -56,7 +56,6 @@
                   <th scope="col">Qty Check</th>
                   <th scope="col">NG</th>
                   <th scope="col">%</th>
-                  <th scope="col">DEPARTMENT</th>
                   <th scope="col">NG PIC</th>
                   <th scope="col">SHIFT</th>
                   <th scope="col">LEADER</th>
@@ -74,12 +73,12 @@
                   <th scope="col">Judgement</th>
                   <!-- <th scope="col">Pembahasan</th> -->
                   <th scope="col">Verifikasi QA</th>
-                  <th scope="col" >Action</th>
+                  {{-- <th scope="col">Action</th> --}}
                 </tr>
               </thead>
               <tbody>
                 @foreach ($data as $d)
-                  <tr class="{{ $d->status=='OPEN' ? 'table-danger' : 'table-success' }}">
+                <tr class="{{ $d->status=='OPEN' ? 'table-danger' : 'table-success' }}">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $d->date }}</td>
                     <td>{{ $d->part_no }}</td>
@@ -98,7 +97,6 @@
                             0.00
                         @endif
                     </td>
-                    <td>{{ $d->section }}</td>
                     <td>{{ $d->ng_pic }}</td>
                     <td>{{ $d->shift }}</td>
                     <td>{{ $d->leader }}</td>
@@ -115,7 +113,7 @@
                     <td>{{ $d->judgement }}</td>
                     <!-- <td>{{ $d->pembahasan }}</td> -->
                     <td>{{ $d->verifikasi_qa }}</td>
-                    <td class="text-center">
+                    {{-- <td class="text-center">
                       <button class="btn btn-warning mb-1" type="button" data-bs-toggle="modal"
                       data-bs-target="#editModal{{ $d->id }}">Edit</button>
                       @include('quality.components.dashboard-ipqc.modals.edit')
@@ -124,7 +122,7 @@
                         data-bs-target="#deleteModal{{ $d->id }}">Hapus</button>
                         @include('quality.components.dashboard-ipqc.modals.hapus')
                       @endif
-                    </td>
+                    </td> --}}
                   </tr>
                 @endforeach
               </tbody>
@@ -142,6 +140,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
 
-@include('quality.components.dashboard-oqc.dataTable')
+@include('quality.components.dashboard-ipqc.dataTable')
 
 @endsection
