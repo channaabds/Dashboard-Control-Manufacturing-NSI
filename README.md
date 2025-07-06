@@ -48,11 +48,25 @@ This system was enhanced to capture and display real-time machine downtime data,
 
 ---
 
-## 📷 Preview (Add Screenshots Here)
+## 📷 Preview
 
-> You can add UI screenshots or dashboard previews by dragging them into this repo or linking them like:
+<table>
+  <tr>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/halaman awal.jpg" width="350"/></td>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/dashboard.jpg" width="350"/></td>
+  </tr>
+  <tr>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/dashboard monitoring js.jpg" width="350"/></td>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/dashboard monitoring 2.jpg" width="350"/></td>
+  </tr>
+  <tr>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/edit data.jpg" width="350"/></td>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/input data.jpg" width="350"/></td>
+  </tr>
+  <tr>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/history data.jpg" width="350"/></td>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/hasil export downtime mesin.jpg" width="350"/></td>
+  </tr>
+</table>
 
-```html
-<p align="center">
-  <img src="https://your-screenshot-url.png" width="700"/>
-</p>
+---
