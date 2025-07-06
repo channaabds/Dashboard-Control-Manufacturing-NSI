@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-stroke {
+  color: white; /* Warna teks utama */
+  -webkit-text-stroke-width: 1px; /* Lebar stroke */
+  -webkit-text-stroke-color: black; /* Warna stroke */
+}
+
+.bg-main-base {
+  background-color: #D9D9D9;
+}
+
+.bg-second {
+  background-color: black;
+}
+
+.gap-component {
+  gap: 38px;
+}
+
+.w-component {
+  width: 400px;
+}
