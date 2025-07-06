@@ -53,7 +53,7 @@ This system was enhanced to capture and display real-time machine downtime data,
 <table>
   <tr>
     <td><img src="./tampilan sistem dashboard control manufacturing - NSI/halaman awal.jpg" width="350"/></td>
-    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/dashboard.jpg" width="350"/></td>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/dashboard .jpg" width="350"/></td>
   </tr>
   <tr>
     <td><img src="./tampilan sistem dashboard control manufacturing - NSI/dashboard monitoring js.jpg" width="350"/></td>
@@ -64,7 +64,7 @@ This system was enhanced to capture and display real-time machine downtime data,
     <td><img src="./tampilan sistem dashboard control manufacturing - NSI/input data.jpg" width="350"/></td>
   </tr>
   <tr>
-    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/history data.jpg" width="350"/></td>
+    <td><img src="./tampilan sistem dashboard control manufacturing - NSI/history data .jpg" width="350"/></td>
     <td><img src="./tampilan sistem dashboard control manufacturing - NSI/hasil export downtime mesin.jpg" width="350"/></td>
   </tr>
 </table>
